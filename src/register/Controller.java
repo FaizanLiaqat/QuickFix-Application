@@ -1,0 +1,97 @@
+package register;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.Statement;
+
+import application.DatabaseConnection;
+
+public class Controller {
+
+	@FXML
+	private Button login_button;
+	@FXML
+	private Button back_button;
+	@FXML
+	private Button register_button;
+	@FXML
+	private TextField email_textfield;
+	@FXML
+	private PasswordField password_textfield;
+	@FXML
+	private Label loginMessage;
+
+	// Event handler for the "Back" button
+	public void backButtonOnAction(ActionEvent event) {
+		try {
+
+			// Close the current window (home.fxml)
+			Stage currentStage = (Stage) back_button.getScene().getWindow();
+			currentStage.close();
+
+			// Load the Access.fxml file
+			Parent root = FXMLLoader.load(getClass().getResource("/home/access.fxml"));
+
+			// Create a new Stage (window) for Access.fxml
+			Stage stage = new Stage();
+			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+			stage.setTitle("Home Window"); // Set the title of the new window
+
+			// Set the new scene with the loaded FXML and desired size
+			Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+			stage.setScene(scene);
+
+			// Show the new window (stage)
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace(); // Handle error if FXML file loading fails
+		}
+	}
+
+	public void loginButtonOnAction(ActionEvent event) {
+		if(email_textfield.getText().isBlank()==false && password_textfield.getText().isBlank()==false) {
+			ValidateLogin();
+		}
+		else {
+			loginMessage.setText("Please enter email and password.");
+		}
+	}
+
+	public void RegisterButtonOnAction(ActionEvent event) {
+		if(email_textfield.getText().isBlank()==false && password_textfield.getText().isBlank()==false) {
+			loginMessage.setText("You Try to Login!");
+		}
+		else {
+			loginMessage.setText("Please enter email and password.");
+		}
+
+	}
+	
+	public void ValidateLogin() {
+		
+		/// {Faizan Complete this integration with MYSQL + also define class DatabaseConnection}
+		DatabaseConnection connection = new DatabaseConnection();
+		//Connection connectDB = connectNow.getConnection();
+		
+		String verifyLogin = "SELECT count(1) FROM User WHERE email = '" + email_textfield + "' AND password '" + password_textfield + "'";
+		
+		try {
+			
+			//Statement statement = connectDB.createStatement();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+}
