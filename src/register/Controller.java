@@ -6,18 +6,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
+import javafx.fxml.Initializable;
 import java.sql.Connection;
 import java.sql.Statement;
-
+import java.net.URL;
 import application.DatabaseConnection;
+import java.util.ResourceBundle;
 
-public class Controller {
+public class Controller implements Initializable{
 
 	@FXML
 	private Button login_button;
@@ -31,7 +34,22 @@ public class Controller {
 	private PasswordField password_textfield;
 	@FXML
 	private Label loginMessage;
-
+	@FXML
+	private TextField name_textfield;
+	@FXML
+	private TextField MobileNumber_textfield;
+	@FXML
+	private TextField Age_textfield;
+	@FXML
+	private ChoiceBox<String> Location_textfield;
+	
+	private String[] Location= {"Islamabad" , "Rawalpindi" , "Lahore", "Karachi" , "Peshawar" , "Quetta"};
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		Location_textfield.getItems().addAll(Location);
+	}
+	
 	// Event handler for the "Back" button
 	public void backButtonOnAction(ActionEvent event) {
 		try {
