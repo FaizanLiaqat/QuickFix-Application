@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="register.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RegisterController">
 	<left>
 		<AnchorPane prefHeight="400.0" prefWidth="253.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
 			<children>
@@ -83,7 +83,7 @@
 				</Label>
             <TextField fx:id="email_textfield" layoutX="103.0" layoutY="85.0" promptText="email" />
             <PasswordField fx:id="password_textfield" layoutX="103.0" layoutY="123.0" promptText="password" />
-            <Label fx:id="loginMessage" layoutX="27.0" layoutY="21.0" prefHeight="17.0" prefWidth="221.0" text="Welcome" textFill="RED" />
+            <Label fx:id="registerMessage" layoutX="27.0" layoutY="21.0" prefHeight="17.0" prefWidth="221.0" text="Welcome" textFill="RED" />
             <Label layoutX="24.0" layoutY="50.0" text="Name">
                <font>
                   <Font name="Verdana Bold" size="12.0" />

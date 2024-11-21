@@ -1,4 +1,4 @@
-package quickFixAllClasses;
+package models;
 import java.util.HashMap;
 import java.util.Map;
 public class Buyer extends User {
@@ -10,5 +10,12 @@ public class Buyer extends User {
 	}
 	void provideFeedBack(int serviceID,int serviceRating,String serviceComments) {
 		//insert to feedBack hashMap
+	}
+	
+	
+	@Override
+	public String getUserType() {
+		
+		return "Buyer";
 	}
 }
