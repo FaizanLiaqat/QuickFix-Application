@@ -1,11 +1,11 @@
-package quickFixAllClasses;
+package models;
 
 public class Service {
 	private int serviceID;
 	private String serviceName;
 	private String serviceDescription;
 	private double servicePrice;
-	private int serviceBookNumber;
+	private int serviceincrement;
 	private int serviceRating;
 	
 	// assign all the attributes

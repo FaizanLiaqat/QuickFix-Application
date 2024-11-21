@@ -12,7 +12,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/home/home.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setTitle("QuickFix");
 			primaryStage.setScene(new Scene(root, 520, 400));

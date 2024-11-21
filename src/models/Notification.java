@@ -1,4 +1,4 @@
-package quickFixAllClasses;
+package models;
 
 public class Notification {
 	private int notificationID;

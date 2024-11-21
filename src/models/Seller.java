@@ -1,4 +1,4 @@
-package quickFixAllClasses;
+package models;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,4 +15,19 @@ public class Seller extends User {
 		// find the service in sellerBookings hashMap
 		// update the status of that element in sellerBookings hashMap 
 	}
+	
+	public boolean isAvailable() {
+		return available;
+	}
+	
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+	
+	@Override
+	public String getUserType() {
+		
+		return "Seller";
+	}
+	
 }
