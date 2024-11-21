@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewServiceController">
+   <TableView fx:id="tableView" layoutX="14.0" layoutY="66.0" prefHeight="200.0" prefWidth="496.0">
+     <columns>
+		<TableColumn fx:id="idColumn" text="ID" />
+         <TableColumn fx:id="nameColumn" minWidth="100.0" prefWidth="75.0" text="Name" />
+         <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+         <TableColumn fx:id="ratingColumn" prefWidth="75.0" text="Rating" />
+         <TableColumn fx:id="removeItColumn" prefWidth="170.0" text="Remove" />
+     </columns>
+   </TableView>
+   <Button fx:id="addaservice" layoutX="57.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleAddServiceButtonClick" text="Add a Service" />
+</AnchorPane>
