@@ -18,7 +18,10 @@
                   <Font size="26.0" />
                </font>
             </Label>
-            <Button fx:id="back_button" layoutX="745.0" layoutY="13.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="Back" />
+            <Button fx:id="back_button" layoutX="674.0" layoutY="3.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="43.0" prefWidth="123.0" text="Back">
+               <font>
+                  <Font size="18.0" />
+               </font></Button>
          </children>
       </Pane>
    </top>
@@ -58,9 +61,9 @@
       </Pane>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="790.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane fx:id="contentArea" prefHeight="300.0" prefWidth="489.0" />
+            <StackPane fx:id="contentArea" layoutY="2.0" prefHeight="570.0" prefWidth="686.0" />
          </children>
       </AnchorPane>
    </center>

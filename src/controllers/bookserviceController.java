@@ -44,15 +44,18 @@ public class bookserviceController implements Initializable {
 	}
 	
 	public void loadWorkerView(String message) throws IOException {
-	    FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Worker.fxml"));
-	    Parent fxml = loader.load();
+		// Create the FXMLLoader and set the controller manually
+		WorkerController controller = new WorkerController();
+		controller.setMessage(message); // Call setMessage before loading FXML
 
-	    // Get the controller and pass the message
-	    WorkerController controller = loader.getController();
-	    controller.setMessage(message);
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Worker.fxml"));
+		loader.setController(controller); // Set the controller manually
 
-	    contentArea.getChildren().removeAll();
-	    contentArea.getChildren().setAll(fxml);
+		Parent fxml = loader.load(); // Load the FXML
+
+		// Update the content area
+		contentArea.getChildren().clear();
+		contentArea.getChildren().add(fxml);
 	}
 
 	public void Plumber(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -72,23 +75,30 @@ public class bookserviceController implements Initializable {
 	}
 	
 
-	public void backButtonOnAction(ActionEvent event) {
+	public void backButtonOnAction(javafx.event.ActionEvent event) {
 		try {
-			// Close the current window
+
+			// Close the current window (home.fxml)
 			Stage currentStage = (Stage) back_button.getScene().getWindow();
 			currentStage.close();
 
-			// Load the appropriate dashboard based on callerType
+			// Load the Access.fxml file
 			Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
-			// Create a new stage for the dashboard
+
+			// Create a new Stage (window) for Access.fxml
 			Stage stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED);
-			Scene scene = new Scene(root, 520, 400);
+			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+			stage.setTitle("Home Window"); // Set the title of the new window
+
+			// Set the new scene with the loaded FXML and desired size
+			Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
 			stage.setScene(scene);
+
+			// Show the new window (stage)
 			stage.show();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // Handle error if FXML file loading fails
 		}
 	}
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="600.0" style="-fx-background-color: #D3D3D3;" styleClass="fruit-item" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ItemController">
+   <children>
+      <ImageView fx:id="img" fitHeight="97.0" fitWidth="108.0" layoutX="55.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../media/mechanic_logo.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="nameLabel" layoutX="55.0" layoutY="2.0" prefHeight="50.0" prefWidth="135.0" text="Mechanic">
+         <font>
+            <Font name="Cambria Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="PriceLabel" layoutX="252.0" layoutY="8.0" prefHeight="37.0" prefWidth="97.0" text="1000 PKR">
+         <font>
+            <Font name="Cambria Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="DescriptionLabel" layoutX="252.0" layoutY="44.0" prefHeight="17.0" prefWidth="272.0" text="Description">
+         <font>
+            <Font name="Cambria" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="Ratinglabel" layoutX="436.0" layoutY="11.0" prefHeight="30.0" prefWidth="150.0" text="Service Rating : 5">
+         <font>
+            <Font name="Cambria Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="SellernameLabel" layoutX="252.0" layoutY="91.0" prefHeight="17.0" prefWidth="243.0" text="Seller Name">
+         <font>
+            <Font name="Cambria" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

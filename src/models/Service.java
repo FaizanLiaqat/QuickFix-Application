@@ -12,8 +12,6 @@ public class Service {
     private int serviceIncrement;
     private int serviceRating;
     private int serviceProviderID;
-    private Button bookButton; /// for BookSevice Table
-    private Button removeButton; // For ViewService Table
 
     // Constructor
     public Service(int serviceID, String serviceName, String serviceDescription, double servicePrice, int serviceIncrement, int serviceRating) {
@@ -23,8 +21,7 @@ public class Service {
         this.servicePrice = servicePrice;
         this.serviceIncrement = serviceIncrement;
         this.serviceRating = serviceRating;
-        this.bookButton = new Button("Book it");
-        this.removeButton = new Button("Remove it");
+        
     }
 
     // Getters and Setters
@@ -84,21 +81,6 @@ public class Service {
 		this.serviceProviderID = serviceProviderID;
 	}
 
-	public Button getBookButton() {
-        return bookButton;
-    }
-
-    public void setBookButton(Button bookButton) {
-        this.bookButton = bookButton;
-    }
-
-    public Button getRemoveButton() {
-        return removeButton;
-    }
-
-    public void setRemoveButton(Button removeButton) {
-        this.removeButton = removeButton;
-    }
 
     // Method to update service rating
     public void updateRating(int newRating) {
@@ -110,12 +92,4 @@ public class Service {
         this.serviceIncrement++;
     }
 
-    // Method to get the list of services (ObservableList)
-    public static ObservableList<Service> getSampleServices() {
-        return FXCollections.observableArrayList(
-            new Service(1, "Cleaning", "Home Cleaning Service", 100.0, 0, 4),
-            new Service(2, "Plumbing", "Pipe Repair Service", 150.0, 0, 5),
-            new Service(3, "Gardening", "Lawn Maintenance Service", 80.0, 0, 3)
-        );
-    }
 }
