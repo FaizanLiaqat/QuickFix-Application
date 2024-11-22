@@ -7,4 +7,5 @@ import models.Service;
 
 public interface InterfaceServiceDAO extends DAO<Service> {
 	List<Service> getAllBySellerID(int sellerID) throws SQLException;
+	
 }

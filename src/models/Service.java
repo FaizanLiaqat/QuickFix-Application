@@ -11,6 +11,7 @@ public class Service {
     private double servicePrice;
     private int serviceIncrement;
     private int serviceRating;
+    private int serviceProviderID;
     private Button bookButton; /// for BookSevice Table
     private Button removeButton; // For ViewService Table
 
@@ -75,7 +76,15 @@ public class Service {
         this.serviceRating = serviceRating;
     }
 
-    public Button getBookButton() {
+    public int getServiceProviderID() {
+		return serviceProviderID;
+	}
+
+	public void setServiceProviderID(int serviceProviderID) {
+		this.serviceProviderID = serviceProviderID;
+	}
+
+	public Button getBookButton() {
         return bookButton;
     }
 

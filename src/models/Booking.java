@@ -3,12 +3,90 @@ package models;
 import java.util.Date;
 
 public class Booking {
-	private int bookingID;
-	private int paymentID;
-	private Service bookingService;
-	private String bookingStatus;
-	private Date bookingDate;
-	
-	// should we add buyer and seller object as an attribute in this ?
-	
+    private int bookingID;
+    private int clientID;  // User ID of the client
+    private int serviceProviderID;  // User ID of the service provider
+    private int serviceID;  // ID of the service booked
+    private Date bookingDate;  // Date when the booking was created
+    private Date preferredTime;  // Preferred time for the service
+    private String bookingStatus;  // Status of the booking (Pending, Confirmed, Cancelled, Completed)
+    private String paymentStatus;  // Status of payment (Paid, Unpaid)
+
+    // Constructor
+    public Booking(int bookingID, int clientID, int serviceProviderID, int serviceID,
+                   Date bookingDate, Date preferredTime, String status, String paymentStatus) {
+        this.bookingID = bookingID;
+        this.clientID = clientID;
+        this.serviceProviderID = serviceProviderID;
+        this.serviceID = serviceID;
+        this.bookingDate = bookingDate;
+        this.preferredTime = preferredTime;
+        this.bookingStatus = status;
+        this.paymentStatus = paymentStatus;
+    }
+
+    // Getters and Setters
+    public int getBookingID() {
+        return bookingID;
+    }
+
+    public void setBookingID(int bookingID) {
+        this.bookingID = bookingID;
+    }
+
+    public int getClientID() {
+        return clientID;
+    }
+
+    public void setClientID(int clientID) {
+        this.clientID = clientID;
+    }
+
+    public int getServiceProviderID() {
+        return serviceProviderID;
+    }
+
+    public void setServiceProviderID(int serviceProviderID) {
+        this.serviceProviderID = serviceProviderID;
+    }
+
+    public int getServiceID() {
+        return serviceID;
+    }
+
+    public void setServiceID(int serviceID) {
+        this.serviceID = serviceID;
+    }
+
+    public Date getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(Date bookingDate) {
+        this.bookingDate = bookingDate;
+    }
+
+    public Date getPreferredTime() {
+        return preferredTime;
+    }
+
+    public void setPreferredTime(Date preferredTime) {
+        this.preferredTime = preferredTime;
+    }
+
+    public String getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setStatus(String status) {
+        this.bookingStatus = status;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
 }

@@ -1,47 +1,165 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import models.Service;
+import utils.AlertUtils;
 
 public class ServiceDAO implements InterfaceServiceDAO {
 
 	@Override
 	public Service get(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	    String query = "SELECT * FROM Service WHERE serviceID = ?";
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+	        preparedStatement.setInt(1, id);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        if (resultSet.next()) {
+	            return new Service(
+	                resultSet.getInt("serviceID"),
+	                resultSet.getString("serviceName"),
+	                resultSet.getString("serviceDescription"),
+	                resultSet.getDouble("servicePrice"),
+	                resultSet.getInt("serviceIncrement"),
+	                resultSet.getInt("serviceRating")
+	            );
+	        } else {
+	            return null; // No service found
+	        }
+	    }
 	}
 
 	@Override
 	public Map<Integer, Service> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	    Map<Integer, Service> services = new HashMap<>();
+	    String query = "SELECT * FROM Service";
+	    
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        while (resultSet.next()) {
+	            Service service = new Service(
+	                resultSet.getInt("serviceID"),
+	                resultSet.getString("serviceName"),
+	                resultSet.getString("serviceDescription"),
+	                resultSet.getDouble("servicePrice"),
+	                resultSet.getInt("serviceIncrement"),
+	                resultSet.getInt("serviceRating")
+	            );
+	            services.put(service.getServiceID(), service);
+	        }
+	    }
+	    return services;
 	}
 
 	@Override
-	public int insert(Service t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insert(Service service) throws SQLException {
+	    // Check if ServiceProvider has reached the limit of services
+	    String checkQuery = "SELECT COUNT(*) FROM Service WHERE serviceProviderID = ?";
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(checkQuery)) {
+
+	        preparedStatement.setInt(1, service.getServiceProviderID());
+	        ResultSet resultSet = preparedStatement.executeQuery();
+	        resultSet.next();
+	        int serviceCount = resultSet.getInt(1);
+
+	        if (serviceCount >= 5) {  // Example limit of 5 services per provider
+	        	AlertUtils.showError("Service Limit Reached", "This service provider cannot have more than 5 services.");
+	            return -1;
+	        }
+	    }
+
+	    // If service count is below the limit, proceed with insertion
+	    String insertQuery = "INSERT INTO Service (serviceName, serviceDescription, servicePrice, serviceIncrement, serviceRating, serviceProviderID) VALUES (?, ?, ?, ?, ?, ?)";
+	    
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+
+	        preparedStatement.setString(1, service.getServiceName());
+	        preparedStatement.setString(2, service.getServiceDescription());
+	        preparedStatement.setDouble(3, service.getServicePrice());
+	        preparedStatement.setInt(4, service.getServiceIncrement());
+	        preparedStatement.setInt(5, service.getServiceRating());
+	        preparedStatement.setInt(6, service.getServiceProviderID());
+
+	        int rowsAffected = preparedStatement.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                return generatedKeys.getInt(1); // Return the generated serviceID
+	            }
+	        }
+	        return 0; // Failed to insert
+	    }
 	}
 
 	@Override
-	public int update(Service t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(Service service) throws SQLException {
+	    String updateQuery = "UPDATE Service SET serviceName = ?, serviceDescription = ?, servicePrice = ?, serviceIncrement = ?, serviceRating = ? WHERE serviceID = ?";
+	    
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+
+	        preparedStatement.setString(1, service.getServiceName());
+	        preparedStatement.setString(2, service.getServiceDescription());
+	        preparedStatement.setDouble(3, service.getServicePrice());
+	        preparedStatement.setInt(4, service.getServiceIncrement());
+	        preparedStatement.setInt(5, service.getServiceRating());
+	        preparedStatement.setInt(6, service.getServiceID());
+
+	        return preparedStatement.executeUpdate(); // Returns number of rows affected
+	    }
 	}
 
 	@Override
-	public int delete(Service t) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int delete(Service service) throws SQLException {
+	    String deleteQuery = "DELETE FROM Service WHERE serviceID = ?";
+	    
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+
+	        preparedStatement.setInt(1, service.getServiceID());
+	        return preparedStatement.executeUpdate(); // Returns number of rows affected
+	    }
 	}
 
 	@Override
 	public List<Service> getAllBySellerID(int sellerID) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	    List<Service> services = new ArrayList<>();
+	    String query = "SELECT * FROM Service WHERE serviceProviderID = ?";
+	    
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+	        preparedStatement.setInt(1, sellerID);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        while (resultSet.next()) {
+	            services.add(new Service(
+	                resultSet.getInt("serviceID"),
+	                resultSet.getString("serviceName"),
+	                resultSet.getString("serviceDescription"),
+	                resultSet.getDouble("servicePrice"),
+	                resultSet.getInt("serviceIncrement"),
+	                resultSet.getInt("serviceRating")
+	            ));
+	        }
+	    }
+	    return services;
 	}
 
 }
