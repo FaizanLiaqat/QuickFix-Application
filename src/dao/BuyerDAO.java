@@ -16,7 +16,7 @@ public class BuyerDAO extends UserDAO {
 
 	@Override
 	public User get(int id) throws SQLException {
-	    String query = "SELECT userID, name, email, phone, role FROM User WHERE userID = ?";
+	    String query = "SELECT userID, name, email, phone, location FROM User WHERE userID = ?";
 
 	    try (Connection con = DatabaseConnection.getInstance().getConnection();
 	         PreparedStatement stmt = con.prepareStatement(query)) {
@@ -33,6 +33,7 @@ public class BuyerDAO extends UserDAO {
 	                user.setUserName(rs.getString("name"));
 	                user.setUserEmail(rs.getString("email"));
 	                user.setUserPhoneNumber(rs.getString("phone"));
+	                user.setUserLocation(rs.getString("location"));
 	                return user;
 	            } else {
 	                // user does not exist against that ID

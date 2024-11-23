@@ -49,7 +49,7 @@ public class LoginController {
 	public void loginButtonOnAction(ActionEvent event) {
 
 		if (email_textfield.getText().isBlank() == false && password_textfield.getText().isBlank() == false) {
-			
+
 			this.user.getUserObject().setUserEmail(email_textfield.getText());
 			this.user.getUserObject().setUserPassword(password_textfield.getText());
 
@@ -69,54 +69,58 @@ public class LoginController {
 				userDAO = new SellerDAO();
 			}
 			try {
+
+				int id = userDAO.exists(this.user.getUserObject());
+				if (id != -1) {
 				if (userDAO.exists(this.user.getUserObject())!=-1) {
+
 					if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
 						System.out.println(this.user.getUserObject() + " Login Successfully");
 
-						// Close the current window (home.fxml)
-						Stage currentStage = (Stage) login_button.getScene().getWindow();
-						currentStage.close();
+						// Fetch the user from the database
+						User loggedInUser = userDAO.get(id);
+						if (loggedInUser != null) {
+							// Set the current logged-in user in the UserSingleton
+							UserSingleton.getInstance().setUserObject(loggedInUser);
 
-						// Load the Buyer dashboard FXML
-						Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
+							// Close the login window
+							Stage currentStage = (Stage) login_button.getScene().getWindow();
+							currentStage.close();
 
-						// Create a new Stage (window) for Buyer dashboard
-						Stage stage = new Stage();
-						stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title
-																	// bar)
-						stage.setTitle("Buyer Dashboard"); // Set the title of the new window
+							// Load the Buyer dashboard FXML
+							Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
+							Stage stage = new Stage();
+							stage.initStyle(StageStyle.UNDECORATED);
+							stage.setTitle("Buyer Dashboard");
 
-						// Set the new scene with the loaded FXML and desired size
-						Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original
-																	// configuration
-						stage.setScene(scene);
-
-						// Show the new window (stage)
-						stage.show();
-					}
-					else {
+							Scene scene = new Scene(root, 520, 400);
+							stage.setScene(scene);
+							stage.show();
+						}
+						
+					} else {
 						System.out.println(this.user.getUserObject() + " Login Successfully");
 
-						// Close the current window (home.fxml)
-						Stage currentStage = (Stage) login_button.getScene().getWindow();
-						currentStage.close();
+						// Fetch the user from the database
+						User loggedInUser = userDAO.get(id);
+						if (loggedInUser != null) {
+							// Set the current logged-in user in the UserSingleton
+							UserSingleton.getInstance().setUserObject(loggedInUser);
 
-						// Load the Buyer dashboard FXML
-						Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
+							// Close the login window
+							Stage currentStage = (Stage) login_button.getScene().getWindow();
+							currentStage.close();
 
-						// Create a new Stage (window) for Buyer dashboard
-						Stage stage = new Stage();
-						stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title
-																	// bar)
-						stage.setTitle("seller Dashboard"); // Set the title of the new window
+							// Load the Buyer dashboard FXML
+							Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
+							Stage stage = new Stage();
+							stage.initStyle(StageStyle.UNDECORATED);
+							stage.setTitle("Seller Dashboard");
 
-						// Set the new scene with the loaded FXML and desired size
-						Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original
-																	// configuration
-						stage.setScene(scene);
-
-						// Show the new window (stage)
-						stage.show();
+							Scene scene = new Scene(root, 520, 400);
+							stage.setScene(scene);
+							stage.show();
+						}
 					}
 				}
 			} catch (SQLException e) {

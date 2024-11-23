@@ -6,13 +6,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import models.Buyer;
 import models.Seller;
+import models.Service;
 import models.User;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import dao.ServiceDAO;
 import utils.UserSingleton;
 
 public class HomeController {
@@ -21,6 +26,7 @@ public class HomeController {
 	private Button exit_button;
 
 	private UserSingleton user = UserSingleton.getInstance();
+
 
 	// Event to close the current window
 	public void exit_buttonOnAction(ActionEvent e) {
@@ -32,21 +38,19 @@ public class HomeController {
 	public void openAccessButtonOnAction(ActionEvent event) {
 		try {
 			// Get the source of the event and cast it to Button
-	        Button clickedButton = (Button) event.getSource();
+			Button clickedButton = (Button) event.getSource();
 
-	        // Print or use the fx:id of the clicked button
-	        System.out.println("Button clicked: " + clickedButton.getId());
-	        
-	        if(clickedButton.getId().equalsIgnoreCase("buyer_button")) {
-	        	user.setUserObject("Buyer");
-	        }
-	        else if(clickedButton.getId().equalsIgnoreCase("seller_button")) {
-	        	user.setUserObject("Seller");
-	        }
-	        else if(clickedButton.getId().equalsIgnoreCase("admin_button")) {
-	        	
-	        }
-	        
+			// Print or use the fx:id of the clicked button
+			System.out.println("Button clicked: " + clickedButton.getId());
+
+			if (clickedButton.getId().equalsIgnoreCase("buyer_button")) {
+				user.setUserObject("Buyer");
+			} else if (clickedButton.getId().equalsIgnoreCase("seller_button")) {
+				user.setUserObject("Seller");
+			} else if (clickedButton.getId().equalsIgnoreCase("admin_button")) {
+
+			}
+
 			// Close the current window (home.fxml)
 			Stage currentStage = (Stage) exit_button.getScene().getWindow();
 			currentStage.close();
@@ -71,7 +75,6 @@ public class HomeController {
 		}
 	}
 
-	
-	// Event handler for the "Back" button
-	
+	// Event handler for the "Add Servcice" button
+
 }

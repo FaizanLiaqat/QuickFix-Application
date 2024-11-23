@@ -21,10 +21,11 @@ public abstract class UserDAO implements DAO<User> {
 	        stmt.setString(1, user.getUserEmail()); // Use email instead of name
 	        stmt.setString(2, user.getUserPassword()); // Use password
 	        
+	        
 	        try (ResultSet rs = stmt.executeQuery()) {
 	            if (rs.next()) {
 	                // If the user is found in the database, show success alert and return true
-	                AlertUtils.showSuccess("Login successful! Welcome back, " + user.getUserEmail());
+	                AlertUtils.showSuccess("Login successful! Welcome back ");
 	                return rs.getInt("userID");
 	            } else {
 	                // If no user found in the database, show error alert

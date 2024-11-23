@@ -11,10 +11,12 @@ public class Booking {
     private Date preferredTime;  // Preferred time for the service
     private String bookingStatus;  // Status of the booking (Pending, Confirmed, Cancelled, Completed)
     private String paymentStatus;  // Status of payment (Paid, Unpaid)
+    private String Sellername;
+    private String Servicename;  
 
     // Constructor
     public Booking(int bookingID, int clientID, int serviceProviderID, int serviceID,
-                   Date bookingDate, Date preferredTime, String status, String paymentStatus) {
+                   Date bookingDate, Date preferredTime, String status, String paymentStatus ,String Sellername,String Servicename ) {
         this.bookingID = bookingID;
         this.clientID = clientID;
         this.serviceProviderID = serviceProviderID;
@@ -23,9 +25,49 @@ public class Booking {
         this.preferredTime = preferredTime;
         this.bookingStatus = status;
         this.paymentStatus = paymentStatus;
+        this.Sellername = Sellername;
+        this.Servicename = Servicename;
+    }
+    
+    public Booking()
+    {
+    	
+    }
+    // Constructor
+    public Booking(int bookingID, int clientID, int serviceProviderID, int serviceID,
+                   Date bookingDate, Date preferredTime, String status, String paymentStatus  ) {
+        this.bookingID = bookingID;
+        this.clientID = clientID;
+        this.serviceProviderID = serviceProviderID;
+        this.serviceID = serviceID;
+        this.bookingDate = bookingDate;
+        this.preferredTime = preferredTime;
+        this.bookingStatus = status;
+        this.paymentStatus = paymentStatus;
+
     }
 
-    // Getters and Setters
+    public String getSellername() {
+		return Sellername;
+	}
+
+	public void setSellername(String sellername) {
+		Sellername = sellername;
+	}
+
+	public String getServicename() {
+		return Servicename;
+	}
+
+	public void setServicename(String servicename) {
+		Servicename = servicename;
+	}
+
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
+	}
+
+	// Getters and Setters
     public int getBookingID() {
         return bookingID;
     }
