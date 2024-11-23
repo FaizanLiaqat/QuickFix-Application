@@ -14,7 +14,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/views/home.fxml"));
 			root.setOnMousePressed(event->{
 				x = event.getSceneX();
 				y = event.getSceneY();

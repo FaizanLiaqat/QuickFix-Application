@@ -50,7 +50,8 @@ public class SellerDAO extends UserDAO {
 
         return bookings;
     }
- 
+    
+    
     public User get(int id, boolean fetchAssociatedData) throws SQLException {
         // Join User and ServiceProvider tables to get seller details
         String query = "SELECT u.*, sp.availability FROM User u " +
@@ -111,7 +112,7 @@ public class SellerDAO extends UserDAO {
                     seller.setUserEmail(rs.getString("email"));
                     seller.setUserPhoneNumber(rs.getString("phone"));
                     seller.setUserLocation(rs.getString("location"));
-                    seller.setAvailable(rs.getBoolean("available"));
+                    seller.setAvailable(rs.getBoolean("availability"));
                     // Optionally, populate seller's services and bookings if needed
                     
                     return seller;
@@ -207,7 +208,7 @@ public class SellerDAO extends UserDAO {
     @Override
     public int update(User user) throws SQLException {
         // Check if the seller exists before proceeding with the update
-        if (!exists(user)) {
+        if (exists(user)==-1) {
             AlertUtils.showError("Update Failed", "Seller does not exist.");
             return 0;
         }

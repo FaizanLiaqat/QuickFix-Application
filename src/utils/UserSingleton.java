@@ -24,4 +24,8 @@ public class UserSingleton {
 	public User getUserObject() {
 		return this.user;
 	}
+	
+	 public void setUserObject(User userObject) {
+	        this.user = userObject;
+	    }
 }

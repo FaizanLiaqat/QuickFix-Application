@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddServiceController">
    <children>
       <Label layoutX="189.0" layoutY="14.0" text="Create A Service" textAlignment="CENTER">
          <font>
@@ -17,9 +16,9 @@
       <Label layoutX="45.0" layoutY="75.0" text="Service Name" />
       <Label layoutX="45.0" layoutY="170.0" text="Service Price" />
       <Label layoutX="45.0" layoutY="123.0" text="Service Description" />
-      <TextField layoutX="163.0" layoutY="71.0" />
-      <TextField layoutX="163.0" layoutY="119.0" />
-      <TextField layoutX="154.0" layoutY="166.0" />
-      <Button fx:id="exit_button" layoutX="228.0" layoutY="321.0" mnemonicParsing="false" onAction="#exit_buttonOnAction" text="Create" />
+      <TextField fx:id="service_name" layoutX="163.0" layoutY="71.0" />
+      <TextField fx:id="description" layoutX="163.0" layoutY="119.0" />
+      <TextField fx:id="price" layoutX="163.0" layoutY="166.0" />
+      <Button fx:id="create_button" layoutX="179.0" layoutY="320.0" mnemonicParsing="false" onAction="#create_buttonOnAction" prefHeight="25.0" prefWidth="116.0" text="Create" />
    </children>
 </Pane>

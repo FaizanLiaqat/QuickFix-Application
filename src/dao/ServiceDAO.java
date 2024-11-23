@@ -76,14 +76,14 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	        resultSet.next();
 	        int serviceCount = resultSet.getInt(1);
 
-	        if (serviceCount >= 5) {  // Example limit of 5 services per provider
-	        	AlertUtils.showError("Service Limit Reached", "This service provider cannot have more than 5 services.");
-	            return -1;
-	        }
+//	        if (serviceCount >= 5) {  // Example limit of 5 services per provider
+//	        	AlertUtils.showError("Service Limit Reached", "This service provider cannot have more than 5 services.");
+//	            return -1;
+//	        }
 	    }
 
 	    // If service count is below the limit, proceed with insertion
-	    String insertQuery = "INSERT INTO Service (serviceName, serviceDescription, servicePrice, serviceIncrement, serviceRating, serviceProviderID) VALUES (?, ?, ?, ?, ?, ?)";
+	    String insertQuery = "INSERT INTO Service (serviceName, serviceDescription, servicePrice,serviceProviderID ,serviceRating) VALUES ( ?, ?, ?, ?, ?)";
 	    
 	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
@@ -91,9 +91,8 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	        preparedStatement.setString(1, service.getServiceName());
 	        preparedStatement.setString(2, service.getServiceDescription());
 	        preparedStatement.setDouble(3, service.getServicePrice());
-	        preparedStatement.setInt(4, service.getServiceIncrement());
+	        preparedStatement.setInt(4, service.getServiceProviderID());
 	        preparedStatement.setInt(5, service.getServiceRating());
-	        preparedStatement.setInt(6, service.getServiceProviderID());
 
 	        int rowsAffected = preparedStatement.executeUpdate();
 
@@ -140,12 +139,42 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	@Override
 	public List<Service> getAllBySellerID(int sellerID) throws SQLException {
 	    List<Service> services = new ArrayList<>();
-	    String query = "SELECT * FROM Service WHERE serviceProviderID = ?";
+	    String query = "SELECT s.*, u.name AS sellerName " +
+	                   "FROM Service s " +
+	                   "JOIN User u ON s.serviceProviderID = u.userID " +
+	                   "WHERE s.serviceProviderID = ?";
 	    
 	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
 	        preparedStatement.setInt(1, sellerID);
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        while (resultSet.next()) {
+	            services.add(new Service(
+	                resultSet.getInt("serviceID"),
+	                resultSet.getString("serviceName"),
+	                resultSet.getString("serviceDescription"),
+	                resultSet.getDouble("servicePrice"),
+	                resultSet.getInt("serviceProviderID"),
+	                resultSet.getInt("serviceRating"),
+	                resultSet.getString("sellerName")
+	            ));
+	        }
+	    }
+	    return services;
+	}
+
+	@Override
+	public List<Service> filterByServiceName(String name) throws SQLException {
+	    List<Service> services = new ArrayList<>();
+	    String query = "SELECT * FROM Service WHERE LOWER(serviceName) LIKE ?";
+	    
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+	        // Use wildcard search with case-insensitivity
+	        preparedStatement.setString(1, "%" + name.toLowerCase() + "%");
 	        ResultSet resultSet = preparedStatement.executeQuery();
 
 	        while (resultSet.next()) {
@@ -161,5 +190,41 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	    }
 	    return services;
 	}
+
+	@Override
+	public List<Service> filterByLocation(String location) throws SQLException {
+	    List<Service> services = new ArrayList<>();
+	    
+	    // Updated query to join the user table twice: once to get location, and once to get seller's name
+	    String query = "SELECT service.*, u.name AS sellerName FROM service " +
+	                   "JOIN serviceprovider sp ON service.serviceProviderID = sp.serviceProviderID " +
+	                   "JOIN user u ON sp.serviceProviderID = u.userID " +
+	                   "WHERE LOWER(u.location) LIKE ?";
+
+	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+	        // Use wildcard search with case-insensitivity for location
+	        preparedStatement.setString(1, "%" + location.toLowerCase() + "%");
+
+	        ResultSet resultSet = preparedStatement.executeQuery();
+
+	        while (resultSet.next()) {
+	            services.add(new Service(
+	                resultSet.getInt("serviceID"),
+	                resultSet.getString("serviceName"),
+	                resultSet.getString("serviceDescription"),
+	                resultSet.getDouble("servicePrice"),
+	                resultSet.getInt("serviceProviderID"),  
+	                resultSet.getInt("serviceRating"),
+	                resultSet.getString("sellerName")  
+	            ));
+	        }
+	    }
+	    System.out.println("Services Found: " + services.size());
+
+	    return services;
+	}
+
 
 }

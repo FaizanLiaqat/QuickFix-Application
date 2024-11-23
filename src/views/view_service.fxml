@@ -10,7 +10,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewServiceController">
 	<children>
-      <Button layoutX="655.0" layoutY="70.0" mnemonicParsing="false" onAction="#addButton" prefHeight="52.0" prefWidth="122.0" text="Add &#10;Service">
+      <Button fx:id="add_button" layoutX="655.0" layoutY="70.0" mnemonicParsing="false" onAction="#addButton" prefHeight="52.0" prefWidth="122.0" text="Add &#10;Service">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>
