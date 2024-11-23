@@ -207,7 +207,7 @@ public class SellerDAO extends UserDAO {
     @Override
     public int update(User user) throws SQLException {
         // Check if the seller exists before proceeding with the update
-        if (!exists(user)) {
+        if (exists(user)==-1) {
             AlertUtils.showError("Update Failed", "Seller does not exist.");
             return 0;
         }
