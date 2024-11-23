@@ -1,6 +1,7 @@
 package dao;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 
     @Override
     public BankTransferPayment get(int id) throws SQLException {
+        // SQL to fetch data from both Payment and BankTransferPayment tables
         String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID WHERE p.paymentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
@@ -29,15 +31,17 @@ public class BankTransferPaymentDAO extends PaymentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching BankTransferPayment with ID " + id, e);
+            throw new SQLException("Error fetching BankTransferPayment with ID " + id, e);
         }
-        return null;
+        return null; // Return null if no payment found
     }
 
     @Override
     public Map<Integer, Payment> getAll() throws SQLException {
+        // SQL to fetch all BankTransferPayments
         String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID";
         Map<Integer, Payment> payments = new HashMap<>();
+        
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -45,7 +49,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
                 payments.put(payment.getPaymentID(), payment);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching all BankTransferPayments", e);
+            throw new SQLException("Error fetching all BankTransferPayments", e);
         }
         return payments;
     }
@@ -58,13 +62,15 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 
         BankTransferPayment bankTransferPayment = (BankTransferPayment) payment;
 
-        // Check if there is already a payment with the same bookingID
+        // Check if a payment already exists for the same bookingID
         if (isPaymentExists(bankTransferPayment.getBookingID())) {
             throw new IllegalArgumentException("A payment already exists for this booking ID.");
         }
 
+        // SQL to insert into Payment table
         String sql = "INSERT INTO Payment (bookingID, amount, paymentMethod, paymentStatus) VALUES (?, ?, 'BankTransfer', ?)";
-        String sqlBankTransfer = "INSERT INTO BankTransferPayment (paymentID, bankName, accountNumber, referenceNumber) VALUES (?, ?, ?, ?)";
+        // SQL to insert into BankTransferPayment table
+        String sqlBankTransfer = "INSERT INTO BankTransferPayment (paymentID, bankAccountNumber, bankName, referenceCode, transferDate) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement paymentStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement bankTransferStatement = connection.prepareStatement(sqlBankTransfer)) {
@@ -75,6 +81,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             paymentStatement.setString(3, bankTransferPayment.getPaymentStatus());
             paymentStatement.executeUpdate();
 
+            // Retrieve the generated paymentID
             try (ResultSet keys = paymentStatement.getGeneratedKeys()) {
                 if (keys.next()) {
                     int paymentID = keys.getInt(1);
@@ -82,14 +89,15 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 
                     // Insert into BankTransferPayment table
                     bankTransferStatement.setInt(1, paymentID);
-                    bankTransferStatement.setString(2, bankTransferPayment.getBankName());
-                    bankTransferStatement.setString(3, bankTransferPayment.getBankAccountNumber());
+                    bankTransferStatement.setString(2, bankTransferPayment.getBankAccountNumber());
+                    bankTransferStatement.setString(3, bankTransferPayment.getBankName());
                     bankTransferStatement.setString(4, bankTransferPayment.getReferenceCode());
+                    bankTransferStatement.setTimestamp(5, new Timestamp(bankTransferPayment.getTransferDate().getTime()));
                     return bankTransferStatement.executeUpdate();
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error inserting BankTransferPayment", e);
+            throw new SQLException("Error inserting BankTransferPayment", e);
         }
         return 0;
     }
@@ -102,7 +110,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 
         BankTransferPayment bankTransferPayment = (BankTransferPayment) payment;
         String sql = "UPDATE Payment SET bookingID = ?, amount = ?, paymentStatus = ? WHERE paymentID = ?";
-        String sqlBankTransfer = "UPDATE BankTransferPayment SET bankName = ?, accountNumber = ?, referenceNumber = ? WHERE paymentID = ?";
+        String sqlBankTransfer = "UPDATE BankTransferPayment SET bankAccountNumber = ?, bankName = ?, referenceCode = ?, transferDate = ? WHERE paymentID = ?";
 
         try (PreparedStatement paymentStatement = connection.prepareStatement(sql);
              PreparedStatement bankTransferStatement = connection.prepareStatement(sqlBankTransfer)) {
@@ -115,44 +123,54 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             paymentStatement.executeUpdate();
 
             // Update BankTransferPayment table
-            bankTransferStatement.setString(1, bankTransferPayment.getBankName());
-            bankTransferStatement.setString(2, bankTransferPayment.getBankAccountNumber());
+            bankTransferStatement.setString(1, bankTransferPayment.getBankAccountNumber());
+            bankTransferStatement.setString(2, bankTransferPayment.getBankName());
             bankTransferStatement.setString(3, bankTransferPayment.getReferenceCode());
-            bankTransferStatement.setInt(4, bankTransferPayment.getPaymentID());
+            bankTransferStatement.setTimestamp(4, new Timestamp(bankTransferPayment.getTransferDate().getTime()));
+            bankTransferStatement.setInt(5, bankTransferPayment.getPaymentID());
             return bankTransferStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating BankTransferPayment", e);
+            throw new SQLException("Error updating BankTransferPayment", e);
         }
     }
 
+    // Helper method to map the result set to a BankTransferPayment object
     private BankTransferPayment mapToBankTransferPayment(ResultSet resultSet) throws SQLException {
+        // Extracting fields from the Payment table (parent class)
         int paymentID = resultSet.getInt("paymentID");
         int bookingID = resultSet.getInt("bookingID");
-        BigDecimal amount = resultSet.getBigDecimal("amount"); // Adjusted to BigDecimal
-        String paymentMethod = resultSet.getString("paymentMethod"); // Added paymentMethod
+        BigDecimal amount = resultSet.getBigDecimal("amount"); // Amount from Payment table
+        String paymentMethod = resultSet.getString("paymentMethod"); // Payment method from Payment table
         String paymentStatus = resultSet.getString("paymentStatus");
+        Date transactionDate = resultSet.getDate("transactionDate"); // Transaction date from Payment table
+        int payerID = resultSet.getInt("payerID"); // Extracting payerID from Payment table
+        int receiverID = resultSet.getInt("receiverID"); // Extracting receiverID from Payment table
 
-        int paymentID2 = resultSet.getInt("paymentID"); // Retained as a separate field
-        String bankAccountNumber = resultSet.getString("accountNumber"); // Adjusted to match parameter name
+        // Fields from BankTransferPayment table (child class)
+        String bankAccountNumber = resultSet.getString("bankAccountNumber");
         String bankName = resultSet.getString("bankName");
-        String referenceCode = resultSet.getString("referenceNumber"); // Adjusted to match parameter name
-        Timestamp transferDate = resultSet.getTimestamp("transferDate"); // Added transferDate
+        String referenceCode = resultSet.getString("referenceCode");
+        Date transferDate = resultSet.getDate("transferDate"); // Transfer date from BankTransferPayment table
 
+        // Return new BankTransferPayment object, passing the extracted fields
         return new BankTransferPayment(
             paymentID,
             bookingID,
             amount,
             paymentMethod,
             paymentStatus,
-            paymentID2,
+            transactionDate, // Transaction date from Payment table
+            payerID, // payerID from Payment table
+            receiverID, // receiverID from Payment table
             bankAccountNumber,
             bankName,
             referenceCode,
-            transferDate
+            transferDate  // transferDate from BankTransferPayment table
         );
     }
-    
- // Helper method to check if a payment already exists for the same bookingID
+
+
+    // Helper method to check if a payment already exists for the same bookingID
     private boolean isPaymentExists(int bookingID) throws SQLException {
         String sql = "SELECT COUNT(*) FROM Payment WHERE bookingID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -167,6 +185,60 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             throw new SQLException("Error checking for existing payment with bookingID " + bookingID, e);
         }
         return false; // No existing payment found for the bookingID
+    }
+    
+    public Map<Integer, Payment> getPaymentsByBookingID(int bookingID) throws SQLException {
+        String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID WHERE p.bookingID = ?";
+        Map<Integer, Payment> payments = new HashMap<>();
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, bookingID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Payment payment = mapToBankTransferPayment(resultSet);
+                    payments.put(payment.getPaymentID(), payment);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching BankTransferPayments by bookingID " + bookingID, e);
+        }
+        return payments;
+    }
+
+    public Map<Integer, Payment> getPaymentsBySenderID(int payerID) throws SQLException {
+        String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID WHERE p.payerID = ?";
+        Map<Integer, Payment> payments = new HashMap<>();
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, payerID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Payment payment = mapToBankTransferPayment(resultSet);
+                    payments.put(payment.getPaymentID(), payment);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching BankTransferPayments by payerID " + payerID, e);
+        }
+        return payments;
+    }
+
+    public Map<Integer, Payment> getPaymentsByReceiverID(int receiverID) throws SQLException {
+        String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID WHERE p.receiverID = ?";
+        Map<Integer, Payment> payments = new HashMap<>();
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, receiverID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Payment payment = mapToBankTransferPayment(resultSet);
+                    payments.put(payment.getPaymentID(), payment);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching BankTransferPayments by receiverID " + receiverID, e);
+        }
+        return payments;
     }
 
 }

@@ -69,8 +69,11 @@ public class LoginController {
 				userDAO = new SellerDAO();
 			}
 			try {
+
 				int id = userDAO.exists(this.user.getUserObject());
 				if (id != -1) {
+				if (userDAO.exists(this.user.getUserObject())!=-1) {
+
 					if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
 						System.out.println(this.user.getUserObject() + " Login Successfully");
 
