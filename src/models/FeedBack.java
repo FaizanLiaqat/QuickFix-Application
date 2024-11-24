@@ -10,10 +10,10 @@ public class FeedBack {
     private int serviceID;
     private int rating;
     private String comments;
-    private Date feedbackDate;
+    private java.sql.Timestamp feedbackDate;
 
     // Constructor
-    public FeedBack(int feedbackID, int clientID, int serviceProviderID, int bookingID,int serviceID, int rating, String comments, java.sql.Date feedbackDate) {
+    public FeedBack(int feedbackID, int clientID, int serviceProviderID, int bookingID,int serviceID, int rating, String comments, java.sql.Timestamp feedbackDate) {
         this.feedbackID = feedbackID;
         this.clientID = clientID;
         this.serviceProviderID = serviceProviderID;
@@ -72,11 +72,11 @@ public class FeedBack {
         this.comments = comments;
     }
 
-    public java.sql.Date getFeedbackDate() {
+    public java.sql.Timestamp getFeedbackDate() {
         return feedbackDate;
     }
 
-    public void setFeedbackDate(java.sql.Date feedbackDate) {
+    public void setFeedbackDate(java.sql.Timestamp feedbackDate) {
         this.feedbackDate = feedbackDate;
     }
 
