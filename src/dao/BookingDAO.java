@@ -76,8 +76,8 @@ public class BookingDAO implements InterfaceBookingDAO {
             stmt.setInt(1, booking.getClientID());
             stmt.setInt(2, booking.getServiceProviderID());
             stmt.setInt(3, booking.getServiceID());
-            stmt.setTimestamp(4, new Timestamp(booking.getBookingDate().getTime()));
-            stmt.setTimestamp(5, new Timestamp(booking.getPreferredTime().getTime()));
+            stmt.setTimestamp(4, booking.getBookingDate());
+            stmt.setTimestamp(5, booking.getPreferredTime());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -85,7 +85,7 @@ public class BookingDAO implements InterfaceBookingDAO {
                     if (rs.next()) {
                         int bookingID = rs.getInt(1);
                         booking.setBookingID(bookingID);
-                        java.sql.Date currentTimestamp = new java.sql.Date(System.currentTimeMillis());
+                        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
 
 //                        // Generate notification for the seller
 //                        Notification notification = new Notification(
@@ -120,7 +120,7 @@ public class BookingDAO implements InterfaceBookingDAO {
 
             stmt.setString(1, booking.getBookingStatus());
             stmt.setString(2, booking.getPaymentStatus());
-            stmt.setTimestamp(3, new Timestamp(booking.getPreferredTime().getTime()));
+            stmt.setTimestamp(3, booking.getPreferredTime());
             stmt.setInt(4, booking.getBookingID());
 
             return stmt.executeUpdate();
