@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 
 import dao.ServiceDAO;
 import dao.BookingDAO;
+
 public class WorkerController implements Initializable {
 
 	@FXML
@@ -43,8 +44,7 @@ public class WorkerController implements Initializable {
 	private List<Service> services = new ArrayList<>();
 
 	private String type;
-	
-	
+
 	private User user; // Declare a user object to store the current user
 
 	public void setMessage(String message) {
@@ -54,95 +54,64 @@ public class WorkerController implements Initializable {
 
 	private List<Service> getData(String location) {
 
-	List<Service> services = new ArrayList<>();
-    ServiceDAO sdao = new ServiceDAO(); // Initialize the ServiceDAO object
-	
-    try {
-        // Call the filterByLocation method and pass the location as an argument
-        services = sdao.filterByLocation(location);
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+		List<Service> services = new ArrayList<>();
+		ServiceDAO sdao = new ServiceDAO(); // Initialize the ServiceDAO object
+
+		try {
+			// Call the filterByLocation method and pass the location as an argument
+			services = sdao.filterByLocation(location);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return services;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+
 		// Retrieve the current user from the UserSingleton
-        this.user = UserSingleton.getInstance().getUserObject();
+		this.user = UserSingleton.getInstance().getUserObject();
 
-	    services.addAll(getData(user.getUserLocation())); // Load all services
-	    
-	    int column = 0;
-	    int row = 1;
+		services.addAll(getData(user.getUserLocation())); // Load all services
 
-	    try {
-	        for (Service service : services) {
+		int column = 0;
+		int row = 1;
 
-	            // Trim and compare names
-	            if (service.getServiceName().trim().equalsIgnoreCase(type.trim())) {
-	                FXMLLoader fxmlLoader = new FXMLLoader();
-	                fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
-	                Pane pane = fxmlLoader.load();
+		try {
+			for (Service service : services) {
 
-	                ItemController itemController = fxmlLoader.getController();
-	                itemController.setData(service);
-	                
-	                // Add click event for the pane
-	                pane.setOnMouseClicked(event -> {
-	                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-	                    alert.setTitle("Booking Confirmation");
-	                    alert.setHeaderText(null);
-	                    alert.setContentText("Do you want to book it?");
+				// Trim and compare names
+				if (service.getServiceName().trim().equalsIgnoreCase(type.trim())) {
+					FXMLLoader fxmlLoader = new FXMLLoader();
+					fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
+					Pane pane = fxmlLoader.load();
 
-	                    Optional<ButtonType> result = alert.showAndWait();
-	                    if (result.isPresent() && result.get() == ButtonType.OK) {
-	                        System.out.println("Booking confirmed for: " + service.getServiceName());
-	                        BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
-	                    	
-	                        Booking booking = new Booking();
-	                        booking.setClientID(user.getUserID());
-	                        booking.setServiceID(service.getServiceID());
-	                        booking.setServiceProviderID(service.getServiceProviderID());
-	                        booking.setBookingDate(Timestamp.from(Instant.now())); // Current date and time
-	                        booking.setPreferredTime(Timestamp.from(Instant.now())); // Current date and time
-	                        try {
-	                            // Call the filterByLocation method and pass the location as an argument
-	                            bdao.insert(booking);
-	                        } catch (SQLException e) {
-	                            e.printStackTrace();
-	                        }
+					ItemController itemController = fxmlLoader.getController();
+					itemController.setData(service, user);
 
-	                    } else {
-	                        System.out.println("Booking canceled for: " + service.getServiceName());
-	                    }
-	                });
-	                
-	                if (column == 1) {
-	                    column = 0;
-	                    row++;
-	                }
+					if (column == 1) {
+						column = 0;
+						row++;
+					}
 
-	                grid.add(pane, column++, row); // Add to grid at (column, row)
+					grid.add(pane, column++, row); // Add to grid at (column, row)
 
-	                // Set grid dimensions
-	                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-	                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-	                grid.setMaxWidth(Region.USE_PREF_SIZE);
+					// Set grid dimensions
+					grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+					grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+					grid.setMaxWidth(Region.USE_PREF_SIZE);
 
-	                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-	                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-	                grid.setMaxHeight(Region.USE_PREF_SIZE);
+					grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+					grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+					grid.setMaxHeight(Region.USE_PREF_SIZE);
 
-	                GridPane.setMargin(pane, new Insets(10));
-	            }
-	        }
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+					GridPane.setMargin(pane, new Insets(10));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-
 
 }

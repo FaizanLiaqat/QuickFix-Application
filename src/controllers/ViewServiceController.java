@@ -99,7 +99,7 @@ public class ViewServiceController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(service);
+				itemController.setData(service , user);
 
 				// Add click event for the pane
 				pane.setOnMouseClicked(event -> {
@@ -198,7 +198,7 @@ public class ViewServiceController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(service);
+				itemController.setData(service, user);
 
 				// Add click handler for remove
 				pane.setOnMouseClicked(event -> {
