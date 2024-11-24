@@ -92,9 +92,6 @@ public class viewHistoryController implements Initializable {
 	        e.printStackTrace();
 	    }
 	    
-//		services.add(new Service(1, "Plumber", "Full house plumbing service", 2.99, 1, 5));
-//		services.add(new Service(2, "Electrician", "Basic electrical repair services", 3.99, 2, 4));
-//		services.add(new Service(3, "Carpenter", "Carpentry and furniture repair", 1.50, 3, 5));
 		return booking;
 	}
 

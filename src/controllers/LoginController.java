@@ -127,59 +127,6 @@ public class LoginController {
 
 			}
 
-//	        if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
-//	            this.userDAO = new BuyerDAO();  // Assign BuyerDAO
-//	            if (this.userDAO.exists(this.user.getUserObject())){
-//	                System.out.println(this.user.getUserObject() + " Login Successfully");
-//	                
-//	                // Close the current window (home.fxml)
-//	                Stage currentStage = (Stage) login_button.getScene().getWindow();
-//	                currentStage.close();
-//
-//	                // Load the Buyer dashboard FXML
-//	                Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
-//	                
-//	                // Create a new Stage (window) for Buyer dashboard
-//	                Stage stage = new Stage();
-//	                stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
-//	                stage.setTitle("Buyer Dashboard"); // Set the title of the new window
-//
-//	                // Set the new scene with the loaded FXML and desired size
-//	                Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
-//	                stage.setScene(scene);
-//
-//	                // Show the new window (stage)
-//	                stage.show();
-//	            } else {
-//	                loginMessage.setText("Incorrect credentials.");
-//	            }
-//	        } else if (user.getUserObject().getUserType().equalsIgnoreCase("Seller")) {
-//	        			this.userDAO = new SellerDAO();  // Assign SellerDAO
-//	            if (this.userDAO.exists(this.user.getUserObject())){
-//	                System.out.println(this.user.getUserObject() + " Login Successfully");
-//	                
-//	                // Close the current window (home.fxml)
-//	                Stage currentStage = (Stage) login_button.getScene().getWindow();
-//	                currentStage.close();
-//
-//	                // Load the Seller dashboard FXML
-//	                Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
-//	                
-//	                // Create a new Stage (window) for Seller dashboard
-//	                Stage stage = new Stage();
-//	                stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
-//	                stage.setTitle("Seller Dashboard"); // Set the title of the new window
-//
-//	                // Set the new scene with the loaded FXML and desired size
-//	                Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
-//	                stage.setScene(scene);
-//
-//	                // Show the new window (stage)
-//	                stage.show();
-//	            } else {
-//	                loginMessage.setText("Incorrect credentials.");
-//	            }
-//	        }
 		} catch (IOException e) {
 			e.printStackTrace(); // Handle error if FXML file loading fails
 		}
