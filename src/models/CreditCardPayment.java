@@ -14,7 +14,9 @@ public class CreditCardPayment extends Payment {
 
     // Constructor
     public CreditCardPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate) {
+
         super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new CreditCardPaymentStrategy());
+
         this.cardNumber = cardNumber;
         this.cardType = cardType;
         this.cardHolderName = cardHolderName;

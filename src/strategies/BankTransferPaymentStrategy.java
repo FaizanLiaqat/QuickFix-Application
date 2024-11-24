@@ -1,5 +1,7 @@
 package strategies;
 
+import java.sql.SQLException;
+
 import models.BankTransferPayment;
 import models.Payment;
 import utils.AlertUtils;
@@ -22,8 +24,22 @@ public class BankTransferPaymentStrategy implements PaymentStrategy{
                     "Reference Code: " + bankPayment.getReferenceCode() + "\n" +
                     "Transfer Date: " + bankPayment.getTransferDate();
             AlertUtils.showSuccess(message);
+            
+            payment.setPaymentStatus("Completed");
+            dao.PaymentDAO paymentdao = new dao.BankTransferPaymentDAO();
+            try {
+				paymentdao.update(payment);
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+            
         } else {
             AlertUtils.showError("Payment Error", "Invalid payment type for Bank Transfer Strategy.");
         }
     }
+	
+		
 }
