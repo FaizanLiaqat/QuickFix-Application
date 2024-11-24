@@ -7,7 +7,7 @@ public class DatabaseConnection {
     private static DatabaseConnection instance;
     private static final String URL = "jdbc:mysql://localhost:3306/quickfixdatabase";
     private static final String USER = "root";
-    private static final String PASSWORD = "12345678";
+    private static final String PASSWORD = "123456";
 
     // Private constructor to prevent instantiation
     private DatabaseConnection() {
