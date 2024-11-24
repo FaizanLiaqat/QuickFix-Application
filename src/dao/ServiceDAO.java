@@ -30,7 +30,7 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	                resultSet.getString("serviceName"),
 	                resultSet.getString("serviceDescription"),
 	                resultSet.getDouble("servicePrice"),
-	                resultSet.getInt("serviceIncrement"),
+	                resultSet.getInt("ServiceProviderId"),
 	                resultSet.getInt("serviceRating")
 	            );
 	        } else {

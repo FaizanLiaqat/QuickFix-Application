@@ -1,12 +1,16 @@
 package dao;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import models.CreditCardPayment;
@@ -93,7 +97,7 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                     creditCardStatement.setString(2, creditCardPayment.getCardNumber());
                     creditCardStatement.setString(3, creditCardPayment.getCardType());
                     creditCardStatement.setString(4, creditCardPayment.getCardHolderName());
-                    creditCardStatement.setDate(5, creditCardPayment.getExpirationDate());
+                    creditCardStatement.setTimestamp(5, creditCardPayment.getExpirationDate());
                     return creditCardStatement.executeUpdate();
                 }
             }
@@ -130,7 +134,7 @@ public class CreditCardPaymentDAO extends PaymentDAO {
             creditCardStatement.setString(1, creditCardPayment.getCardNumber());
             creditCardStatement.setString(2, creditCardPayment.getCardType());
             creditCardStatement.setString(3, creditCardPayment.getCardHolderName());
-            creditCardStatement.setDate(4, creditCardPayment.getExpirationDate());
+            creditCardStatement.setTimestamp(4, creditCardPayment.getExpirationDate());
             creditCardStatement.setInt(5, creditCardPayment.getPaymentID());
             return creditCardStatement.executeUpdate();
         } catch (SQLException e) {
@@ -148,13 +152,13 @@ public class CreditCardPaymentDAO extends PaymentDAO {
         String paymentStatus = resultSet.getString("paymentStatus");
         int payerID = resultSet.getInt("payerID");
         int receiverID = resultSet.getInt("receiverID");
-        Date transactionDate = resultSet.getDate("transactionDate");
+        java.sql.Timestamp transactionDate = resultSet.getTimestamp("transactionDate");
 
         // Extracting the fields from the CreditCardPayment table (child class)
         String cardNumber = resultSet.getString("cardNumber");
         String cardType = resultSet.getString("cardType");
         String cardHolderName = resultSet.getString("cardHolderName");
-        Date expirationDate = resultSet.getDate("expirationDate");
+        java.sql.Timestamp expirationDate = resultSet.getTimestamp("expirationDate");
 
         // Map Payment table values along with CreditCardPayment-specific values to the CreditCardPayment object
         return new CreditCardPayment(
@@ -244,6 +248,51 @@ public class CreditCardPaymentDAO extends PaymentDAO {
         } catch (SQLException e) {
             throw new SQLException("Error fetching CreditCardPayments by receiverID " + receiverID, e);
         }
+        return payments;
+    }
+    
+    public List<Payment> getPaymentByStatus(String status, int userId) {
+    	List<Payment> payments = new ArrayList<>();
+
+        // SQL query to fetch credit card payments based on status and user ID
+        String sql = "SELECT p.*, c.cardNumber, c.cardType, c.cardHolderName, c.expirationDate " +
+                     "FROM payment p " +
+                     "JOIN creditcardpayment c ON p.paymentID = c.paymentID " +
+                     "WHERE p.paymentStatus = ? AND (p.payerID = ? )";
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+   	         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            // Set parameters for the query
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, userId);
+           
+            // Execute the query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                Payment payment = new CreditCardPayment(
+                        resultSet.getInt("paymentID"),                        // paymentID
+                        resultSet.getInt("bookingID"),                        // bookingID
+                        resultSet.getBigDecimal("amount"),                    // amount
+                        resultSet.getString("paymentMethod"),                 // paymentMethod
+                        resultSet.getString("paymentStatus"),                 // paymentStatus
+                        resultSet.getTimestamp("transactionDate"),            // transactionDate (as Timestamp)
+                        resultSet.getInt("payerID"),                          // payerID
+                        resultSet.getInt("receiverID"),                       // receiverID
+                        resultSet.getString("cardNumber"),                    // cardNumber
+                        resultSet.getString("cardType"),                      // cardType
+                        resultSet.getString("cardHolderName"),                // cardHolderName
+                        resultSet.getTimestamp("expirationDate")              // expirationDate (as Timestamp)
+                    );                // Add payment to the list
+                payments.add(payment);
+                System.out.println("one record found");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return payments;
     }
 

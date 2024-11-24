@@ -1,16 +1,20 @@
 package dao;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import models.BankTransferPayment;
+import models.CreditCardPayment;
 import models.Payment;
 
 public class BankTransferPaymentDAO extends PaymentDAO {
@@ -142,7 +146,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         BigDecimal amount = resultSet.getBigDecimal("amount"); // Amount from Payment table
         String paymentMethod = resultSet.getString("paymentMethod"); // Payment method from Payment table
         String paymentStatus = resultSet.getString("paymentStatus");
-        Date transactionDate = resultSet.getDate("transactionDate"); // Transaction date from Payment table
+        java.sql.Timestamp transactionDate = resultSet.getTimestamp("transactionDate"); // Transaction date from Payment table
         int payerID = resultSet.getInt("payerID"); // Extracting payerID from Payment table
         int receiverID = resultSet.getInt("receiverID"); // Extracting receiverID from Payment table
 
@@ -150,7 +154,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         String bankAccountNumber = resultSet.getString("bankAccountNumber");
         String bankName = resultSet.getString("bankName");
         String referenceCode = resultSet.getString("referenceCode");
-        Date transferDate = resultSet.getDate("transferDate"); // Transfer date from BankTransferPayment table
+        java.sql.Timestamp transferDate = resultSet.getTimestamp("transferDate"); // Transfer date from BankTransferPayment table
 
         // Return new BankTransferPayment object, passing the extracted fields
         return new BankTransferPayment(
@@ -238,6 +242,52 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         } catch (SQLException e) {
             throw new SQLException("Error fetching BankTransferPayments by receiverID " + receiverID, e);
         }
+        return payments;
+    }
+    
+    public List<Payment> getPaymentByStatus(String status, int userId) {
+    	List<Payment> payments = new ArrayList<>();
+
+        // SQL query to fetch credit card payments based on status and user ID
+        String sql = "SELECT p.*, c.bankAccountNumber, c.bankName, c.referenceCode, c.transferDate " +
+                     "FROM payment p " +
+                     "JOIN banktransferpayment c ON p.paymentID = c.paymentID " +
+                     "WHERE p.paymentStatus = ? AND (p.payerID = ? )";
+
+        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+   	         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            // Set parameters for the query
+            preparedStatement.setString(1, status);
+            preparedStatement.setInt(2, userId);
+           
+            // Execute the query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+
+            // Process the result set
+            while (resultSet.next()) {
+                Payment payment = new BankTransferPayment(
+                        resultSet.getInt("paymentID"),                        // paymentID
+                        resultSet.getInt("bookingID"),                        // bookingID
+                        resultSet.getBigDecimal("amount"),                    // amount
+                        resultSet.getString("paymentMethod"),                 // paymentMethod
+                        resultSet.getString("paymentStatus"),                 // paymentStatus
+                        resultSet.getTimestamp("transactionDate"),            // transactionDate (as Timestamp)
+                        resultSet.getInt("payerID"),                          // payerID
+                        resultSet.getInt("receiverID"),                       // receiverID
+                        resultSet.getString("bankAccountNumber"),                    // cardNumber
+                        resultSet.getString("bankName"),                      // cardType
+                        resultSet.getString("referenceCode"),                // cardHolderName
+                        resultSet.getTimestamp("transferDate")              // expirationDate (as Timestamp)
+                    );                // Add payment to the list
+                payments.add(payment);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return payments;
     }
 

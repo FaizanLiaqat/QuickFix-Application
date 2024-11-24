@@ -2,6 +2,7 @@ package models;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 
 public abstract class Payment {
@@ -10,12 +11,12 @@ public abstract class Payment {
     private BigDecimal amount;
     private String paymentMethod;
     private String paymentStatus;
-    private Date transactionDate;
+    private java.sql.Timestamp transactionDate;
     private int payerID;
     private int receiverID;
 
     // Constructor
-    public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, Date transactionDate, int payerID, int receiverID) {
+    public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID) {
         this.paymentID = paymentID;
         this.bookingID = bookingID;
         this.amount = amount;
@@ -42,8 +43,8 @@ public abstract class Payment {
     public String getPaymentStatus() { return paymentStatus; }
     public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
 
-    public Date getTransactionDate() { return transactionDate; }
-    public void setTransactionDate(Date transactionDate) { this.transactionDate = transactionDate; }
+    public java.sql.Timestamp getTransactionDate() { return transactionDate; }
+    public void setTransactionDate(java.sql.Timestamp transactionDate) { this.transactionDate = transactionDate; }
 
     public int getPayerID() { return payerID; }
     public void setPayerID(int payerID) { this.payerID = payerID; }
