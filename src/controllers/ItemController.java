@@ -126,14 +126,14 @@ public class ItemController {
 	    SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm"); // Customize as needed
 
 	    // Convert booking date to a formatted string
-	    String formattedDate = dateFormatter.format(notification.get);
-	    Ratinglabel.setText(formattedDate); // Set formatted date to the label
+	    //String formattedDate = dateFormatter.format(notification.get);
+	    //Ratinglabel.setText(formattedDate); // Set formatted date to the label
 
 	    // Convert preferred time to a formatted string
-	    String formattedTime = timeFormatter.format(notification.getPreferredTime());
-	    PriceLabel.setText(formattedTime); // Set formatted time to the label
+	    //String formattedTime = timeFormatter.format(notification.getPreferredTime());
+	    //PriceLabel.setText(formattedTime); // Set formatted time to the label
 
-	    SellernameLabel.setText(notification.getPaymentStatus());
+	    //SellernameLabel.setText(notification.getPaymentStatus());
 
 	    img.setImage(null); // Set the image to null, effectively hiding it
 	}
