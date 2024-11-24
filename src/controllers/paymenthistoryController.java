@@ -71,10 +71,10 @@ public class paymenthistoryController implements Initializable {
 		//String paymentStatus, int paymentID2, String cardNumber, String cardType, String cardHolderName,
 		//Date expirationDate)
 		List<Payment> payments = new ArrayList<>();
-		LocalDate localDate = LocalDate.of(2025, 1, 15); // January 15, 2025
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(System.currentTimeMillis()); // January 15, 2025
 
         // Convert LocalDate to Date
-        Date date = (Date) Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+       
 
 //        paymentID, // paymentID from the Payment table
 //        bookingID, // bookingID
@@ -88,8 +88,8 @@ public class paymenthistoryController implements Initializable {
 //        cardType, // cardType
 //        cardHolderName, // cardHolderName
 //        expirationDate // expirationDate
-		payments.add(new CreditCardPayment(1,1,new BigDecimal("3000"), "Credit card","Completed",date,2,3,"3467", "PAYPAL", "Ali",date));
-		payments.add(new CreditCardPayment(1,1,new BigDecimal("5000"), "Credit card","Completed",date,2,3,"3467", "PAYPAL", "Hamza",date));
+		payments.add(new CreditCardPayment(1,1,new BigDecimal("3000"), "Credit card","Completed",currentTimestamp,2,3,"3467", "PAYPAL", "Ali",currentTimestamp));
+		payments.add(new CreditCardPayment(1,1,new BigDecimal("5000"), "Credit card","Completed",currentTimestamp,2,3,"3467", "PAYPAL", "Hamza",currentTimestamp));
 
 		//payments.add(new CreditCardPayment(1,2,4000,"Bank Transfer", "Completed"));
 
@@ -115,8 +115,6 @@ public class paymenthistoryController implements Initializable {
 
 	                PaymentItemController paymentitemController = fxmlLoader.getController();
 	                paymentitemController.setData(payment);
-	                
-	               
 	                
 	                if (column == 1) {
 	                    column = 0;

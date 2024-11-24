@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,7 +94,7 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                     creditCardStatement.setString(2, creditCardPayment.getCardNumber());
                     creditCardStatement.setString(3, creditCardPayment.getCardType());
                     creditCardStatement.setString(4, creditCardPayment.getCardHolderName());
-                    creditCardStatement.setDate(5, creditCardPayment.getExpirationDate());
+                    creditCardStatement.setTimestamp(5, creditCardPayment.getExpirationDate());
                     return creditCardStatement.executeUpdate();
                 }
             }
@@ -130,7 +131,7 @@ public class CreditCardPaymentDAO extends PaymentDAO {
             creditCardStatement.setString(1, creditCardPayment.getCardNumber());
             creditCardStatement.setString(2, creditCardPayment.getCardType());
             creditCardStatement.setString(3, creditCardPayment.getCardHolderName());
-            creditCardStatement.setDate(4, creditCardPayment.getExpirationDate());
+            creditCardStatement.setTimestamp(4, creditCardPayment.getExpirationDate());
             creditCardStatement.setInt(5, creditCardPayment.getPaymentID());
             return creditCardStatement.executeUpdate();
         } catch (SQLException e) {
@@ -148,13 +149,13 @@ public class CreditCardPaymentDAO extends PaymentDAO {
         String paymentStatus = resultSet.getString("paymentStatus");
         int payerID = resultSet.getInt("payerID");
         int receiverID = resultSet.getInt("receiverID");
-        Date transactionDate = resultSet.getDate("transactionDate");
+        java.sql.Timestamp transactionDate = resultSet.getTimestamp("transactionDate");
 
         // Extracting the fields from the CreditCardPayment table (child class)
         String cardNumber = resultSet.getString("cardNumber");
         String cardType = resultSet.getString("cardType");
         String cardHolderName = resultSet.getString("cardHolderName");
-        Date expirationDate = resultSet.getDate("expirationDate");
+        java.sql.Timestamp expirationDate = resultSet.getTimestamp("expirationDate");
 
         // Map Payment table values along with CreditCardPayment-specific values to the CreditCardPayment object
         return new CreditCardPayment(

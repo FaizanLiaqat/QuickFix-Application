@@ -72,11 +72,8 @@ public class LoginController {
 
 				int id = userDAO.exists(this.user.getUserObject());
 				if (id != -1) {
-				
 
 					if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
-						System.out.println(this.user.getUserObject() + " Login Successfully");
-
 						// Fetch the user from the database
 						User loggedInUser = userDAO.get(id);
 						if (loggedInUser != null) {
@@ -96,8 +93,10 @@ public class LoginController {
 							Scene scene = new Scene(root, 520, 400);
 							stage.setScene(scene);
 							stage.show();
+						}else {
+							System.out.println("Buyer not found with "+this.user.getUserObject().getUserID());
 						}
-						
+
 					} else {
 						System.out.println(this.user.getUserObject() + " Login Successfully");
 
@@ -121,7 +120,11 @@ public class LoginController {
 							stage.setScene(scene);
 							stage.show();
 						}
+						else {
+							System.out.println("Seller not found with "+this.user.getUserObject().getUserID());
+						}
 					}
+
 				}
 			} catch (SQLException e) {
 				// Handle database connection errors
@@ -134,6 +137,7 @@ public class LoginController {
 			e.printStackTrace(); // Handle error if FXML file loading fails
 		}
 	}
+		
 
 	// Event handler for the "Back" button
 	public void backButtonOnAction(ActionEvent event) {

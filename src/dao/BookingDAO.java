@@ -18,72 +18,75 @@ import java.sql.*;
 public class BookingDAO implements InterfaceBookingDAO {
 
 
-	// Get a specific booking by its ID
-	@Override
-	public Booking get(int id) throws SQLException {
-		String query = "SELECT * FROM Booking WHERE bookingID = ?";
-		try (Connection con = DatabaseConnection.getInstance().getConnection();
-				PreparedStatement stmt = con.prepareStatement(query)) {
+    private NotificationDAO notificationDAO = new NotificationDAO();
 
-			stmt.setInt(1, id);
-			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
-					return mapResultSetToBooking(rs);
-				}
-			}
-		} catch (SQLException e) {
-			System.err.println("Error fetching booking: " + e.getMessage());
-			throw new SQLException("Error fetching booking with ID: " + id);
-		}
-		return null;
-	}
+    // Get a specific booking by its ID
+    @Override
+    public Booking get(int id) throws SQLException {
+        String query = "SELECT * FROM Booking WHERE bookingID = ?";
+        try (Connection con = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-	// Get all bookings
-	@Override
-	public Map<Integer, Booking> getAll() throws SQLException {
-		String query = "SELECT * FROM Booking";
-		Map<Integer, Booking> bookings = new HashMap<>();
-		try (Connection con = DatabaseConnection.getInstance().getConnection();
-				PreparedStatement stmt = con.prepareStatement(query);
-				ResultSet rs = stmt.executeQuery()) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return mapResultSetToBooking(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching booking: " + e.getMessage());
+            throw new SQLException("Error fetching booking with ID: " + id);
+        }
+        return null;
+    }
 
-			while (rs.next()) {
-				Booking booking = mapResultSetToBooking(rs);
-				bookings.put(booking.getBookingID(), booking);
-			}
-		} catch (SQLException e) {
-			System.err.println("Error fetching all bookings: " + e.getMessage());
-			throw new SQLException("Error fetching all bookings.");
-		}
-		return bookings;
-	}
+    // Get all bookings
+    @Override
+    public Map<Integer, Booking> getAll() throws SQLException {
+        String query = "SELECT * FROM Booking";
+        Map<Integer, Booking> bookings = new HashMap<>();
+        try (Connection con = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
 
-	// Insert a new booking
-	@Override
-	public int insert(Booking booking) throws SQLException {
-		// Check for duplicate bookings
-		if (isDuplicateBooking(booking)) {
-			System.out.println("Booking already exists for this buyer, seller, and service.");
-			return 0; // Return 0 to indicate no insertion
-		}
+            while (rs.next()) {
+                Booking booking = mapResultSetToBooking(rs);
+                bookings.put(booking.getBookingID(), booking);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching all bookings: " + e.getMessage());
+            throw new SQLException("Error fetching all bookings.");
+        }
+        return bookings;
+    }
 
-		String insertBookingQuery = "INSERT INTO Booking (clientID, serviceProviderID, serviceID, bookingDate, preferredTime, status, paymentStatus) VALUES (?, ?, ?, ?, ?, 'Pending', 'Unpaid')";
-		try (Connection con = DatabaseConnection.getInstance().getConnection();
-				PreparedStatement stmt = con.prepareStatement(insertBookingQuery, Statement.RETURN_GENERATED_KEYS)) {
+    // Insert a new booking
+    @Override
+    public int insert(Booking booking) throws SQLException {
+        // Check for duplicate bookings
+        if (isDuplicateBooking(booking)) {
+            System.out.println("Booking already exists for this buyer, seller, and service.");
+            return 0; // Return 0 to indicate no insertion
+        }
 
-			stmt.setInt(1, booking.getClientID());
-			stmt.setInt(2, booking.getServiceProviderID());
-			stmt.setInt(3, booking.getServiceID());
-			stmt.setTimestamp(4, new Timestamp(booking.getBookingDate().getTime()));
-			stmt.setTimestamp(5, new Timestamp(booking.getPreferredTime().getTime()));
+        String insertBookingQuery = "INSERT INTO Booking (clientID, serviceProviderID, serviceID, bookingDate, preferredTime, status, paymentStatus) VALUES (?, ?, ?, ?, ?, 'Pending', 'Unpaid')";
+        try (Connection con = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(insertBookingQuery, Statement.RETURN_GENERATED_KEYS)) {
 
-			int rowsAffected = stmt.executeUpdate();
-			if (rowsAffected > 0) {
-				try (ResultSet rs = stmt.getGeneratedKeys()) {
-					if (rs.next()) {
-						int bookingID = rs.getInt(1);
-						booking.setBookingID(bookingID);
-						java.sql.Date currentTimestamp = new java.sql.Date(System.currentTimeMillis());
+            stmt.setInt(1, booking.getClientID());
+            stmt.setInt(2, booking.getServiceProviderID());
+            stmt.setInt(3, booking.getServiceID());
+            stmt.setTimestamp(4, booking.getBookingDate());
+            stmt.setTimestamp(5, booking.getPreferredTime());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int bookingID = rs.getInt(1);
+                        booking.setBookingID(bookingID);
+                        java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
+
 
 //                        // Generate notification for the seller
 //                        Notification notification = new Notification(
@@ -98,76 +101,85 @@ public class BookingDAO implements InterfaceBookingDAO {
 //
 //                        notificationDAO.insert(notification);
 
-						return bookingID; // Return the generated booking ID
-					}
-				}
-			}
-		} catch (SQLException e) {
-			System.err.println("Error inserting booking: " + e.getMessage());
-			throw new SQLException("Error inserting booking.");
-		}
-		return 0; // Return 0 if insertion failed
-	}
 
-	// Update an existing booking
-	@Override
-	public int update(Booking booking) throws SQLException {
-		String query = "UPDATE Booking SET status = ?, paymentStatus = ?, preferredTime = ? WHERE bookingID = ?";
-		try (Connection con = DatabaseConnection.getInstance().getConnection();
-				PreparedStatement stmt = con.prepareStatement(query)) {
+                        return bookingID; // Return the generated booking ID
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error inserting booking: " + e.getMessage());
+            throw new SQLException("Error inserting booking.");
+        }
+        return 0; // Return 0 if insertion failed
+    }
 
-			stmt.setString(1, booking.getBookingStatus());
-			stmt.setString(2, booking.getPaymentStatus());
-			stmt.setTimestamp(3, new Timestamp(booking.getPreferredTime().getTime()));
-			stmt.setInt(4, booking.getBookingID());
+    // Update an existing booking
+    @Override
+    public int update(Booking booking) throws SQLException {
+        String query = "UPDATE Booking SET status = ?, paymentStatus = ?, preferredTime = ? WHERE bookingID = ?";
+        try (Connection con = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-			return stmt.executeUpdate();
-		} catch (SQLException e) {
-			System.err.println("Error updating booking: " + e.getMessage());
-			throw new SQLException("Error updating booking.");
-		}
-	}
+            stmt.setString(1, booking.getBookingStatus());
+            stmt.setString(2, booking.getPaymentStatus());
+            stmt.setTimestamp(3, booking.getPreferredTime());
+            stmt.setInt(4, booking.getBookingID());
 
-	// Delete a booking
-	@Override
-	public int delete(Booking booking) throws SQLException {
-		String query = "DELETE FROM Booking WHERE bookingID = ?";
-		try (Connection con = DatabaseConnection.getInstance().getConnection();
-				PreparedStatement stmt = con.prepareStatement(query)) {
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating booking: " + e.getMessage());
+            throw new SQLException("Error updating booking.");
+        }
+    }
 
-			stmt.setInt(1, booking.getBookingID());
-			return stmt.executeUpdate();
-		} catch (SQLException e) {
-			System.err.println("Error deleting booking: " + e.getMessage());
-			throw new SQLException("Error deleting booking.");
-		}
-	}
+    // Delete a booking
+    @Override
+    public int delete(Booking booking) throws SQLException {
+        String query = "DELETE FROM Booking WHERE bookingID = ?";
+        try (Connection con = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-	// Helper method to map ResultSet to Booking object
-	private Booking mapResultSetToBooking(ResultSet rs) throws SQLException {
-		return new Booking(rs.getInt("bookingID"), rs.getInt("clientID"), rs.getInt("serviceProviderID"),
-				rs.getInt("serviceID"), rs.getTimestamp("bookingDate"), rs.getTimestamp("preferredTime"),
-				rs.getString("status"), rs.getString("paymentStatus"));
-	}
+            stmt.setInt(1, booking.getBookingID());
+            return stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error deleting booking: " + e.getMessage());
+            throw new SQLException("Error deleting booking.");
+        }
+    }
 
-	// Helper method to check for duplicate bookings
-	private boolean isDuplicateBooking(Booking booking) throws SQLException {
-		String query = "SELECT COUNT(*) FROM Booking WHERE clientID = ? AND serviceProviderID = ? AND serviceID = ?";
-		try (Connection con = DatabaseConnection.getInstance().getConnection();
-				PreparedStatement stmt = con.prepareStatement(query)) {
+    // Helper method to map ResultSet to Booking object
+    private Booking mapResultSetToBooking(ResultSet rs) throws SQLException {
+        return new Booking(
+            rs.getInt("bookingID"),
+            rs.getInt("clientID"),
+            rs.getInt("serviceProviderID"),
+            rs.getInt("serviceID"),
+            rs.getTimestamp("bookingDate"),
+            rs.getTimestamp("preferredTime"),
+            rs.getString("status"),
+            rs.getString("paymentStatus")
+        );
+    }
 
-			stmt.setInt(1, booking.getClientID());
-			stmt.setInt(2, booking.getServiceProviderID());
-			stmt.setInt(3, booking.getServiceID());
+    // Helper method to check for duplicate bookings
+    private boolean isDuplicateBooking(Booking booking) throws SQLException {
+        String query = "SELECT COUNT(*) FROM Booking WHERE clientID = ? AND serviceProviderID = ? AND serviceID = ?";
+        try (Connection con = DatabaseConnection.getInstance().getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
 
-			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
-					return rs.getInt(1) > 0;
-				}
-			}
-		}
-		return false;
-	}
+            stmt.setInt(1, booking.getClientID());
+            stmt.setInt(2, booking.getServiceProviderID());
+            stmt.setInt(3, booking.getServiceID());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
 
 	@Override
 	public List<Booking> getAllByBuyerID(int buyerID) throws SQLException {

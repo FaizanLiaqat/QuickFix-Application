@@ -32,7 +32,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
             }
         }
@@ -58,7 +58,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
                 feedbacks.put(feedback.getFeedbackID(), feedback);
             }
@@ -152,7 +152,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
             }
         } catch (SQLException e) {
@@ -179,7 +179,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
             }
         } catch (SQLException e) {
@@ -208,7 +208,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
                 feedbackList.add(feedback);
             }
@@ -239,7 +239,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
                 feedbackList.add(feedback);
             }
@@ -268,7 +268,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getInt("serviceID"),
                         resultSet.getInt("rating"),
                         resultSet.getString("comments"),
-                        resultSet.getDate("feedbackDate")
+                        resultSet.getTimestamp("feedbackDate")
                     );
             }
         } catch (SQLException e) {
@@ -297,7 +297,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                     resultSet.getInt("serviceID"),
                     resultSet.getInt("rating"),
                     resultSet.getString("comments"),
-                    resultSet.getDate("feedbackDate")
+                    resultSet.getTimestamp("feedbackDate")
                 );
                 feedbackList.add(feedback);
             }
@@ -332,7 +332,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                     resultSet.getInt("serviceID"),
                     resultSet.getInt("rating"),
                     resultSet.getString("comments"),
-                    resultSet.getDate("feedbackDate")
+                    resultSet.getTimestamp("feedbackDate")
                 );
             } else {
                 System.out.println("No feedback found for Service ID: " + serviceID);
@@ -364,7 +364,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                     resultSet.getInt("serviceID"),
                     resultSet.getInt("rating"),
                     resultSet.getString("comments"),
-                    resultSet.getDate("feedbackDate")
+                    resultSet.getTimestamp("feedbackDate")
                 );
                 feedbackList.add(feedback);
             }
