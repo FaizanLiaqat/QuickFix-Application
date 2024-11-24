@@ -7,8 +7,8 @@ public class Booking {
     private int clientID;  // User ID of the client
     private int serviceProviderID;  // User ID of the service provider
     private int serviceID;  // ID of the service booked
-    private Date bookingDate;  // Date when the booking was created
-    private Date preferredTime;  // Preferred time for the service
+    private java.sql.Timestamp bookingDate;  // Date when the booking was created
+    private java.sql.Timestamp preferredTime;  // Preferred time for the service
     private String bookingStatus;  // Status of the booking (Pending, Confirmed, Cancelled, Completed)
     private String paymentStatus;  // Status of payment (Paid, Unpaid)
     private String Sellername;
@@ -16,7 +16,7 @@ public class Booking {
 
     // Constructor
     public Booking(int bookingID, int clientID, int serviceProviderID, int serviceID,
-                   Date bookingDate, Date preferredTime, String status, String paymentStatus ,String Sellername,String Servicename ) {
+    		java.sql.Timestamp bookingDate, java.sql.Timestamp preferredTime, String status, String paymentStatus ,String Sellername,String Servicename ) {
         this.bookingID = bookingID;
         this.clientID = clientID;
         this.serviceProviderID = serviceProviderID;
@@ -35,7 +35,7 @@ public class Booking {
     }
     // Constructor
     public Booking(int bookingID, int clientID, int serviceProviderID, int serviceID,
-                   Date bookingDate, Date preferredTime, String status, String paymentStatus  ) {
+    		java.sql.Timestamp bookingDate, java.sql.Timestamp preferredTime, String status, String paymentStatus  ) {
         this.bookingID = bookingID;
         this.clientID = clientID;
         this.serviceProviderID = serviceProviderID;
@@ -100,19 +100,19 @@ public class Booking {
         this.serviceID = serviceID;
     }
 
-    public Date getBookingDate() {
+    public java.sql.Timestamp getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(Date bookingDate) {
+    public void setBookingDate(java.sql.Timestamp bookingDate) {
         this.bookingDate = bookingDate;
     }
 
-    public Date getPreferredTime() {
+    public java.sql.Timestamp getPreferredTime() {
         return preferredTime;
     }
 
-    public void setPreferredTime(Date preferredTime) {
+    public void setPreferredTime(java.sql.Timestamp preferredTime) {
         this.preferredTime = preferredTime;
     }
 

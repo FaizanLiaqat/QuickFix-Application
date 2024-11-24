@@ -29,6 +29,7 @@ public class PaymentItemController {
 
 	public void setData(Payment payments) {
 	    // Set text for various labels
+		
 		paymentId.setText(String.valueOf(payments.getPaymentID()));
 		sellerName.setText("john");
 		serviceName.setText("Mechanic");

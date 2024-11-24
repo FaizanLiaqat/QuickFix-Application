@@ -16,11 +16,9 @@ public class DisputeDAO implements InterfaceDisputeDAO {
 
 
 
-    /**
-     * Constructor - no need to pass a connection anymore.
-     */
+    
     public DisputeDAO() {
-        // No initialization needed, since DatabaseConnection will handle the connection.
+       
     }
 
     @Override
@@ -69,8 +67,8 @@ public class DisputeDAO implements InterfaceDisputeDAO {
             statement.setString(4, dispute.getDisputeReason());
             statement.setString(5, dispute.getDisputeStatus());
             statement.setString(6, dispute.getResolutionDetails());
-            statement.setDate(7, Date.valueOf(dispute.getCreatedAt().toLocalDate()));
-            statement.setDate(8, dispute.getResolvedAt() != null ? Date.valueOf(dispute.getResolvedAt().toLocalDate()) : null);
+            statement.setTimestamp(7, dispute.getCreatedAt());
+            statement.setTimestamp(8, dispute.getResolvedAt());
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
@@ -93,7 +91,8 @@ public class DisputeDAO implements InterfaceDisputeDAO {
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, dispute.getDisputeStatus());
             statement.setString(2, dispute.getResolutionDetails());
-            statement.setDate(3, dispute.getResolvedAt() != null ? Date.valueOf(dispute.getResolvedAt().toLocalDate()) : null);
+            statement.setTimestamp(3, dispute.getResolvedAt() != null ? dispute.getResolvedAt() : null);
+
             statement.setInt(4, dispute.getDisputeID());
 
             return statement.executeUpdate();
@@ -125,10 +124,8 @@ public class DisputeDAO implements InterfaceDisputeDAO {
         String disputeReason = resultSet.getString("disputeReason");
         String disputeStatus = resultSet.getString("disputeStatus");
         String resolutionDetails = resultSet.getString("resolutionDetails");
-        java.sql.Date createdAt = resultSet.getDate("createdAt");
-        java.sql.Date resolvedAt = resultSet.getTimestamp("resolvedAt") != null
-                ? new java.sql.Date(resultSet.getTimestamp("resolvedAt").getTime())
-                : null;
+        java.sql.Timestamp createdAt = resultSet.getTimestamp("createdAt");
+        java.sql.Timestamp resolvedAt = resultSet.getTimestamp("resolvedAt");
 
         return new Dispute(disputeID, bookingID, buyerID, sellerID, disputeReason, disputeStatus,
                 resolutionDetails, createdAt, resolvedAt);

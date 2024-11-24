@@ -8,10 +8,10 @@ public class CreditCardPayment extends Payment {
     private String cardNumber;
     private String cardType;
     private String cardHolderName;
-    private Date expirationDate;
+    private java.sql.Timestamp expirationDate;
 
     // Constructor
-    public CreditCardPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, Date transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, Date expirationDate) {
+    public CreditCardPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate) {
         super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID);
         this.cardNumber = cardNumber;
         this.cardType = cardType;
@@ -29,8 +29,8 @@ public class CreditCardPayment extends Payment {
     public String getCardHolderName() { return cardHolderName; }
     public void setCardHolderName(String cardHolderName) { this.cardHolderName = cardHolderName; }
 
-    public Date getExpirationDate() { return expirationDate; }
-    public void setExpirationDate(Date expirationDate) { this.expirationDate = expirationDate; }
+    public java.sql.Timestamp getExpirationDate() { return expirationDate; }
+    public void setExpirationDate(java.sql.Timestamp expirationDate) { this.expirationDate = expirationDate; }
 
     @Override
     public void processPayment() {

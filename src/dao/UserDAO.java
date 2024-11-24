@@ -12,15 +12,15 @@ public abstract class UserDAO implements DAO<User> {
 	
 	public int exists(User user) throws SQLException{
 		
-		// Update query to check by email instead of name
-	    String query = "SELECT userID FROM User WHERE email = ? AND password = ?";
+		
+	    String query = "SELECT userID FROM User WHERE email = ? AND password = ? AND role = ?";
 
 	    try (Connection con = DatabaseConnection.getInstance().getConnection();
 	         PreparedStatement stmt = con.prepareStatement(query)) {
 	        
-	        stmt.setString(1, user.getUserEmail()); // Use email instead of name
+	        stmt.setString(1, user.getUserEmail()); // Use email 
 	        stmt.setString(2, user.getUserPassword()); // Use password
-	        
+	        stmt.setString(3, user.getUserType()); // use role
 	        
 	        try (ResultSet rs = stmt.executeQuery()) {
 	            if (rs.next()) {
@@ -29,7 +29,7 @@ public abstract class UserDAO implements DAO<User> {
 	                return rs.getInt("userID");
 	            } else {
 	                // If no user found in the database, show error alert
-	                AlertUtils.showError("Login Failed", "Invalid email or password.");
+	                AlertUtils.showError("Login Failed", "Invalid email or password or role.");
 	                return -1;
 	            }
 	        }

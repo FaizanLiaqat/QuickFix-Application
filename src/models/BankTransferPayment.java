@@ -8,10 +8,10 @@ public class BankTransferPayment extends Payment {
     private String bankAccountNumber;
     private String bankName;
     private String referenceCode;
-    private Date transferDate;
+    private java.sql.Timestamp transferDate;
 
     // Constructor
-    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, Date transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, Date transferDate) {
+    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
         super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID);
         this.bankAccountNumber = bankAccountNumber;
         this.bankName = bankName;
@@ -29,8 +29,8 @@ public class BankTransferPayment extends Payment {
     public String getReferenceCode() { return referenceCode; }
     public void setReferenceCode(String referenceCode) { this.referenceCode = referenceCode; }
 
-    public Date getTransferDate() { return transferDate; }
-    public void setTransferDate(Date transferDate) { this.transferDate = transferDate; }
+    public java.sql.Timestamp getTransferDate() { return transferDate; }
+    public void setTransferDate(java.sql.Timestamp transferDate) { this.transferDate = transferDate; }
 
     @Override
     public void processPayment() {

@@ -15,13 +15,13 @@ public class Dispute {
     private String disputeReason;  // The reason for the dispute
     private String disputeStatus;  // Status of the dispute: Open, Resolved, or Rejected
     private String resolutionDetails; // Details on how the dispute was resolved
-    private java.sql.Date createdAt; // Timestamp of when the dispute was created
-    private java.sql.Date resolvedAt; // Timestamp of when the dispute was resolved (nullable)
+    private java.sql.Timestamp createdAt; // Timestamp of when the dispute was created
+    private java.sql.Timestamp resolvedAt; // Timestamp of when the dispute was resolved (nullable)
 
     
     public Dispute(int disputeID,int bookingID, int buyerID, int sellerID, String disputeReason,
-                   String disputeStatus, String resolutionDetails, java.sql.Date createdAt, 
-                   java.sql.Date resolvedAt) {
+                   String disputeStatus, String resolutionDetails, java.sql.Timestamp createdAt, 
+                   java.sql.Timestamp resolvedAt) {
         
         // Validate inputs
         if (disputeReason == null || disputeReason.trim().isEmpty()) {
@@ -105,19 +105,19 @@ public class Dispute {
         this.resolutionDetails = resolutionDetails;
     }
 
-    public java.sql.Date getCreatedAt() {
+    public java.sql.Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(java.sql.Date createdAt) {
+    public void setCreatedAt(java.sql.Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public java.sql.Date getResolvedAt() {
+    public java.sql.Timestamp getResolvedAt() {
         return resolvedAt;
     }
 
-    public void setResolvedAt(Date resolvedAt) {
+    public void setResolvedAt(java.sql.Timestamp resolvedAt) {
         this.resolvedAt = resolvedAt;
     }
 

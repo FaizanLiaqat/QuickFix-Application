@@ -16,12 +16,12 @@
             <Font name="Cambria Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="ServiceName" layoutX="243.0" layoutY="44.0" prefHeight="18.0" prefWidth="101.0" text="Service">
+      <Label fx:id="serviceName" layoutX="243.0" layoutY="44.0" prefHeight="18.0" prefWidth="101.0" text="Service">
          <font>
             <Font name="Cambria Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="AmountPaid" layoutX="414.0" layoutY="40.0" prefHeight="30.0" prefWidth="150.0" text="Amount: 5000">
+      <Label fx:id="amountPaid" layoutX="414.0" layoutY="40.0" prefHeight="30.0" prefWidth="150.0" text="Amount: 5000">
          <font>
             <Font name="Cambria Bold Italic" size="18.0" />
          </font>
