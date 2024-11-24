@@ -81,6 +81,7 @@ public class paymenthistoryController implements Initializable {
 	private List<Payment> getData(String status , int id) throws SQLException {
 
 		List<Payment> payments = new ArrayList<>();
+
 		
 	
 		
@@ -89,6 +90,8 @@ public class paymenthistoryController implements Initializable {
 		
 		List<Payment> creditCardPayments =pcred.getPaymentByStatus(status, id);
 		payments.addAll(creditCardPayments);
+
+
 
 		// Fetch payments from bank transfer DAO and add them to the payments list
 		List<Payment> bankTransferPayments = pcred2.getPaymentByStatus(status, id);
@@ -109,6 +112,7 @@ public class paymenthistoryController implements Initializable {
 ////		services.add(new Service(2, "Electrician", "Basic electrical repair services", 3.99, 2, 4));
 ////		services.add(new Service(3, "Carpenter", "Carpentry and furniture repair", 1.50, 3, 5));
 	return payments;
+
 	}
 
 	@Override
@@ -158,9 +162,11 @@ public class paymenthistoryController implements Initializable {
 	            PaymentItemController itemController = fxmlLoader.getController();
 	            itemController.setData(payment); // Set data for Pending booking
 
+
 	            if (column1 == 1) {
 	                column1 = 0;
 	                row1++;
+
 	            }
 	            grid1.add(pane, column1++, row1); // Add pane to grid1
 	            GridPane.setMargin(pane, new Insets(10));

@@ -38,6 +38,7 @@ public class PaymentItemController {
 	public void setData(Payment payments) {
 	    // Set text for various labels
 		
+
 		UserDAO sellerdao = new SellerDAO();
 		User seller=null ;
 		BookingDAO bookingdao = new BookingDAO();
@@ -68,6 +69,7 @@ public class PaymentItemController {
 			serviceName.setText(service.getServiceName());
 			amountPaid.setText(payments.getAmount()+ " PKR");
 		}
+
 	    // Image loading logic
 	    
 	}

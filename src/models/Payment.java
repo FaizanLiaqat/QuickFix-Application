@@ -5,6 +5,10 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 
+import strategies.PaymentStrategy;
+
+
+
 public abstract class Payment {
     private int paymentID;
     private int bookingID;
@@ -14,9 +18,11 @@ public abstract class Payment {
     private java.sql.Timestamp transactionDate;
     private int payerID;
     private int receiverID;
-
+    private PaymentStrategy paymentStrategy; // Strategy instance
     // Constructor
-    public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID) {
+
+    public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
+
         this.paymentID = paymentID;
         this.bookingID = bookingID;
         this.amount = amount;
@@ -25,6 +31,7 @@ public abstract class Payment {
         this.transactionDate = transactionDate;
         this.payerID = payerID;
         this.receiverID = receiverID;
+        this.paymentStrategy = paymentStrategy;
     }
 
     // Getters and Setters

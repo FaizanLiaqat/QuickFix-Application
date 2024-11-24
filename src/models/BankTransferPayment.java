@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import strategies.BankTransferPaymentStrategy;
+
 public class BankTransferPayment extends Payment {
     private String bankAccountNumber;
     private String bankName;
@@ -12,7 +14,9 @@ public class BankTransferPayment extends Payment {
 
     // Constructor
     public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
-        super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID);
+
+        super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
+
         this.bankAccountNumber = bankAccountNumber;
         this.bankName = bankName;
         this.referenceCode = referenceCode;

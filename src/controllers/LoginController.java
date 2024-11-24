@@ -72,11 +72,8 @@ public class LoginController {
 
 				int id = userDAO.exists(this.user.getUserObject());
 				if (id != -1) {
-				
 
 					if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
-						System.out.println(this.user.getUserObject() + " Login Successfully");
-
 						// Fetch the user from the database
 						User loggedInUser = userDAO.get(id);
 						if (loggedInUser != null) {
@@ -96,8 +93,10 @@ public class LoginController {
 							Scene scene = new Scene(root, 520, 400);
 							stage.setScene(scene);
 							stage.show();
+						}else {
+							System.out.println("Buyer not found with "+this.user.getUserObject().getUserID());
 						}
-						
+
 					} else {
 						System.out.println(this.user.getUserObject() + " Login Successfully");
 
@@ -121,7 +120,11 @@ public class LoginController {
 							stage.setScene(scene);
 							stage.show();
 						}
+						else {
+							System.out.println("Seller not found with "+this.user.getUserObject().getUserID());
+						}
 					}
+
 				}
 			} catch (SQLException e) {
 				// Handle database connection errors
@@ -130,63 +133,11 @@ public class LoginController {
 
 			}
 
-//	        if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
-//	            this.userDAO = new BuyerDAO();  // Assign BuyerDAO
-//	            if (this.userDAO.exists(this.user.getUserObject())){
-//	                System.out.println(this.user.getUserObject() + " Login Successfully");
-//	                
-//	                // Close the current window (home.fxml)
-//	                Stage currentStage = (Stage) login_button.getScene().getWindow();
-//	                currentStage.close();
-//
-//	                // Load the Buyer dashboard FXML
-//	                Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
-//	                
-//	                // Create a new Stage (window) for Buyer dashboard
-//	                Stage stage = new Stage();
-//	                stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
-//	                stage.setTitle("Buyer Dashboard"); // Set the title of the new window
-//
-//	                // Set the new scene with the loaded FXML and desired size
-//	                Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
-//	                stage.setScene(scene);
-//
-//	                // Show the new window (stage)
-//	                stage.show();
-//	            } else {
-//	                loginMessage.setText("Incorrect credentials.");
-//	            }
-//	        } else if (user.getUserObject().getUserType().equalsIgnoreCase("Seller")) {
-//	        			this.userDAO = new SellerDAO();  // Assign SellerDAO
-//	            if (this.userDAO.exists(this.user.getUserObject())){
-//	                System.out.println(this.user.getUserObject() + " Login Successfully");
-//	                
-//	                // Close the current window (home.fxml)
-//	                Stage currentStage = (Stage) login_button.getScene().getWindow();
-//	                currentStage.close();
-//
-//	                // Load the Seller dashboard FXML
-//	                Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
-//	                
-//	                // Create a new Stage (window) for Seller dashboard
-//	                Stage stage = new Stage();
-//	                stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
-//	                stage.setTitle("Seller Dashboard"); // Set the title of the new window
-//
-//	                // Set the new scene with the loaded FXML and desired size
-//	                Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
-//	                stage.setScene(scene);
-//
-//	                // Show the new window (stage)
-//	                stage.show();
-//	            } else {
-//	                loginMessage.setText("Incorrect credentials.");
-//	            }
-//	        }
 		} catch (IOException e) {
 			e.printStackTrace(); // Handle error if FXML file loading fails
 		}
 	}
+		
 
 	// Event handler for the "Back" button
 	public void backButtonOnAction(ActionEvent event) {
