@@ -71,7 +71,8 @@ public class NotificationController implements Initializable {
 		List<Notification> BookingConfirmation = getData("BookingConfirmation", user.getUserID()); // Load Pending bookings
 		List<Notification> PaymentStatus = getData("PaymentStatus", user.getUserID()); // Load Completed booking
 		List<Notification> FeedbackReceived = getData("FeedbackReceived", user.getUserID()); // Load Pending bookings
-
+		
+		System.out.println(BookingConfirmation.size());
 		int column1 = 0;
 		int row1 = 1;
 
@@ -134,12 +135,12 @@ public class NotificationController implements Initializable {
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 
 						BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
-						/*try {
+						 try{
 							// Call the filterByLocation method and pass the location as an argument
-							bdao.ChangepaymentStatus(booking.getBookingID());
+							bdao.ChangepaymentStatus(notification.getNotificationID());
 						} catch (SQLException e) {
 							e.printStackTrace();
-						}*/
+						}
 						System.out.println("User chose to proceed with payment.");
 					} else {
 						System.out.println("User chose not to proceed with payment.");
