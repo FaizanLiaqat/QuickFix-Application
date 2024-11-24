@@ -20,7 +20,9 @@ public class CreditCardPaymentDAO extends PaymentDAO {
 
     @Override
     public CreditCardPayment get(int id) throws SQLException {
+        // SQL query to fetch data from both Payment and CreditCardPayment tables
         String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID WHERE p.paymentID = ?";
+        
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -29,24 +31,26 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching CreditCardPayment with ID " + id, e);
+            throw new SQLException("Error fetching CreditCardPayment with ID " + id, e);
         }
-        return null;
+        return null; // Return null if no payment found
     }
 
     @Override
     public Map<Integer, Payment> getAll() throws SQLException {
+        // SQL query to fetch all CreditCardPayments
         String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID";
         Map<Integer, Payment> payments = new HashMap<>();
+        
         try (PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                // Polymorphically add CreditCardPayment to the Payment map
+                // Using polymorphism to add CreditCardPayment to the map
                 Payment payment = mapToCreditCardPayment(resultSet);
                 payments.put(payment.getPaymentID(), payment);
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error fetching all CreditCardPayments", e);
+            throw new SQLException("Error fetching all CreditCardPayments", e);
         }
         return payments;
     }
@@ -59,12 +63,14 @@ public class CreditCardPaymentDAO extends PaymentDAO {
 
         CreditCardPayment creditCardPayment = (CreditCardPayment) payment;
 
-        // Check if there is already a payment with the same bookingID
+        // Check if a payment already exists for the same bookingID
         if (isPaymentExists(creditCardPayment.getBookingID())) {
             throw new IllegalArgumentException("A payment already exists for this booking ID.");
         }
 
+        // SQL to insert data into the Payment table
         String sql = "INSERT INTO Payment (bookingID, amount, paymentMethod, paymentStatus) VALUES (?, ?, 'CreditCard', ?)";
+        // SQL to insert data into CreditCardPayment table
         String sqlCreditCard = "INSERT INTO CreditCardPayment (paymentID, cardNumber, cardType, cardHolderName, expirationDate) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement paymentStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -76,10 +82,11 @@ public class CreditCardPaymentDAO extends PaymentDAO {
             paymentStatement.setString(3, creditCardPayment.getPaymentStatus());
             paymentStatement.executeUpdate();
 
+            // Retrieve the generated paymentID
             try (ResultSet keys = paymentStatement.getGeneratedKeys()) {
                 if (keys.next()) {
                     int paymentID = keys.getInt(1);
-                    creditCardPayment.setPaymentID(paymentID);
+                    creditCardPayment.setPaymentID(paymentID);  // Set the generated paymentID to the CreditCardPayment
 
                     // Insert into CreditCardPayment table
                     creditCardStatement.setInt(1, paymentID);
@@ -91,11 +98,10 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error inserting CreditCardPayment", e);
+            throw new SQLException("Error inserting CreditCardPayment", e);
         }
-        return 0;
+        return 0; // Return 0 if insertion fails
     }
-
 
     @Override
     public int update(Payment payment) throws SQLException {
@@ -104,7 +110,10 @@ public class CreditCardPaymentDAO extends PaymentDAO {
         }
 
         CreditCardPayment creditCardPayment = (CreditCardPayment) payment;
+
+        // SQL to update Payment table
         String sql = "UPDATE Payment SET bookingID = ?, amount = ?, paymentStatus = ? WHERE paymentID = ?";
+        // SQL to update CreditCardPayment table
         String sqlCreditCard = "UPDATE CreditCardPayment SET cardNumber = ?, cardType = ?, cardHolderName = ?, expirationDate = ? WHERE paymentID = ?";
 
         try (PreparedStatement paymentStatement = connection.prepareStatement(sql);
@@ -125,36 +134,47 @@ public class CreditCardPaymentDAO extends PaymentDAO {
             creditCardStatement.setInt(5, creditCardPayment.getPaymentID());
             return creditCardStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Error updating CreditCardPayment", e);
+            throw new SQLException("Error updating CreditCardPayment", e);
         }
     }
 
+    // Helper method to map the result set to a CreditCardPayment object
     private CreditCardPayment mapToCreditCardPayment(ResultSet resultSet) throws SQLException {
+        // Extracting the fields from the Payment table (parent class)
         int paymentID = resultSet.getInt("paymentID");
         int bookingID = resultSet.getInt("bookingID");
-        BigDecimal amount = resultSet.getBigDecimal("amount"); // Convert amount to BigDecimal
-        String paymentMethod = resultSet.getString("paymentMethod"); // Assuming this is stored in the database
+        BigDecimal amount = resultSet.getBigDecimal("amount"); // Amount is stored in the Payment table
+        String paymentMethod = resultSet.getString("paymentMethod");
         String paymentStatus = resultSet.getString("paymentStatus");
-        
-        int paymentID2 = resultSet.getInt("paymentID"); // If `paymentID2` is meant to be a duplicate of `paymentID`
+        int payerID = resultSet.getInt("payerID");
+        int receiverID = resultSet.getInt("receiverID");
+        Date transactionDate = resultSet.getDate("transactionDate");
+
+        // Extracting the fields from the CreditCardPayment table (child class)
         String cardNumber = resultSet.getString("cardNumber");
         String cardType = resultSet.getString("cardType");
         String cardHolderName = resultSet.getString("cardHolderName");
         Date expirationDate = resultSet.getDate("expirationDate");
 
+        // Map Payment table values along with CreditCardPayment-specific values to the CreditCardPayment object
         return new CreditCardPayment(
-            paymentID,
-            bookingID,
-            amount,
-            paymentMethod,
-            paymentStatus,
-            paymentID2,
-            cardNumber,
-            cardType,
-            cardHolderName,
-            expirationDate
+            paymentID, // paymentID from the Payment table
+            bookingID, // bookingID
+            amount, // amount
+            paymentMethod, // paymentMethod
+            paymentStatus, // paymentStatus
+            transactionDate, // transactionDate
+            payerID, // payerID
+            receiverID, // receiverID
+            cardNumber, // cardNumber from CreditCardPayment table
+            cardType, // cardType
+            cardHolderName, // cardHolderName
+            expirationDate // expirationDate
         );
     }
+
+
+    // Check if a payment already exists for the given bookingID
     private boolean isPaymentExists(int bookingID) throws SQLException {
         String sql = "SELECT COUNT(*) FROM Payment WHERE bookingID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -170,4 +190,61 @@ public class CreditCardPaymentDAO extends PaymentDAO {
         }
         return false; // No existing payment found for the bookingID
     }
+    public Map<Integer, Payment> getPaymentsByBookingID(int bookingID) throws SQLException {
+        String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID WHERE p.bookingID = ?";
+        Map<Integer, Payment> payments = new HashMap<>();
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, bookingID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Using polymorphism to add CreditCardPayment to the map
+                    Payment payment = mapToCreditCardPayment(resultSet);
+                    payments.put(payment.getPaymentID(), payment);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching CreditCardPayments by bookingID " + bookingID, e);
+        }
+        return payments;
+    }
+
+    public Map<Integer, Payment> getPaymentsBySenderID(int payerID) throws SQLException {
+        String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID WHERE p.payerID = ?";
+        Map<Integer, Payment> payments = new HashMap<>();
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, payerID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Using polymorphism to add CreditCardPayment to the map
+                    Payment payment = mapToCreditCardPayment(resultSet);
+                    payments.put(payment.getPaymentID(), payment);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching CreditCardPayments by payerID " + payerID, e);
+        }
+        return payments;
+    }
+
+    public Map<Integer, Payment> getPaymentsByReceiverID(int receiverID) throws SQLException {
+        String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID WHERE p.receiverID = ?";
+        Map<Integer, Payment> payments = new HashMap<>();
+        
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, receiverID);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Using polymorphism to add CreditCardPayment to the map
+                    Payment payment = mapToCreditCardPayment(resultSet);
+                    payments.put(payment.getPaymentID(), payment);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching CreditCardPayments by receiverID " + receiverID, e);
+        }
+        return payments;
+    }
+
 }
