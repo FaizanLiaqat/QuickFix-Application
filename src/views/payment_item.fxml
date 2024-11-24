@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="89.0" prefWidth="600.0" style="-fx-background-color: #D3D3D3;" styleClass="fruit-item" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.PaymentItemController">
+   <children>
+      <Label fx:id="paymentId" layoutX="26.0" layoutY="1.0" prefHeight="50.0" prefWidth="135.0" text="Payment ID">
+         <font>
+            <Font name="Cambria Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="sellerName" layoutX="71.0" layoutY="36.0" prefHeight="37.0" prefWidth="112.0" text="Seller Name">
+         <font>
+            <Font name="Cambria Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="ServiceName" layoutX="243.0" layoutY="44.0" prefHeight="18.0" prefWidth="101.0" text="Service">
+         <font>
+            <Font name="Cambria Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="AmountPaid" layoutX="414.0" layoutY="40.0" prefHeight="30.0" prefWidth="150.0" text="Amount: 5000">
+         <font>
+            <Font name="Cambria Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      
+   </children>
+</Pane>
