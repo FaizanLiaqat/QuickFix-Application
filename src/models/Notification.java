@@ -23,39 +23,38 @@ public class Notification {
         this.recipientRole = recipientRole;
     }
 
-    // Getters and Setters
-    public int getNotificationID() {
-        return notificationID;
-    }
+	// Getters and Setters
+	public int getNotificationID() {
+		return notificationID;
+	}
 
-    public void setNotificationID(int notificationID) {
-        this.notificationID = notificationID;
-    }
+	public void setNotificationID(int notificationID) {
+		this.notificationID = notificationID;
+	}
 
-    public int getRecipientID() {
-        return recipientID;
-    }
+	public int getRecipientID() {
+		return recipientID;
+	}
 
-    public void setRecipientID(int recipientID) {
-        this.recipientID = recipientID;
-    }
+	public void setRecipientID(int recipientID) {
+		this.recipientID = recipientID;
+	}
 
-    public String getNotificationMessage() {
-        return notificationMessage;
-    }
+	public String getNotificationMessage() {
+		return notificationMessage;
+	}
 
-    public void setNotificationMessage(String notificationMessage) {
-        this.notificationMessage = notificationMessage;
-    }
+	public void setNotificationMessage(String notificationMessage) {
+		this.notificationMessage = notificationMessage;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public String getStatus() {
+		return status;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+	public void setStatus(String status) {
+		this.status = status;
+	}
     public java.sql.Timestamp getTimestamp() {
         return timestamp;
     }
@@ -64,19 +63,19 @@ public class Notification {
         this.timestamp = timestamp;
     }
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public String getRecipientRole() {
-        return recipientRole;
-    }
+	public String getRecipientRole() {
+		return recipientRole;
+	}
 
-    public void setRecipientRole(String recipientRole) {
-        this.recipientRole = recipientRole;
-    }
+	public void setRecipientRole(String recipientRole) {
+		this.recipientRole = recipientRole;
+	}
 }

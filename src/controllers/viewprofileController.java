@@ -55,6 +55,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -78,7 +79,7 @@ public class viewprofileController implements Initializable {
 	
 	
 	@FXML
-	private AnchorPane contentArea;
+	private Pane contentArea;
 	
 	private String callerType; // Field to track the caller
 	  
