@@ -7,13 +7,13 @@ public class Notification {
     private int recipientID;  // User ID of the recipient (buyer or seller)
     private String notificationMessage;  // The notification message
     private String status;  // Status (Unread, Read)
-    private java.sql.Date timestamp;  // The timestamp when the notification is created
+    private java.sql.Timestamp timestamp;  // The timestamp when the notification is created
     private String type;  // Type (BookingConfirmation, PaymentStatus, FeedbackReceived)
     private String recipientRole;  // Role of the recipient (Buyer or Seller)
     
     // Constructor
     public Notification(int notificationID, int recipientID, String notificationMessage, 
-    		java.sql.Date timestamp, String status, String type, String recipientRole) {
+    		java.sql.Timestamp timestamp, String status, String type, String recipientRole) {
         this.notificationID = notificationID;
         this.recipientID = recipientID;
         this.notificationMessage = notificationMessage;
@@ -56,11 +56,11 @@ public class Notification {
         this.status = status;
     }
 
-    public Date getTimestamp() {
+    public java.sql.Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(java.sql.Date timestamp) {
+    public void setTimestamp(java.sql.Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

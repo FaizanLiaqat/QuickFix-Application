@@ -61,9 +61,8 @@ public class NotificationDAO implements InterfaceNotificationDAO {
             stmt.setInt(1, notification.getRecipientID());
             stmt.setString(2, notification.getNotificationMessage());
             stmt.setString(3, notification.getStatus());
-            Timestamp sqlTimestamp = (notification.getTimestamp() != null) 
-                    ? new Timestamp(notification.getTimestamp().getTime()) 
-                    : null;
+            Timestamp sqlTimestamp = notification.getTimestamp();
+
                 stmt.setTimestamp(4, sqlTimestamp); // Use the converted Timestamp
             stmt.setString(5, notification.getType());
             stmt.setString(6, notification.getRecipientRole());
@@ -134,7 +133,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
                 rs.getInt("notificationID"),
                 rs.getInt("recipientID"),
                 rs.getString("message"),
-                rs.getDate("timestamp"),
+                rs.getTimestamp("timestamp"),
                 rs.getString("status"),
                 rs.getString("type"),
                 rs.getString("recipientRole")
