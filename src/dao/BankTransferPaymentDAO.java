@@ -142,7 +142,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         BigDecimal amount = resultSet.getBigDecimal("amount"); // Amount from Payment table
         String paymentMethod = resultSet.getString("paymentMethod"); // Payment method from Payment table
         String paymentStatus = resultSet.getString("paymentStatus");
-        Date transactionDate = resultSet.getDate("transactionDate"); // Transaction date from Payment table
+        java.sql.Timestamp transactionDate = resultSet.getTimestamp("transactionDate"); // Transaction date from Payment table
         int payerID = resultSet.getInt("payerID"); // Extracting payerID from Payment table
         int receiverID = resultSet.getInt("receiverID"); // Extracting receiverID from Payment table
 
@@ -150,7 +150,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         String bankAccountNumber = resultSet.getString("bankAccountNumber");
         String bankName = resultSet.getString("bankName");
         String referenceCode = resultSet.getString("referenceCode");
-        Date transferDate = resultSet.getDate("transferDate"); // Transfer date from BankTransferPayment table
+        java.sql.Timestamp transferDate = resultSet.getTimestamp("transferDate"); // Transfer date from BankTransferPayment table
 
         // Return new BankTransferPayment object, passing the extracted fields
         return new BankTransferPayment(

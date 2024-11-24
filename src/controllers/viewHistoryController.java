@@ -106,7 +106,7 @@ public class viewHistoryController implements Initializable {
 	    List<Booking> pendingBookings = getData("Pending" , user.getUserID()); // Load Pending bookings
 	    List<Booking> completedBookings = getData("Completed" , user.getUserID()); // Load Completed booking
 	    List<Booking> canceledBookings = getData("Canceled" , user.getUserID()); // Load Pending bookings
-	    List<Booking> confirmedBookings = getData("COnfirmed" , user.getUserID()); // Load Completed bookings
+	    List<Booking> confirmedBookings = getData("Confirmed" , user.getUserID()); // Load Completed bookings
 	    
 
 	    int column1 = 0;
@@ -150,23 +150,7 @@ public class viewHistoryController implements Initializable {
 	            GridPane.setMargin(pane, new Insets(10));
 	        }
 	        
-	        for (Booking booking : canceledBookings) {
-	            FXMLLoader fxmlLoader = new FXMLLoader();
-	            fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
-	            Pane pane = fxmlLoader.load();
-
-	            ItemController itemController = fxmlLoader.getController();
-	            itemController.setData(booking); // Set data for Pending booking
-
-	            if (column1 == 1) {
-	                column1 = 0;
-	                row1++;
-	            }
-	            grid3.add(pane, column1++, row1); // Add pane to grid1
-	            GridPane.setMargin(pane, new Insets(10));
-	        }
-
-	        // Loop for Completed bookings and populate grid2
+	        // Loop for Confirmed bookings and populate grid2
 	        for (Booking booking : confirmedBookings) {
 	            FXMLLoader fxmlLoader = new FXMLLoader();
 	            fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
@@ -179,15 +163,34 @@ public class viewHistoryController implements Initializable {
 	                column2 = 0;
 	                row2++;
 	            }
-	            grid4.add(pane, column2++, row2); // Add pane to grid2
+	            grid3.add(pane, column2++, row2); // Add pane to grid2
+	            GridPane.setMargin(pane, new Insets(10));
+	        }
+	        
+	        // loop for canceledBookings
+	        for (Booking booking : canceledBookings) {
+	            FXMLLoader fxmlLoader = new FXMLLoader();
+	            fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
+	            Pane pane = fxmlLoader.load();
+
+	            ItemController itemController = fxmlLoader.getController();
+	            itemController.setData(booking); // Set data for Pending booking
+
+	            if (column1 == 1) {
+	                column1 = 0;
+	                row1++;
+	            }
+	            grid4.add(pane, column1++, row1); // Add pane to grid1
 	            GridPane.setMargin(pane, new Insets(10));
 	        }
 
+	        
+
 	        // Set grid dimensions
-	        setGridDimensions(grid1);
-	        setGridDimensions(grid2);
-	        setGridDimensions(grid3);
-	        setGridDimensions(grid4);
+	        setGridDimensions(grid1); // in progress
+	        setGridDimensions(grid2); // completed
+	        setGridDimensions(grid3); // confirmed
+	        setGridDimensions(grid4); // canceled 
 
 
 	    } catch (IOException e) {
