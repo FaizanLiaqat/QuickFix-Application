@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import models.Booking;
+import models.Notification;
 import models.Service;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
@@ -113,6 +114,28 @@ public class ItemController {
 	        }
 	    }
 	}
+	
+	
+	public void setData(Notification notification) {
+	    // Set text for various labels
+	    nameLabel.setText(notification.getRecipientRole());
+	    DescriptionLabel.setText(notification.getNotificationMessage());
 
+	    // Define date and time formatters
+	    SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy"); // Customize as needed
+	    SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm"); // Customize as needed
+
+	    // Convert booking date to a formatted string
+	    String formattedDate = dateFormatter.format(notification.get);
+	    Ratinglabel.setText(formattedDate); // Set formatted date to the label
+
+	    // Convert preferred time to a formatted string
+	    String formattedTime = timeFormatter.format(notification.getPreferredTime());
+	    PriceLabel.setText(formattedTime); // Set formatted time to the label
+
+	    SellernameLabel.setText(notification.getPaymentStatus());
+
+	    img.setImage(null); // Set the image to null, effectively hiding it
+	}
 
 }

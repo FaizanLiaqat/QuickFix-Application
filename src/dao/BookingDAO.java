@@ -17,7 +17,6 @@ import java.sql.*;
 
 public class BookingDAO implements InterfaceBookingDAO {
 
-	private NotificationDAO notificationDAO = new NotificationDAO();
 
 	// Get a specific booking by its ID
 	@Override
