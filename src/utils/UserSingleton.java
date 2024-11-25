@@ -1,5 +1,6 @@
 package utils;
 
+import models.Admin;
 import models.Buyer;
 import models.Seller;
 import models.User;
@@ -20,7 +21,7 @@ public class UserSingleton {
 		}else if (userType.equalsIgnoreCase("Seller")) {
 			this.user = new Seller();
 		}else if(userType.equalsIgnoreCase("Admin")){
-			
+			this.user = new Admin();
 		}
 	}
 	public User getUserObject() {

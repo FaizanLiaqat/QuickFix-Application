@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import models.Booking;
+import models.Dispute;
 import models.Notification;
 import models.Service;
 import models.User;
@@ -22,6 +23,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 import dao.BookingDAO;
+
 import javafx.scene.control.ButtonType;
 
 public class ItemController {
@@ -241,4 +243,5 @@ public class ItemController {
 		img.setImage(null); // Hide image
 	}
 
+	
 }
