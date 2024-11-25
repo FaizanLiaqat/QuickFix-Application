@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+
 import strategies.PaymentStrategy;
+
 
 
 public abstract class Payment {
@@ -18,7 +20,9 @@ public abstract class Payment {
     private int receiverID;
     private PaymentStrategy paymentStrategy; // Strategy instance
     // Constructor
+
     public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
+
         this.paymentID = paymentID;
         this.bookingID = bookingID;
         this.amount = amount;

@@ -14,7 +14,9 @@ public class BankTransferPayment extends Payment {
 
     // Constructor
     public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+
         super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
+
         this.bankAccountNumber = bankAccountNumber;
         this.bankName = bankName;
         this.referenceCode = referenceCode;
@@ -51,5 +53,3 @@ public class BankTransferPayment extends Payment {
         // Add bank transfer validation and logic here
     }
 }
-
-

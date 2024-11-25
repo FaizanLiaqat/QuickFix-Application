@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import models.Payment;
@@ -42,4 +43,8 @@ public abstract class PaymentDAO implements DAO<Payment> {
             return statement.executeUpdate();
         }
     }
+    
+    
+    public abstract List<Payment> getPaymentByStatus(String status, int userId) ;
+    
 }
