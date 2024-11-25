@@ -15,7 +15,6 @@ public class BankTransferPaymentStrategy implements PaymentStrategy {
 			// Logic for processing bank transfer payment
 			System.out.println("Processing Bank Transfer Payment for amount: " + bankPayment.getAmount() + " via bank: "
 					+ bankPayment.getBankName());
-			bankPayment.setPaymentStatus("Completed");
 
 			// AlertUtils for feedback
 			String message = "Bank Transfer Payment Successful!\n" + "Amount: " + bankPayment.getAmount() + "\n"
@@ -24,7 +23,6 @@ public class BankTransferPaymentStrategy implements PaymentStrategy {
 					+ "\n" + "Transfer Date: " + bankPayment.getTransferDate();
 			AlertUtils.showSuccess(message);
 
-			payment.setPaymentStatus("Completed");
 			dao.PaymentDAO paymentdao = new dao.BankTransferPaymentDAO();
 			try {
 				paymentdao.update(payment);

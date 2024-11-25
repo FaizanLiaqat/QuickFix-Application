@@ -58,7 +58,7 @@ public class ItemController {
 	private Service currentService;
 
 	private int bookingId;
-	
+
 	private int clientid;
 
 	public void setData(Service services, User user) {
@@ -106,9 +106,7 @@ public class ItemController {
 
 	public void BookMe() {
 
-		if ("Book Me!".equals(MessageButton.getText()))
-
-		{
+		if ("Book Me!".equals(MessageButton.getText())) {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Booking Confirmation");
 			alert.setHeaderText(null);
@@ -139,20 +137,15 @@ public class ItemController {
 			try {
 
 				// Close the current window (home.fxml)
-				
 
 				// Load the Access.fxml file
-				 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/review_pay.fxml"));
-			        Parent root = loader.load();	
-			        
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/review_pay.fxml"));
+				Parent root = loader.load();
 
+				// Get the controller for the register window
+				ReviewPayController reviewpaycontroller = loader.getController();
 
-		        
-		        
-		        // Get the controller for the register window
-		        ReviewPayController reviewpaycontroller = loader.getController();
-		        
-		        reviewpaycontroller.setBookingId(this.bookingId);
+				reviewpaycontroller.setBookingId(this.bookingId);
 
 				// Create a new Stage (window) for Access.fxml
 				Stage stage = new Stage();
@@ -283,5 +276,4 @@ public class ItemController {
 		img.setImage(null); // Hide image
 	}
 
-	
 }

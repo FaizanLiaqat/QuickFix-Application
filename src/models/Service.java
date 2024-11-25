@@ -28,15 +28,7 @@ public class Service {
         
     }
     
-    public Service( String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating , String sellerName) {
-        this.serviceName = serviceName;
-        this.sellerName = sellerName;
-        this.serviceDescription = serviceDescription;
-        this.servicePrice = servicePrice;
-        this.serviceProviderID = serviceProviderID;
-        this.serviceRating = serviceRating;
-        
-    }
+    
     
     // Constructor
     public Service(int serviceID, String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating) {

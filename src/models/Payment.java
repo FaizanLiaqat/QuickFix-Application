@@ -37,7 +37,6 @@ public abstract class Payment {
         this.bookingID = bookingID;
         this.amount = amount;
         this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
         this.transactionDate = transactionDate;
         this.payerID = payerID;
         this.receiverID = receiverID;
