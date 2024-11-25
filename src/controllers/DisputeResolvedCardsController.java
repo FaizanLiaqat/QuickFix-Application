@@ -12,19 +12,25 @@ import models.User;
 
 public class DisputeResolvedCardsController {
 	private static final boolean True = false;
-	@FXML private Label buyerName;
-	@FXML private Label serviceName;
-	@FXML private Label SellernameLabel;
-	@FXML private Label DescriptionLabel;
-	@FXML private Button disputedAction;
+	@FXML
+	private Label buyerName;
+	@FXML
+	private Label serviceName;
+	@FXML
+	private Label SellernameLabel;
+	@FXML
+	private Label DescriptionLabel;
+	@FXML
+	private Button disputedAction;
 	private int disputeID;
+
 	public void setData(Dispute dispute) {
 		this.disputeID = dispute.getDisputeID();
 		dao.UserDAO buyerDao = new dao.BuyerDAO(); // get buyer name
 		dao.BookingDAO bookingDao = new dao.BookingDAO(); // get serivce id
 		dao.ServiceDAO serviceDao = new dao.ServiceDAO(); // get service name
 		dao.SellerDAO sellerDao = new dao.SellerDAO();
-		
+
 		User buyer = null;
 		User seller = null;
 		Booking booking = null;
@@ -53,17 +59,21 @@ public class DisputeResolvedCardsController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (buyer != null && service != null) {
+
+		if (buyer != null) {
 			// Setting text for various labels
 			buyerName.setText(buyer.getUserName()); // Sets recipient role
-			serviceName.setText(service.getServiceName());
-			SellernameLabel.setText(seller.getUserName());
-			DescriptionLabel.setText(dispute.getDisputeReason()); // Sets notification message
-			disputedAction.setText(dispute.getDisputeStatus());
-			disputedAction.setDisable(True);
 		}
-		
+		if (service != null) {
+
+			serviceName.setText(service.getServiceName());
+		}
+		if (seller != null) {
+			SellernameLabel.setText(seller.getUserName());
+		}
+		DescriptionLabel.setText(dispute.getDisputeReason()); // Sets notification message
+		disputedAction.setText(dispute.getDisputeStatus());
+
+		disputedAction.setDisable(true);
 	}
 }
-
-
