@@ -18,13 +18,20 @@ import models.User;
 import utils.AlertUtils;
 
 public class DisputeUnResolvedCardController {
-	@FXML private Label buyerName;
-	@FXML private Label serviceName;
-	@FXML private Label SellernameLabel;
-	@FXML private Label DescriptionLabel;
-	@FXML private Button disputeResolve;
-	@FXML private Button disputeReject;
+	@FXML
+	private Label buyerName;
+	@FXML
+	private Label serviceName;
+	@FXML
+	private Label SellernameLabel;
+	@FXML
+	private Label DescriptionLabel;
+	@FXML
+	private Button disputeResolve;
+	@FXML
+	private Button disputeReject;
 	private int disputeID;
+
 	public void setData(Dispute dispute) {
 		this.disputeID = dispute.getDisputeID();
 		dao.UserDAO buyerDao = new dao.BuyerDAO(); // get buyer name
@@ -35,7 +42,7 @@ public class DisputeUnResolvedCardController {
 		User seller = null;
 		Booking booking = null;
 		Service service = null;
-		
+
 		try {
 			buyer = buyerDao.get(dispute.getBuyerID());
 		} catch (SQLException e) {
@@ -59,26 +66,33 @@ public class DisputeUnResolvedCardController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if (buyer != null && service != null && seller != null) {
+		if (buyer != null) {
 			// Setting text for various labels
 			buyerName.setText(buyer.getUserName()); // Sets recipient role
-			serviceName.setText(service.getServiceName());
-			SellernameLabel.setText(seller.getUserName());
-			DescriptionLabel.setText(dispute.getDisputeReason()); // Sets notification message
 		}
-		
+		if (service != null) {
+
+			serviceName.setText(service.getServiceName());
+		}
+		if (seller != null) {
+			SellernameLabel.setText(seller.getUserName());
+		}
+		DescriptionLabel.setText(dispute.getDisputeReason()); // Sets notification message
+
 	}
+
 	public void disputeResolveAction() {
-		//Resolved
+		// Resolved
 		dao.DisputeDAO disputeDao = new dao.DisputeDAO();
 		Dispute dispute = disputeDao.get(this.disputeID);
 		dispute.setDisputeStatus("Resolved");
 		disputeDao.update(dispute);
 		utils.AlertUtils.showSuccess("Dispute Resolved Successfully!");
-		
+
 	}
+
 	public void disptueRejectAction() {
-		//Resolved
+		// Resolved
 		dao.DisputeDAO disputeDao = new dao.DisputeDAO();
 		Dispute dispute = disputeDao.get(this.disputeID);
 		dispute.setDisputeStatus("Rejected");
