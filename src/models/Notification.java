@@ -22,7 +22,15 @@ public class Notification {
         this.type = type;
         this.recipientRole = recipientRole;
     }
-
+    public Notification(int recipientID, String notificationMessage, 
+    		java.sql.Timestamp timestamp, String status, String type, String recipientRole) {
+        this.recipientID = recipientID;
+        this.notificationMessage = notificationMessage;
+        this.timestamp = timestamp;
+        this.status = status;
+        this.type = type;
+        this.recipientRole = recipientRole;
+    }
 	// Getters and Setters
 	public int getNotificationID() {
 		return notificationID;

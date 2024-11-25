@@ -14,7 +14,7 @@ public class CreditCardPaymentStrategy implements PaymentStrategy {
             // Logic for processing credit card payment
             System.out.println("Processing Credit Card Payment for amount: " + ccPayment.getAmount() +
                     " using card: " + ccPayment.getCardType());
-            ccPayment.setPaymentStatus("Completed");
+            //ccPayment.setPaymentStatus("Completed");
 
             // AlertUtils for feedback
             String message = "Credit Card Payment Successful!\n" +
@@ -24,7 +24,7 @@ public class CreditCardPaymentStrategy implements PaymentStrategy {
                     "Expiration Date: " + ccPayment.getExpirationDate();
             AlertUtils.showSuccess(message);
             
-            payment.setPaymentStatus("Completed");
+            //payment.setPaymentStatus("Completed");
             dao.PaymentDAO paymentdao = new dao.CreditCardPaymentDAO();
             try {
 				paymentdao.update(payment);

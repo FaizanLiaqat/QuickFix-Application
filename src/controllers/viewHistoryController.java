@@ -72,11 +72,14 @@ public class viewHistoryController implements Initializable {
 	private List<Booking> bookings = new ArrayList<>();
 
 	private User user; // Declare a user object to store the current user
+	
+	private int id_pass;
 
 	// Method to set the caller type
 	public void setCallerType(String callerType) {
 		this.callerType = callerType;
 	}
+	
 
 	private List<Booking> getData(String status, int id) {
 
