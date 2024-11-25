@@ -22,8 +22,9 @@ public class Notification {
         this.type = type;
         this.recipientRole = recipientRole;
     }
- // Constructor
-    public Notification( int recipientID, String notificationMessage, 
+
+    public Notification(int recipientID, String notificationMessage, 
+
     		java.sql.Timestamp timestamp, String status, String type, String recipientRole) {
         this.recipientID = recipientID;
         this.notificationMessage = notificationMessage;

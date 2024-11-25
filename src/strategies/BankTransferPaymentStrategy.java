@@ -9,6 +9,7 @@ import utils.AlertUtils;
 public class BankTransferPaymentStrategy implements PaymentStrategy {
 	@Override
 	public void processPayment(Payment payment) {
+
 		if (payment instanceof BankTransferPayment) {
 			BankTransferPayment bankPayment = (BankTransferPayment) payment;
 			// Logic for processing bank transfer payment

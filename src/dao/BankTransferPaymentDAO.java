@@ -72,7 +72,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         }
 
         // SQL to insert into Payment table
-        String sql = "INSERT INTO Payment (bookingID, amount, paymentMethod, paymentStatus) VALUES (?, ?, 'BankTransfer', ?)";
+        String sql = "INSERT INTO Payment (bookingID, amount, paymentMethod) VALUES (?, ?, 'BankTransfer')";
         // SQL to insert into BankTransferPayment table
         String sqlBankTransfer = "INSERT INTO BankTransferPayment (paymentID, bankAccountNumber, bankName, referenceCode, transferDate) VALUES (?, ?, ?, ?, ?)";
 
@@ -82,7 +82,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             // Insert into Payment table
             paymentStatement.setInt(1, bankTransferPayment.getBookingID());
             paymentStatement.setBigDecimal(2, bankTransferPayment.getAmount());
-            paymentStatement.setString(3, bankTransferPayment.getPaymentStatus());
+            //paymentStatement.setString(3, bankTransferPayment.getPaymentStatus());
             paymentStatement.executeUpdate();
 
             // Retrieve the generated paymentID
@@ -113,7 +113,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         }
 
         BankTransferPayment bankTransferPayment = (BankTransferPayment) payment;
-        String sql = "UPDATE Payment SET bookingID = ?, amount = ?, paymentStatus = ? WHERE paymentID = ?";
+        String sql = "UPDATE Payment SET bookingID = ?, amount = ?WHERE paymentID = ?";
         String sqlBankTransfer = "UPDATE BankTransferPayment SET bankAccountNumber = ?, bankName = ?, referenceCode = ?, transferDate = ? WHERE paymentID = ?";
 
         try (PreparedStatement paymentStatement = connection.prepareStatement(sql);
@@ -122,8 +122,8 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             // Update Payment table
             paymentStatement.setInt(1, bankTransferPayment.getBookingID());
             paymentStatement.setBigDecimal(2, bankTransferPayment.getAmount());
-            paymentStatement.setString(3, bankTransferPayment.getPaymentStatus());
-            paymentStatement.setInt(4, bankTransferPayment.getPaymentID());
+            //paymentStatement.setString(3, bankTransferPayment.getPaymentStatus());
+            paymentStatement.setInt(3, bankTransferPayment.getPaymentID());
             paymentStatement.executeUpdate();
 
             // Update BankTransferPayment table
@@ -145,7 +145,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         int bookingID = resultSet.getInt("bookingID");
         BigDecimal amount = resultSet.getBigDecimal("amount"); // Amount from Payment table
         String paymentMethod = resultSet.getString("paymentMethod"); // Payment method from Payment table
-        String paymentStatus = resultSet.getString("paymentStatus");
+        //String paymentStatus = resultSet.getString("paymentStatus");
         java.sql.Timestamp transactionDate = resultSet.getTimestamp("transactionDate"); // Transaction date from Payment table
         int payerID = resultSet.getInt("payerID"); // Extracting payerID from Payment table
         int receiverID = resultSet.getInt("receiverID"); // Extracting receiverID from Payment table
@@ -162,7 +162,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             bookingID,
             amount,
             paymentMethod,
-            paymentStatus,
+           // paymentStatus,
             transactionDate, // Transaction date from Payment table
             payerID, // payerID from Payment table
             receiverID, // receiverID from Payment table
@@ -245,50 +245,50 @@ public class BankTransferPaymentDAO extends PaymentDAO {
         return payments;
     }
     
-    public List<Payment> getPaymentByStatus(String status, int userId) {
-    	List<Payment> payments = new ArrayList<>();
-
-        // SQL query to fetch credit card payments based on status and user ID
-        String sql = "SELECT p.*, c.bankAccountNumber, c.bankName, c.referenceCode, c.transferDate " +
-                     "FROM payment p " +
-                     "JOIN banktransferpayment c ON p.paymentID = c.paymentID " +
-                     "WHERE p.paymentStatus = ? AND (p.payerID = ? )";
-
-        try (Connection connection = DatabaseConnection.getInstance().getConnection();
-   	         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-            // Set parameters for the query
-            preparedStatement.setString(1, status);
-            preparedStatement.setInt(2, userId);
-           
-            // Execute the query
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            //    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
-
-            // Process the result set
-            while (resultSet.next()) {
-                Payment payment = new BankTransferPayment(
-                        resultSet.getInt("paymentID"),                        // paymentID
-                        resultSet.getInt("bookingID"),                        // bookingID
-                        resultSet.getBigDecimal("amount"),                    // amount
-                        resultSet.getString("paymentMethod"),                 // paymentMethod
-                        resultSet.getString("paymentStatus"),                 // paymentStatus
-                        resultSet.getTimestamp("transactionDate"),            // transactionDate (as Timestamp)
-                        resultSet.getInt("payerID"),                          // payerID
-                        resultSet.getInt("receiverID"),                       // receiverID
-                        resultSet.getString("bankAccountNumber"),                    // cardNumber
-                        resultSet.getString("bankName"),                      // cardType
-                        resultSet.getString("referenceCode"),                // cardHolderName
-                        resultSet.getTimestamp("transferDate")              // expirationDate (as Timestamp)
-                    );                // Add payment to the list
-                payments.add(payment);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return payments;
-    }
+//    public List<Payment> getPaymentByStatus(String status, int userId) {
+//    	List<Payment> payments = new ArrayList<>();
+//
+//        // SQL query to fetch credit card payments based on status and user ID
+//        String sql = "SELECT p.*, c.bankAccountNumber, c.bankName, c.referenceCode, c.transferDate " +
+//                     "FROM payment p " +
+//                     "JOIN banktransferpayment c ON p.paymentID = c.paymentID " +
+//                     "WHERE p.paymentStatus = ? AND (p.payerID = ? )";
+//
+//        try (Connection connection = DatabaseConnection.getInstance().getConnection();
+//   	         PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+//
+//            // Set parameters for the query
+//            preparedStatement.setString(1, status);
+//            preparedStatement.setInt(2, userId);
+//           
+//            // Execute the query
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//
+//            //    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+//
+//            // Process the result set
+//            while (resultSet.next()) {
+//                Payment payment = new BankTransferPayment(
+//                        resultSet.getInt("paymentID"),                        // paymentID
+//                        resultSet.getInt("bookingID"),                        // bookingID
+//                        resultSet.getBigDecimal("amount"),                    // amount
+//                        resultSet.getString("paymentMethod"),                 // paymentMethod
+//                        resultSet.getString("paymentStatus"),                 // paymentStatus
+//                        resultSet.getTimestamp("transactionDate"),            // transactionDate (as Timestamp)
+//                        resultSet.getInt("payerID"),                          // payerID
+//                        resultSet.getInt("receiverID"),                       // receiverID
+//                        resultSet.getString("bankAccountNumber"),                    // cardNumber
+//                        resultSet.getString("bankName"),                      // cardType
+//                        resultSet.getString("referenceCode"),                // cardHolderName
+//                        resultSet.getTimestamp("transferDate")              // expirationDate (as Timestamp)
+//                    );                // Add payment to the list
+//                payments.add(payment);
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return payments;
+//    }
 
 }

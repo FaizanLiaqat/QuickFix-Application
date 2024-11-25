@@ -69,8 +69,8 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
     @Override
     public int insert(FeedBack feedback) throws SQLException {
         // Query to check for duplicate feedback
-        String checkDuplicateQuery = "SELECT feedbackID FROM Feedback WHERE clientID = ? AND serviceProviderID = ? AND bookingID = ? AND serviceID = ?";
-        String insertQuery = "INSERT INTO Feedback (clientID, serviceProviderID, bookingID, serviceID, rating, comments) VALUES (?, ?, ?, ?, ?, ?)";
+        String checkDuplicateQuery = "SELECT feedbackID FROM Feedback WHERE clientID = ? AND serviceProviderID = ? AND bookingID = ?";
+        String insertQuery = "INSERT INTO Feedback (clientID, serviceProviderID, bookingID, rating, comments) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement checkStmt = connection.prepareStatement(checkDuplicateQuery);
@@ -80,7 +80,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
             checkStmt.setInt(1, feedback.getClientID());
             checkStmt.setInt(2, feedback.getServiceProviderID());
             checkStmt.setInt(3, feedback.getBookingID());
-            checkStmt.setInt(4, feedback.getServiceID());
+            //checkStmt.setInt(4, feedback.getServiceID());
             
             ResultSet resultSet = checkStmt.executeQuery();
             if (resultSet.next()) {
@@ -93,9 +93,9 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
             insertStmt.setInt(1, feedback.getClientID());
             insertStmt.setInt(2, feedback.getServiceProviderID());
             insertStmt.setInt(3, feedback.getBookingID());
-            insertStmt.setInt(4, feedback.getServiceID());
-            insertStmt.setInt(5, feedback.getRating());
-            insertStmt.setString(6, feedback.getComments());
+            //insertStmt.setInt(4, feedback.getServiceID());
+            insertStmt.setInt(4, feedback.getRating());
+            insertStmt.setString(5, feedback.getComments());
 
             int affectedRows = insertStmt.executeUpdate();
             if (affectedRows > 0) {

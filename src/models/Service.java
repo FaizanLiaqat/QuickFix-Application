@@ -48,8 +48,20 @@ public class Service {
         this.serviceRating = serviceRating;
         
     }
+
+    
+    public Service(String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating , String sellerName) {
+        this.serviceName = serviceName;
+        this.sellerName = sellerName;
+        this.serviceDescription = serviceDescription;
+        this.servicePrice = servicePrice;
+        this.serviceProviderID = serviceProviderID;
+        this.serviceRating = serviceRating;
+        
+    }
     // Constructor
     public Service( String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating) {
+
         this.serviceName = serviceName;
         this.serviceDescription = serviceDescription;
         this.servicePrice = servicePrice;
@@ -57,6 +69,8 @@ public class Service {
         this.serviceRating = serviceRating;
         
     }
+
+
 
     // Getters and Setters
     public int getServiceID() {

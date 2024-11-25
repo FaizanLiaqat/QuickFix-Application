@@ -22,8 +22,10 @@ public class FeedBack {
         this.comments = comments;
         this.feedbackDate = feedbackDate;
     }
+
  // Constructor
     public FeedBack( int clientID, int serviceProviderID, int bookingID,int serviceID, int rating, String comments, java.sql.Timestamp feedbackDate) {
+
         this.clientID = clientID;
         this.serviceProviderID = serviceProviderID;
         this.bookingID = bookingID;

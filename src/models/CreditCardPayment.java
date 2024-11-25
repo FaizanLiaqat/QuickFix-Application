@@ -13,9 +13,19 @@ public class CreditCardPayment extends Payment {
     private java.sql.Timestamp expirationDate;
 
     // Constructor
-    public CreditCardPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate) {
+    public CreditCardPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod,  java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate) {
 
-        super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new CreditCardPaymentStrategy());
+        super(paymentID, bookingID, amount, paymentMethod, transactionDate, payerID, receiverID,new CreditCardPaymentStrategy());
+
+        this.cardNumber = cardNumber;
+        this.cardType = cardType;
+        this.cardHolderName = cardHolderName;
+        this.expirationDate = expirationDate;
+    }
+    
+    public CreditCardPayment(int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate) {
+
+        super(bookingID, amount, paymentMethod, transactionDate, payerID, receiverID,new CreditCardPaymentStrategy());
 
         this.cardNumber = cardNumber;
         this.cardType = cardType;
@@ -31,6 +41,7 @@ public class CreditCardPayment extends Payment {
         this.expirationDate = expirationDate;
     }
 
+   
     // Getters and Setters
     public String getCardNumber() { return cardNumber; }
     public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
@@ -48,7 +59,7 @@ public class CreditCardPayment extends Payment {
     public void processPayment() {
         // Implement the logic for processing credit card payments
         System.out.println("Processing Credit Card Payment for amount: " + getAmount() + " using card: " + cardType);
-        setPaymentStatus("Completed");
+        //setPaymentStatus("Completed");
         // Add payment gateway interaction logic here
     }
 }

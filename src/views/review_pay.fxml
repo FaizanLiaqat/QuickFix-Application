@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ReviewPayController">
+   <children>
+      <VBox layoutY="32.0" prefHeight="586.0" prefWidth="240.0" spacing="50.0" style="-fx-background-color: #263F73;">
+         <children>
+            <Button fx:id="make_payment_button" mnemonicParsing="false" onAction="#MakePaymentOnAction" prefHeight="40.0" prefWidth="243.0" style="-fx-background-color: #263F73;" text="Make Payment" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="give_feedbacK_button" mnemonicParsing="false" onAction="#GiveFeedbackOnAction" prefHeight="40.0" prefWidth="246.0" style="-fx-background-color: #263F73;" text="Give Feedback" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="dispute_button" mnemonicParsing="false" onAction="#DisputeButtonOnAction" prefHeight="40.0" prefWidth="256.0" style="-fx-background-color: #263F73;" text="Dispute" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="back_button" mnemonicParsing="false" onAction="#BackButtonOnAction" prefHeight="40.0" prefWidth="246.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+         <padding>
+            <Insets top="100.0" />
+         </padding>
+      </VBox>
+      <Label layoutY="-3.0" prefHeight="35.0" prefWidth="240.0" style="-fx-background-color: #263F73;" text="Review &amp; Payments" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Pane fx:id="contentArea" layoutX="244.0" layoutY="-5.0" prefHeight="620.0" prefWidth="563.0">
+         <padding>
+            <Insets top="100.0" />
+         </padding></Pane>
+   </children>
+</Pane>
