@@ -9,16 +9,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.bookserviceController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.bookserviceController">
    <top>
-      <Pane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="50.0" prefWidth="600.0" styleClass="backgroundColour" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="7.0" layoutY="7.0" text="Book Service" textFill="WHITE">
                <font>
                   <Font size="26.0" />
                </font>
             </Label>
-            <Button fx:id="back_button" layoutX="674.0" layoutY="3.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="43.0" prefWidth="123.0" text="Back">
+            <Button fx:id="back_button" styleClass="labelStyle" stylesheets="@style.css" layoutX="674.0" layoutY="3.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="43.0" prefWidth="123.0" text="Back">
                <font>
                   <Font size="18.0" />
                </font></Button>
@@ -26,31 +26,31 @@
       </Pane>
    </top>
    <left>
-      <Pane prefHeight="300.0" prefWidth="110.0" style="-fx-background-color: #263F73;" BorderPane.alignment="CENTER">
+      <Pane prefHeight="300.0" prefWidth="110.0" styleClass="backgroundColour" stylesheets="@style.css" BorderPane.alignment="CENTER">
          <children>
             <VBox prefHeight="200.0" prefWidth="110.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#ViewHistory" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #263F73;" text="Home" textFill="WHITE">
+                  <Button mnemonicParsing="false" styleClass="backgroundColour" stylesheets="@style.css" onAction="#ViewHistory" prefHeight="38.0" prefWidth="110.0"  text="Home" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#Plumber" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #263F73;" text="Plumber" textFill="WHITE">
+                  <Button mnemonicParsing="false" styleClass="backgroundColour" stylesheets="@style.css" onAction="#Plumber" prefHeight="38.0" prefWidth="110.0"  text="Plumber" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#Electrician" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #263F73;" text="Electrician" textFill="WHITE">
+                  <Button mnemonicParsing="false" styleClass="backgroundColour" stylesheets="@style.css" onAction="#Electrician" prefHeight="38.0" prefWidth="110.0" text="Electrician" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#Mechanic" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #263F73;" text="Mechanic" textFill="WHITE">
+                  <Button mnemonicParsing="false" styleClass="backgroundColour" stylesheets="@style.css" onAction="#Mechanic" prefHeight="38.0" prefWidth="110.0"  text="Mechanic" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#Carpenter" prefHeight="38.0" prefWidth="110.0" style="-fx-background-color: #263F73;" text="Carpenter" textFill="WHITE">
+                  <Button mnemonicParsing="false" styleClass="backgroundColour" stylesheets="@style.css" onAction="#Carpenter" prefHeight="38.0" prefWidth="110.0"  text="Carpenter" textFill="WHITE">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -61,9 +61,9 @@
       </Pane>
    </left>
    <center>
-      <AnchorPane prefHeight="790.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="790.0" prefWidth="810.0" BorderPane.alignment="CENTER">
          <children>
-            <StackPane fx:id="contentArea" layoutY="2.0" prefHeight="570.0" prefWidth="686.0" />
+            <StackPane fx:id="contentArea" layoutY="2.0" prefHeight="570.0" prefWidth="700.0" />
          </children>
       </AnchorPane>
    </center>

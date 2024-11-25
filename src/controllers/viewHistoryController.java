@@ -118,7 +118,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking); // Set data for Pending booking
+				itemController.setData(booking,user); // Set data for Pending booking
 
 				if (column1 == 1) {
 					column1 = 0;
@@ -135,7 +135,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking); // Set data for Completed booking
+				itemController.setData(booking,user); // Set data for Completed booking
 
 				if (column2 == 1) {
 					column2 = 0;
@@ -151,7 +151,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking); // Set data for Pending booking
+				itemController.setData(booking,user); // Set data for Pending booking
 
 				if (column1 == 1) {
 					column1 = 0;
@@ -168,7 +168,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking); // Set data for Completed booking
+				itemController.setData(booking,user); // Set data for Completed booking
 
 				// Add click event for the pane
 				pane.setOnMouseClicked(event -> {
@@ -237,7 +237,7 @@ public class viewHistoryController implements Initializable {
 			// Create a new stage for the dashboard
 			Stage stage = new Stage();
 			stage.initStyle(StageStyle.UNDECORATED);
-			Scene scene = new Scene(root, 520, 400);
+			Scene scene = new Scene(root, 810, 620);
 			stage.setScene(scene);
 			stage.show();
 

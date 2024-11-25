@@ -63,29 +63,26 @@ public class BuyerDisputeController implements Initializable {
 
 	@FXML
 	private Button back_button;
-	
+
 	@FXML
 	private Button submit_button;
-	
-	
-	
-	 @FXML
+
+	@FXML
 	private Label text_dispute;
-	
-	
+
 	@FXML
 	private AnchorPane contentArea;
-	
+
 	private String callerType; // Field to track the caller
-	  
-	  // Method to set the caller type
+
+	// Method to set the caller type
 	public void setCallerType(String callerType) {
-		this.callerType = callerType; 
-		}
-	
+		this.callerType = callerType;
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 //		try {
 //			Parent fxml  = FXMLLoader.load(getClass().getResource("/views/profile.fxml"));
 //		    contentArea.getChildren().removeAll();
@@ -95,34 +92,32 @@ public class BuyerDisputeController implements Initializable {
 //			e.printStackTrace();
 //		}
 	}
-	
-	
-	
-	
-	
 
-	public void backOnAction(ActionEvent event) { try { // Close the
-		  Stage currentStage = (Stage) back_button.getScene().getWindow();
-		  currentStage.close();
-		  
-		 // Load the appropriate dashboard based on callerType
-		  String fxmlFile = callerType.equals("buyer") ? "/views/buyer_dashboard.fxml" :
-		  "/views/seller_dashboard.fxml"; 
-		  Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
-		  
-		  // Create a new stage for the dashboard
-		  Stage stage = new Stage();
-		  stage.initStyle(StageStyle.UNDECORATED); Scene scene = new Scene(root, 520,
-		  400); stage.setScene(scene); stage.show();
-		  
-		  } catch (IOException e) { e.printStackTrace(); } }
-		  
-	
-	public void submitOnAction(ActionEvent event) {
-		  //what happens when change password button is clicked
-			String text = text_dispute.getText();
+	public void backOnAction(ActionEvent event) {
+		try { // Close the
+			Stage currentStage = (Stage) back_button.getScene().getWindow();
+			currentStage.close();
+
+			// Load the appropriate dashboard based on callerType
+			String fxmlFile = callerType.equals("buyer") ? "/views/buyer_dashboard.fxml"
+					: "/views/seller_dashboard.fxml";
+			Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+
+			// Create a new stage for the dashboard
+			Stage stage = new Stage();
+			stage.initStyle(StageStyle.UNDECORATED);
+			Scene scene = new Scene(root, 810, 620);
+			stage.setScene(scene);
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		  
-		  
-}
+	}
 
+	public void submitOnAction(ActionEvent event) {
+		// what happens when change password button is clicked
+		String text = text_dispute.getText();
+	}
+
+}

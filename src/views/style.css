@@ -49,3 +49,9 @@
     -fx-background-color: #FFFFFF;
         -fx-background-radius: 30;
 }
+.backgroundColour {
+    -fx-background-color: linear-gradient(to right, rgba(7,172,54,1) 5%, rgba(9,121,73,1) 49%, rgba(31,78,168,1) 100%);
+}
+.labelStyle {
+    -fx-text-fill: linear-gradient(to right, rgba(7,172,54,1) 5%, rgba(9,121,73,1) 49%, rgba(31,78,168,1) 100%);
+}

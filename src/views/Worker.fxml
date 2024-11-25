@@ -6,23 +6,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity"
-	minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0"
-	prefWidth="630.0" xmlns="http://javafx.com/javafx/23.0.1"
-	xmlns:fx="http://javafx.com/fxml/1"
-	style="-fx-background-color: #FF5733;">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<HBox alignment="CENTER" layoutY="1.0" prefHeight="550.0"
-			prefWidth="630.0" style="-fx-background-color: #FF5033;">
+		<HBox alignment="CENTER" layoutY="1.0" prefHeight="620.0" prefWidth="810.0">
 			<children>
-				<ScrollPane fx:id="scroll" prefHeight="550.0"
-					prefWidth="630.0" style="-fx-background-color: #FF3333;"
-					styleClass="transparent" stylesheets="@style.css">
+				<ScrollPane fx:id="scroll" prefHeight="620.0" prefWidth="810.0" styleClass="backgroundColour" stylesheets="@style.css">
 					<content>
 						<GridPane fx:id="grid">
 							<columnConstraints>
-								<ColumnConstraints hgrow="ALWAYS"
-									minWidth="10.0" prefWidth="600.0"/>
+								<ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="600.0" />
 							</columnConstraints>
 						</GridPane>
 					</content>

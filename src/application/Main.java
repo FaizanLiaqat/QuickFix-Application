@@ -25,7 +25,7 @@ public class Main extends Application {
 			});
 			primaryStage.initStyle(StageStyle.UNDECORATED);
 			primaryStage.setTitle("QuickFix");
-			primaryStage.setScene(new Scene(root, 520, 400));
+			primaryStage.setScene(new Scene(root, 810, 620));
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -22,13 +22,13 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="submit_button" layoutX="402.0" layoutY="330.0" mnemonicParsing="false" onAction="#submitOnAction" style="-fx-background-color: #263F73;" text="Submit" textFill="WHITE">
+            <Button fx:id="submit_button" styleClass="backgroundColour" stylesheets="@style.css"  layoutX="402.0" layoutY="330.0" mnemonicParsing="false" onAction="#submitOnAction"  text="Submit" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
             <TextArea fx:id="text_dispute" layoutX="278.0" layoutY="81.0" prefHeight="200.0" prefWidth="200.0" />
-            <Button fx:id="back_button" layoutX="128.0" layoutY="330.0" mnemonicParsing="false" onAction="#backOnAction" prefHeight="37.0" prefWidth="71.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE">
+            <Button fx:id="back_button" styleClass="backgroundColour" stylesheets="@style.css" layoutX="128.0" layoutY="330.0" mnemonicParsing="false" onAction="#backOnAction" prefHeight="37.0" prefWidth="71.0" text="Back" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

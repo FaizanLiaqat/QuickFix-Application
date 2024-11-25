@@ -8,23 +8,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="1000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.viewHistoryController">
+<ScrollPane prefHeight="620.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.viewHistoryController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="599.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="690.0" styleClass="backgroundColour" stylesheets="@style.css">
          <children>
             <Label layoutX="31.0" layoutY="41.0" text="Pending">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
-            <Label layoutX="32.0" layoutY="510.0" text="Completed">
+            <Label layoutX="31.0" layoutY="536.0" text="Completed">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
-            <HBox layoutX="31.0" layoutY="82.0" prefHeight="156.0" prefWidth="590.0">
+            <HBox layoutX="31.0" layoutY="82.0" prefHeight="160.0" prefWidth="600.0">
                <children>
-                  <ScrollPane fx:id="scroll1" prefHeight="164.0" prefWidth="590.0">
+                  <ScrollPane fx:id="scroll1" prefHeight="160.0" prefWidth="600.0">
                      <content>
                         <GridPane fx:id="grid1">
                           <columnConstraints>
@@ -35,9 +35,9 @@
                   </ScrollPane>
                </children>
             </HBox>
-            <HBox layoutX="24.0" layoutY="572.0" prefHeight="156.0" prefWidth="590.0">
+            <HBox layoutX="32.0" layoutY="574.0" prefHeight="160.0" prefWidth="600.0">
                <children>
-                  <ScrollPane fx:id="scroll2" prefHeight="100.0" prefWidth="590.0">
+                  <ScrollPane fx:id="scroll2" prefHeight="160.0" prefWidth="600.0">
                      <content>
                         <GridPane fx:id="grid2">
                           <columnConstraints>
@@ -50,17 +50,17 @@
             </HBox>
             <Label layoutX="32.0" layoutY="263.0" text="Confirmed">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
             <Label layoutX="37.0" layoutY="765.0" text="Canceled">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
-            <HBox layoutX="31.0" layoutY="305.0" prefHeight="156.0" prefWidth="590.0">
+            <HBox layoutX="31.0" layoutY="305.0" prefHeight="160.0" prefWidth="600.0">
                <children>
-                  <ScrollPane fx:id="scroll3" prefHeight="100.0" prefWidth="590.0">
+                  <ScrollPane fx:id="scroll3" prefHeight="160.0" prefWidth="600.0">
                      <content>
                         <GridPane fx:id="grid3">
                            <columnConstraints>
@@ -71,9 +71,9 @@
                   </ScrollPane>
                </children>
             </HBox>
-            <HBox layoutX="31.0" layoutY="815.0" prefHeight="156.0" prefWidth="590.0">
+            <HBox layoutX="31.0" layoutY="815.0" prefHeight="160.0" prefWidth="600.0">
                <children>
-                  <ScrollPane fx:id="scroll4" prefHeight="100.0" prefWidth="590.0">
+                  <ScrollPane fx:id="scroll4" prefHeight="160.0" prefWidth="600.0">
                      <content>
                         <GridPane fx:id="grid4">
                            <columnConstraints>

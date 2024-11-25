@@ -9,7 +9,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
-      <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="615.0" style="-fx-background-color: #263F73;" text="                                            Bank Transfer Details" textFill="WHITE" BorderPane.alignment="CENTER">
+      <Label contentDisplay="CENTER" prefHeight="26.0" prefWidth="615.0" styleClass="backgroundColour" stylesheets="@style.css" text="Bank Transfer Details" textFill="WHITE" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -41,12 +41,12 @@
             <TextField fx:id="accountNumber" layoutX="263.0" layoutY="33.0" prefHeight="26.0" prefWidth="221.0" />
             <TextField fx:id="bankName" layoutX="263.0" layoutY="67.0" prefHeight="26.0" prefWidth="221.0" />
             <TextField fx:id="referenceCode" layoutX="263.0" layoutY="105.0" prefHeight="26.0" prefWidth="221.0" />
-            <Button fx:id="pay_button" layoutX="353.0" layoutY="309.0" mnemonicParsing="false" onAction="#actionOnPay" prefHeight="37.0" prefWidth="128.0" style="-fx-background-color: #263F73;" text="Pay" textFill="WHITE">
+            <Button fx:id="pay_button"  styleClass="backgroundColour" stylesheets="@style.css" layoutX="353.0" layoutY="309.0" mnemonicParsing="false" onAction="#actionOnPay" prefHeight="37.0" prefWidth="128.0"  text="Pay" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="back_button" layoutX="130.0" layoutY="309.0" mnemonicParsing="false" onAction="#goBackOnAction" prefHeight="37.0" prefWidth="128.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE">
+            <Button fx:id="back_button" styleClass="backgroundColour" stylesheets="@style.css" layoutX="130.0" layoutY="309.0" mnemonicParsing="false" onAction="#goBackOnAction" prefHeight="37.0" prefWidth="128.0"  text="Back" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
