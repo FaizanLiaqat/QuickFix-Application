@@ -32,6 +32,15 @@ public class BankTransferPayment extends Payment {
         this.referenceCode = referenceCode;
         this.transferDate = transferDate;
     }
+    
+    // Constructor
+    public BankTransferPayment( int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+        super( bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
+        this.bankAccountNumber = bankAccountNumber;
+        this.bankName = bankName;
+        this.referenceCode = referenceCode;
+        this.transferDate = transferDate;
+    }
 
     // Getters and Setters
     public String getBankAccountNumber() { return bankAccountNumber; }

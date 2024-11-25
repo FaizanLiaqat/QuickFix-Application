@@ -12,7 +12,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+
 	<classpathentry kind="lib" path="C:/Users/aa516/Downloads/mysql-connector-j-9.0.0.zip">
+
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

@@ -51,6 +51,7 @@ public class Dispute {
 		if (!"Open".equals(disputeStatus) && !"Resolved".equals(disputeStatus) && !"Rejected".equals(disputeStatus)) {
 			throw new IllegalArgumentException("Dispute status must be 'Open', 'Resolved', or 'Rejected'.");
 		}
+
 		this.bookingID = bookingID;
 		this.buyerID = buyerID;
 		this.sellerID = sellerID;
