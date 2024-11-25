@@ -14,26 +14,47 @@ public abstract class Payment {
     private int bookingID;
     private BigDecimal amount;
     private String paymentMethod;
-    private String paymentStatus;
     private java.sql.Timestamp transactionDate;
     private int payerID;
     private int receiverID;
     private PaymentStrategy paymentStrategy; // Strategy instance
     // Constructor
 
-    public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
+    public Payment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
 
         this.paymentID = paymentID;
         this.bookingID = bookingID;
         this.amount = amount;
         this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
+        this.transactionDate = transactionDate;
+        this.payerID = payerID;
+        this.receiverID = receiverID;
+        this.paymentStrategy = paymentStrategy;
+    }
+    
+ // Constructor
+    public Payment( int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
+        this.bookingID = bookingID;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
         this.transactionDate = transactionDate;
         this.payerID = payerID;
         this.receiverID = receiverID;
         this.paymentStrategy = paymentStrategy;
     }
 
+
+    public Payment(int bookingID, BigDecimal amount, String paymentMethod,java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
+
+      
+        this.bookingID = bookingID;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
+        this.transactionDate = transactionDate;
+        this.payerID = payerID;
+        this.receiverID = receiverID;
+        this.paymentStrategy = paymentStrategy;
+    }
     // Getters and Setters
     public int getPaymentID() { return paymentID; }
     public void setPaymentID(int paymentID) { this.paymentID = paymentID; }
@@ -47,9 +68,7 @@ public abstract class Payment {
     public String getPaymentMethod() { return paymentMethod; }
     public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
 
-    public String getPaymentStatus() { return paymentStatus; }
-    public void setPaymentStatus(String paymentStatus) { this.paymentStatus = paymentStatus; }
-
+    
     public java.sql.Timestamp getTransactionDate() { return transactionDate; }
     public void setTransactionDate(java.sql.Timestamp transactionDate) { this.transactionDate = transactionDate; }
 

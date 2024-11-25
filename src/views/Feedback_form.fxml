@@ -8,35 +8,34 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.viewprofileController">
-   <left>
-      <AnchorPane prefHeight="400.0" prefWidth="143.0" styleClass="backgroundColour" stylesheets="@style.css" BorderPane.alignment="CENTER" />
-   </left>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.FeedbackController">
    <center>
       <AnchorPane prefHeight="400.0" prefWidth="374.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="60.0" layoutY="234.0" text="Review">
+            <Label layoutX="84.0" layoutY="234.0" text="Review">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
             <Button fx:id="feedback_submit" layoutX="94.0" layoutY="348.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="184.0" styleClass="backgroundColour" stylesheets="@style.css" text="Submit" textFill="WHITE">
+
                <font>
                   <Font size="14.0" />
                </font>
             </Button>
-            <Label layoutX="61.0" layoutY="112.0" text="Rating">
+            <Label layoutX="85.0" layoutY="109.0" text="Rating">
                <font>
                   <Font size="17.0" />
                </font>
             </Label>
             <Slider fx:id="feedback_slider" blockIncrement="5.0" layoutX="151.0" layoutY="112.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" value="1.0" />
             <Label layoutX="-139.0" prefHeight="35.0" prefWidth="520.0" styleClass="backgroundColour" stylesheets="@style.css" text="Feedback Form" textFill="WHITE">
+
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <TextArea fx:id="feedback_review" layoutX="121.0" layoutY="172.0" prefHeight="149.0" prefWidth="200.0" />
+            <TextArea fx:id="feedback_review" layoutX="160.0" layoutY="172.0" prefHeight="149.0" prefWidth="200.0" />
          </children>
       </AnchorPane>
    </center>

@@ -53,7 +53,8 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <Button fx:id="admin_button" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="334.0" mnemonicParsing="false" onAction="#openAccessButtonOnAction" prefHeight="50.0" prefWidth="300.0" styleClass="backgroundColour" stylesheets="@style.css" text="Admin" textFill="WHITE">
+            <Button fx:id="admin_button" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="334.0" mnemonicParsing="false" onAction="#openAdminLogin" prefHeight="50.0" prefWidth="300.0" styleClass="backgroundColour" stylesheets="@style.css" text="Admin" textFill="WHITE">
+
                <font>
                   <Font size="24.0" />
                </font>

@@ -13,10 +13,29 @@ public class BankTransferPayment extends Payment {
     private java.sql.Timestamp transferDate;
 
     // Constructor
-    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+    public BankTransferPayment(int paymentID, int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
 
-        super(paymentID, bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
+        super(paymentID, bookingID, amount, paymentMethod, transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
 
+        this.bankAccountNumber = bankAccountNumber;
+        this.bankName = bankName;
+        this.referenceCode = referenceCode;
+        this.transferDate = transferDate;
+    }
+    
+    public BankTransferPayment(int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+
+        super(bookingID, amount, paymentMethod,transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
+
+        this.bankAccountNumber = bankAccountNumber;
+        this.bankName = bankName;
+        this.referenceCode = referenceCode;
+        this.transferDate = transferDate;
+    }
+    
+    // Constructor
+    public BankTransferPayment( int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) {
+        super( bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new BankTransferPaymentStrategy());
         this.bankAccountNumber = bankAccountNumber;
         this.bankName = bankName;
         this.referenceCode = referenceCode;
@@ -40,7 +59,7 @@ public class BankTransferPayment extends Payment {
     public void processPayment() {
         // Implement the logic for processing bank transfer payments
         System.out.println("Processing Bank Transfer Payment for amount: " + getAmount() + " via bank: " + bankName);
-        setPaymentStatus("Completed");
+        //setPaymentStatus("Completed");
         // Add bank transfer validation and logic here
     }
 }

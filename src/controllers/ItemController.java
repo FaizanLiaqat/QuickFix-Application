@@ -1,18 +1,25 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.Booking;
+import models.Dispute;
 import models.Notification;
 import models.Service;
 import models.User;
@@ -22,6 +29,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 import dao.BookingDAO;
+
 import javafx.scene.control.ButtonType;
 
 public class ItemController {
@@ -48,6 +56,8 @@ public class ItemController {
 	private Button MessageButton;
 
 	private Service currentService;
+
+	private int bookingId;
 
 	private int clientid;
 
@@ -98,9 +108,7 @@ public class ItemController {
 
 	public void BookMe() {
 
-		if ("Book Me!".equals(MessageButton.getText()))
-
-		{
+		if ("Book Me!".equals(MessageButton.getText())) {
 			Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 			alert.setTitle("Booking Confirmation");
 			alert.setHeaderText(null);
@@ -124,8 +132,6 @@ public class ItemController {
 					e.printStackTrace();
 				}
 
-			} else {
-				System.out.println("Booking canceled for: " + currentService.getServiceName());
 			}
 		} else if ("Click to confirm".equals(MessageButton.getText())) {
 
@@ -138,8 +144,35 @@ public class ItemController {
 			}
 
 		} else if ("Review and Pay".equals(MessageButton.getText())) {
-			
-			
+
+			try {
+
+				// Close the current window (home.fxml)
+
+				// Load the Access.fxml file
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/review_pay.fxml"));
+				Parent root = loader.load();
+
+				// Get the controller for the register window
+				ReviewPayController reviewpaycontroller = loader.getController();
+
+				reviewpaycontroller.setBookingId(this.bookingId);
+
+				// Create a new Stage (window) for Access.fxml
+				Stage stage = new Stage();
+				stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+				stage.setTitle("Home Window"); // Set the title of the new window
+
+				// Set the new scene with the loaded FXML and desired size
+				Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
+				stage.setScene(scene);
+
+				// Show the new window (stage)
+				stage.show();
+
+			} catch (IOException e) {
+				e.printStackTrace(); // Handle error if FXML file loading fails
+			}
 			System.out.println("it is confirmed");
 			
 			
@@ -162,7 +195,7 @@ public class ItemController {
 	public void setData(Booking booking, User user) {
 		// Set text for various labels
 
-		this.bookingid = booking.getBookingID();
+		this.bookingId = booking.getBookingID();
 		nameLabel.setText(booking.getServicename());
 		DescriptionLabel.setText(booking.getSellername());
 

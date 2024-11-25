@@ -45,6 +45,10 @@ public abstract class PaymentDAO implements DAO<Payment> {
     }
     
     
-    public abstract List<Payment> getPaymentByStatus(String status, int userId) ;
+   // public abstract List<Payment> getPaymentByStatus(String status, int userId) ;
+    
+    public abstract Map<Integer, Payment> getPaymentsByBookingID(int bookingID) throws SQLException;
+
+	//public abstract Map<Integer, Payment> getPaymentsBySenderID(int id); 
     
 }

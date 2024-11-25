@@ -1,6 +1,12 @@
 package controllers;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +17,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.BankTransferPayment;
+import models.Booking;
+import models.CreditCardPayment;
+import models.Notification;
+import models.Payment;
+import models.Service;
 
 public class BankTransfer {
 	@FXML
@@ -30,13 +42,16 @@ public class BankTransfer {
 	
 	private String bankname;
 	
+	private int bookingId;
 	
+	public void setBookingId(int id) {
+		this.bookingId = id;
+	}
 
 
-
 	
 	
-	public void backButtonOnAction(ActionEvent event) {
+	public void goBackOnAction(ActionEvent event) {
 		try {
 
 			// Close the current window (home.fxml)
@@ -67,6 +82,92 @@ public class BankTransfer {
 	public void actionOnPay(ActionEvent event) {
 		accountnumber = accountNumber.getText();
 		bankname = bankName.getText();
+		
+		
+	
+
+		
+		// Create an instance of CreditCardPaymentDAO
+//		dao.PaymentDAO creditPaymentDAO = new dao.CreditCardPaymentDAO();
+//
+//		try {
+//		    // Retrieve payments by booking ID
+//		    Map<Integer, Payment> paymentsMap = creditPaymentDAO.getPaymentsByBookingID(this.bookingId);
+//
+//		    // Iterate through each entry in the map
+//		    for (Map.Entry<Integer, Payment> entry : paymentsMap.entrySet()) {
+//		        Payment payment = entry.getValue(); // Get the Payment object from the map entry
+//		        
+//		        payment.setPaymentMethod("Credit Card");
+//		        //payment.setPaymentStatus("Completed");
+//		        payment.processPayment();
+//		        // Call the update method for each payment
+//		        creditPaymentDAO.update(payment);
+//		    }
+//		} catch (SQLException e) {
+//		    // Handle any SQL exceptions
+//		    e.printStackTrace();
+//		}
+
+		dao.BookingDAO bookingdao = new dao.BookingDAO();
+		Booking booking = null;
+		try {
+			 booking = bookingdao.get(bookingId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		booking.setPaymentStatus("Paid");
+		
+		try {
+			bookingdao.update(booking);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//public CreditCardPayment(int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate)
+		int serviceId = booking.getServiceID();
+		
+		dao.ServiceDAO servicedao = new dao.ServiceDAO();
+		Service service = null;
+		try {
+			 service = servicedao.get(serviceId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Timestamp currentTimestamp = new Timestamp(new Date().getTime());
+		//public BankTransferPayment(int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) 
+		Payment payment = new BankTransferPayment(this.bookingId,BigDecimal.valueOf(service.getServicePrice()),"Bank Transfer", currentTimestamp,booking.getClientID(),service.getServiceProviderID(),accountnumber,bankname,"123",currentTimestamp);
+		
+		dao.PaymentDAO paymentdao = new dao.CreditCardPaymentDAO();
+		
+		try {
+			paymentdao.insert(payment);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//send notification
+		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
+		//create and insert a notification
+		// public Notification(int recipientID, String notificationMessage, 
+		//java.sql.Timestamp timestamp, String status, String type, String recipientRole)
+		String priceString = BigDecimal.valueOf(service.getServicePrice()).toString();
+
+		String notification_msg = "Your Payment of amount " + priceString + " has been processed for service "+ service.getServiceName();
+	
+		Notification notification = new Notification(service.getServiceProviderID(),notification_msg,currentTimestamp , "Unread", "PaymentStatus", "Seller");
+		
+		try {
+			notificationdao.insert(notification);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	

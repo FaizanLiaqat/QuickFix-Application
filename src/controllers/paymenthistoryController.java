@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -48,11 +49,6 @@ public class paymenthistoryController implements Initializable {
     @FXML
     private GridPane grid1;
 
-    @FXML
-    private GridPane grid2;
-
-    @FXML
-    private GridPane grid3;
 
     
 
@@ -60,11 +56,6 @@ public class paymenthistoryController implements Initializable {
     @FXML
     private ScrollPane scroll1;
 
-    @FXML
-    private ScrollPane scroll2;
-
-    @FXML
-    private ScrollPane scroll3;
 
     
 
@@ -78,24 +69,26 @@ public class paymenthistoryController implements Initializable {
 		this.callerType = callerType;
 	}
 
-	private List<Payment> getData(String status , int id) throws SQLException {
+	private List<Payment> getData(int id) throws SQLException {
 
 		List<Payment> payments = new ArrayList<>();
 
 		
 	
 		
-		dao.PaymentDAO pcred = new dao.CreditCardPaymentDAO();
-		dao.PaymentDAO pcred2 = new dao.BankTransferPaymentDAO();
+		dao.CreditCardPaymentDAO pcred = new dao.CreditCardPaymentDAO();
+		dao.BankTransferPaymentDAO pcred2 = new dao.BankTransferPaymentDAO();
 		
-		List<Payment> creditCardPayments =pcred.getPaymentByStatus(status, id);
-		payments.addAll(creditCardPayments);
+		
+		Map<Integer, Payment> creditCardPayments = pcred.getPaymentsBySenderID(id);
+		
+		payments.addAll(creditCardPayments.values());
 
 
 
 		// Fetch payments from bank transfer DAO and add them to the payments list
-		List<Payment> bankTransferPayments = pcred2.getPaymentByStatus(status, id);
-		payments.addAll(bankTransferPayments);
+		Map<Integer, Payment> bankTransferPayments = pcred2.getPaymentsBySenderID(id);
+		payments.addAll(bankTransferPayments.values());
 		
 //		
 		
@@ -124,25 +117,12 @@ public class paymenthistoryController implements Initializable {
 		//pending , completed, failed.
 	    List<Payment> pendingPayments = null;
 		try {
-			pendingPayments = getData("Pending" , user.getUserID());
+			pendingPayments = getData(user.getUserID());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} // Load Pending bookings
-	    List<Payment> completedPayments = null;
-		try {
-			completedPayments = getData("Completed" , user.getUserID());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // Load Completed booking
-	    List<Payment> canceledPayments = null;
-		try {
-			canceledPayments = getData("Failed" , user.getUserID());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} // Load Pending bookings
+	    // Load Pending bookings
 	   // List<Booking> confirmedBookings = getData("COnfirmed" , user.getUserID()); // Load Completed bookings
 	    
 
@@ -172,45 +152,12 @@ public class paymenthistoryController implements Initializable {
 	            GridPane.setMargin(pane, new Insets(10));
 	        }
 
-	        // Loop for Completed bookings and populate grid2
-	        for (Payment payment : completedPayments) {
-	            FXMLLoader fxmlLoader = new FXMLLoader();
-	            fxmlLoader.setLocation(getClass().getResource("/views/payment_item.fxml"));
-	            Pane pane = fxmlLoader.load();
-
-	            PaymentItemController itemController = fxmlLoader.getController();
-	            itemController.setData(payment); // Set data for Completed booking
-
-	            if (column2 == 1) {
-	                column2 = 0;
-	                row2++;
-	            }
-	            grid2.add(pane, column2++, row2); // Add pane to grid2
-	            GridPane.setMargin(pane, new Insets(10));
-	        }
-	        
-	        for (Payment payment : canceledPayments) {
-	            FXMLLoader fxmlLoader = new FXMLLoader();
-	            fxmlLoader.setLocation(getClass().getResource("/views/payment_item.fxml"));
-	            Pane pane = fxmlLoader.load();
-
-	            PaymentItemController itemController = fxmlLoader.getController();
-	            itemController.setData(payment); // Set data for Pending booking
-
-	            if (column1 == 1) {
-	                column1 = 0;
-	                row1++;
-	            }
-	            grid3.add(pane, column1++, row1); // Add pane to grid1
-	            GridPane.setMargin(pane, new Insets(10));
-	        }
-
 	        
 
 	        // Set grid dimensions
 	        setGridDimensions(grid1);
-	        setGridDimensions(grid2);
-	        setGridDimensions(grid3);
+//	        setGridDimensions(grid2);
+//	        setGridDimensions(grid3);
 	        //setGridDimensions(grid4);
 
 
