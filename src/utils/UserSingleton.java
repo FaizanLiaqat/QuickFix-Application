@@ -19,6 +19,8 @@ public class UserSingleton {
 		this.user = new Buyer();
 		}else if (userType.equalsIgnoreCase("Seller")) {
 			this.user = new Seller();
+		}else if(userType.equalsIgnoreCase("Admin")){
+			
 		}
 	}
 	public User getUserObject() {

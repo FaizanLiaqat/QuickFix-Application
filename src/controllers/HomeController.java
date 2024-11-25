@@ -48,7 +48,7 @@ public class HomeController {
 			} else if (clickedButton.getId().equalsIgnoreCase("seller_button")) {
 				user.setUserObject("Seller");
 			} else if (clickedButton.getId().equalsIgnoreCase("admin_button")) {
-
+				user.setUserObject("Admin");
 			}
 
 			// Close the current window (home.fxml)
