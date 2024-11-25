@@ -33,6 +33,18 @@ public abstract class Payment {
         this.receiverID = receiverID;
         this.paymentStrategy = paymentStrategy;
     }
+    
+ // Constructor
+    public Payment( int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
+        this.bookingID = bookingID;
+        this.amount = amount;
+        this.paymentMethod = paymentMethod;
+        this.paymentStatus = paymentStatus;
+        this.transactionDate = transactionDate;
+        this.payerID = payerID;
+        this.receiverID = receiverID;
+        this.paymentStrategy = paymentStrategy;
+    }
 
     // Getters and Setters
     public int getPaymentID() { return paymentID; }

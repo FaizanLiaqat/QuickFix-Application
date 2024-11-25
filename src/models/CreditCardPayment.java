@@ -22,6 +22,14 @@ public class CreditCardPayment extends Payment {
         this.cardHolderName = cardHolderName;
         this.expirationDate = expirationDate;
     }
+ // Constructor
+    public CreditCardPayment( int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate) {
+        super( bookingID, amount, paymentMethod, paymentStatus, transactionDate, payerID, receiverID,new CreditCardPaymentStrategy());
+        this.cardNumber = cardNumber;
+        this.cardType = cardType;
+        this.cardHolderName = cardHolderName;
+        this.expirationDate = expirationDate;
+    }
 
     // Getters and Setters
     public String getCardNumber() { return cardNumber; }

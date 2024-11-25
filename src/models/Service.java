@@ -1,8 +1,6 @@
 package models;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
+
 
 public class Service {
     private int serviceID;
@@ -29,9 +27,29 @@ public class Service {
         this.serviceRating = serviceRating;
         
     }
+    
+    public Service( String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating , String sellerName) {
+        this.serviceName = serviceName;
+        this.sellerName = sellerName;
+        this.serviceDescription = serviceDescription;
+        this.servicePrice = servicePrice;
+        this.serviceProviderID = serviceProviderID;
+        this.serviceRating = serviceRating;
+        
+    }
+    
     // Constructor
     public Service(int serviceID, String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating) {
         this.serviceID = serviceID;
+        this.serviceName = serviceName;
+        this.serviceDescription = serviceDescription;
+        this.servicePrice = servicePrice;
+        this.serviceProviderID = serviceProviderID;
+        this.serviceRating = serviceRating;
+        
+    }
+    // Constructor
+    public Service( String serviceName, String serviceDescription, double servicePrice, int serviceProviderID, int serviceRating) {
         this.serviceName = serviceName;
         this.serviceDescription = serviceDescription;
         this.servicePrice = servicePrice;
