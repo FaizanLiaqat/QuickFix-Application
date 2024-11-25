@@ -93,7 +93,7 @@ public class LoginController {
 							stage.initStyle(StageStyle.UNDECORATED);
 							stage.setTitle("Buyer Dashboard");
 
-							Scene scene = new Scene(root, 520, 400);
+							Scene scene = new Scene(root, 810, 620);
 							stage.setScene(scene);
 							stage.show();
 						} else {
@@ -119,7 +119,7 @@ public class LoginController {
 							stage.initStyle(StageStyle.UNDECORATED);
 							stage.setTitle("Seller Dashboard");
 
-							Scene scene = new Scene(root, 520, 400);
+							Scene scene = new Scene(root, 810, 620);
 							stage.setScene(scene);
 							stage.show();
 						} else {
@@ -162,6 +162,7 @@ public class LoginController {
 	// Event handler for the "Back" button
 	public void backButtonOnAction(ActionEvent event) {
 		try {
+
 			if (this.user.getUserObject().getUserType().equalsIgnoreCase("Admin")) {
 				// Close the current window (home.fxml)
 				Stage currentStage = (Stage) back_button.getScene().getWindow();

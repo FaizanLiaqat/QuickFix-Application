@@ -34,6 +34,9 @@ public class SellerController {
 	private Button payment_history;
 	@FXML
 	private Button exit;
+	@FXML
+	private Button Assign_Task;
+	
 	private String currenttype = "seller";
 
 	// Event to close the current window
@@ -88,7 +91,7 @@ public class SellerController {
 			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
 
 			// Set the new scene with the loaded FXML and desired size
-			Scene scene = new Scene(root, 800 , 620); // Set dimensions similar to your original configuration
+			Scene scene = new Scene(root, 810 , 620); // Set dimensions similar to your original configuration
 			stage.setScene(scene);
 
 			// Show the new window (stage)
@@ -119,7 +122,36 @@ public class SellerController {
 			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
 
 			// Set the new scene with the loaded FXML and desired size
-			Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
+			stage.setScene(scene);
+
+			// Show the new window (stage)
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace(); // Handle error if FXML file loading fails
+		}
+	}
+	public void openAssignTaskButtonOnAction(ActionEvent event) {
+		try {
+			// Close the current window (home.fxml)
+			Stage currentStage = (Stage) exit.getScene().getWindow();
+			currentStage.close();
+
+			// Load the Access.fxml file
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/assign_task.fxml"));
+			Parent root = loader.load();
+			// Get the controller for the register window
+			AssignTaskController assigntaskController = loader.getController();
+
+			// Pass the User object to the register controller
+			//assigntaskController.setCallerType(currenttype);
+			// Create a new Stage (window) for Access.fxml
+			Stage stage = new Stage();
+			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+
+			// Set the new scene with the loaded FXML and desired size
+			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
 			stage.setScene(scene);
 
 			// Show the new window (stage)

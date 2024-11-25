@@ -9,23 +9,33 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import dao.BookingDAO;
-import dao.NotificationDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import models.Booking;
-import models.Notification;
 import models.User;
 import utils.UserSingleton;
 
-public class NotificationController implements Initializable {
+public class AssignTaskController implements Initializable {
+
+	@FXML
+	private Button back_Button;
+	
+
+	@FXML
+	private Button refresh;
 
 	@FXML
 	private GridPane grid1;
@@ -37,7 +47,7 @@ public class NotificationController implements Initializable {
 	private GridPane grid3;
 
 	@FXML
-	private ScrollPane scroll1;
+	private ScrollPane scrol1;
 
 	@FXML
 	private ScrollPane scroll2;
@@ -45,34 +55,41 @@ public class NotificationController implements Initializable {
 	@FXML
 	private ScrollPane scroll3;
 
+	private List<Booking> bookings = new ArrayList<>();
+
 	private User user; // Declare a user object to store the current user
 
-	private List<Notification> getData(String type , int id) {
+	private List<Booking> getData(String status, int id) {
 
-		List<Notification> notification = new ArrayList<>();
+		List<Booking> booking = new ArrayList<>();
 
-		NotificationDAO ndao = new NotificationDAO(); // Initialize the ServiceDAO object
+		BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
 
 		try {
 			// Call the filterByLocation method and pass the location as an argument
-			notification =  ndao.getNotificationsByStatus(type, id);
+			booking = bdao.getBookingsByStatus2(status, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return notification;
+		return booking;
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		loaddata();
+	}
+
+	public void loaddata() {
 
 		this.user = UserSingleton.getInstance().getUserObject();
+		List<Booking> Pending = getData("Pending", user.getUserID());
+		List<Booking> Inprogress = getData("Confirmed", user.getUserID());
+		List<Booking> Completed = getData("Completed", user.getUserID());
 
-		List<Notification> BookingConfirmation = getData("BookingConfirmation", user.getUserID()); // Load Pending bookings
-		List<Notification> PaymentStatus = getData("PaymentStatus", user.getUserID()); // Load Completed booking
-		List<Notification> FeedbackReceived = getData("FeedbackReceived", user.getUserID()); // Load Pending bookings
-		
-		System.out.println(BookingConfirmation.size());
+		Inprogress.size();
+		Completed.size();
+
 		int column1 = 0;
 		int row1 = 1;
 
@@ -80,14 +97,14 @@ public class NotificationController implements Initializable {
 		int row2 = 1;
 
 		try {
-			// Loop for Pending bookings and populate grid1
-			for (Notification notification : BookingConfirmation) {
+
+			for (Booking booking : Pending) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(notification ,user); // Set data for Pending booking
+				itemController.setData(booking, user); // Set data for Pending booking
 
 				if (column1 == 1) {
 					column1 = 0;
@@ -97,55 +114,32 @@ public class NotificationController implements Initializable {
 				GridPane.setMargin(pane, new Insets(10));
 			}
 
-			// Loop for Completed bookings and populate grid2
-			for (Notification notification : PaymentStatus) {
+			// Loop for Pending bookings and populate grid1
+			for (Booking booking : Inprogress) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(notification,user); // Set data for Completed booking
-
-				if (column2 == 1) {
-					column2 = 0;
-					row2++;
+				itemController.setData(booking, user); // Set data for Pending booking
+			
+				if (column1 == 1) {
+					column1 = 0;
+					row1++;
 				}
-				grid2.add(pane, column2++, row2); // Add pane to grid2
+				grid2.add(pane, column1++, row1); // Add pane to grid1
 				GridPane.setMargin(pane, new Insets(10));
 			}
 
 			// Loop for Completed bookings and populate grid2
-			for (Notification notification : FeedbackReceived) {
+			for (Booking booking : Completed) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
 				fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(notification,user); // Set data for Completed booking
+				itemController.setData(booking, user); // Set data for Completed booking
 
-				// Add click event for the pane
-				pane.setOnMouseClicked(event -> {
-					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-					alert.setTitle("Payment Confirmation");
-					alert.setHeaderText("Payment Required");
-					alert.setContentText("Do you want to proceed with the payment?");
-
-					// Show the alert and wait for user response
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.isPresent() && result.get() == ButtonType.OK) {
-
-						BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
-						 try{
-							// Call the filterByLocation method and pass the location as an argument
-							bdao.ChangepaymentStatus(notification.getNotificationID());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-						System.out.println("User chose to proceed with payment.");
-					} else {
-						System.out.println("User chose not to proceed with payment.");
-					}
-				});
 				if (column2 == 1) {
 					column2 = 0;
 					row2++;
@@ -162,6 +156,7 @@ public class NotificationController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	// Helper method to set grid dimensions
@@ -175,4 +170,30 @@ public class NotificationController implements Initializable {
 		grid.setMaxHeight(Region.USE_PREF_SIZE);
 	}
 
+	public void backButtonOnAction(javafx.event.ActionEvent event) {
+		try {
+
+			// Close the current window (home.fxml)
+			Stage currentStage = (Stage) back_Button.getScene().getWindow();
+			currentStage.close();
+
+			// Load the Access.fxml file
+			Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
+
+			// Create a new Stage (window) for Access.fxml
+			Stage stage = new Stage();
+			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+			stage.setTitle("Home Window"); // Set the title of the new window
+
+			// Set the new scene with the loaded FXML and desired size
+			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
+			stage.setScene(scene);
+
+			// Show the new window (stage)
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace(); // Handle error if FXML file loading fails
+		}
+	}
 }

@@ -193,7 +193,7 @@ public class paymenthistoryController implements Initializable {
 			// Create a new stage for the dashboard
 			Stage stage = new Stage();
 			stage.initStyle(StageStyle.UNDECORATED);
-			Scene scene = new Scene(root, 520, 400);
+			Scene scene = new Scene(root, 810, 620);
 			stage.setScene(scene);
 			stage.show();
 

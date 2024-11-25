@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewServiceController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" styleClass="backgroundColour" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ViewServiceController">
 	<children>
-      <Button fx:id="add_button" layoutX="655.0" layoutY="70.0" mnemonicParsing="false" onAction="#addButton" prefHeight="52.0" prefWidth="122.0" text="Add &#10;Service">
+      <Button fx:id="add_button" layoutX="631.0" layoutY="70.0" mnemonicParsing="false" onAction="#addButton" prefHeight="52.0" prefWidth="173.0" styleClass="labelStyle" stylesheets="@style.css" text="Add Service">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>
       </Button>
-      <Button fx:id="back_button" layoutX="655.0" layoutY="166.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="52.0" prefWidth="122.0" text="Back &#10;Button&#10;">
+      <Button fx:id="back_button" layoutX="631.0" layoutY="147.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="52.0" prefWidth="173.0" styleClass="labelStyle" stylesheets="@style.css" text="Back Button">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>
       </Button>
-		<HBox alignment="CENTER" layoutY="1.0" prefHeight="550.0" prefWidth="630.0">
+		<HBox alignment="CENTER" layoutY="1.0" prefHeight="620.0" prefWidth="624.0">
 			<children>
-				<ScrollPane fx:id="scroll" prefHeight="550.0" prefWidth="630.0" styleClass="transparent" stylesheets="@style.css">
+				<ScrollPane fx:id="scroll" prefHeight="620.0" prefWidth="624.0" styleClass="transparent" stylesheets="@style.css">
 					<content>
 						<GridPane fx:id="grid">
 							<columnConstraints>

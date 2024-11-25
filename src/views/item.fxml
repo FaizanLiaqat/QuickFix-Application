@@ -39,6 +39,6 @@
             <Font name="Cambria" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="MessageButton" layoutX="252.0" layoutY="111.0" mnemonicParsing="false" onAction="#BookMe" prefHeight="25.0" prefWidth="189.0" style="-fx-background-color: #263F73;" text="Button" textFill="WHITE" />
+      <Button fx:id="MessageButton" layoutX="252.0" layoutY="111.0" mnemonicParsing="false" onAction="#BookMe" prefHeight="25.0" prefWidth="189.0" styleClass="backgroundColour" stylesheets="@style.css" text="Button" textFill="WHITE" />
    </children>
 </Pane>

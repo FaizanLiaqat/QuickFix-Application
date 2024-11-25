@@ -311,6 +311,39 @@ public class BookingDAO implements InterfaceBookingDAO {
 		System.out.println(bookings.size());
 		return bookings;
 	}
+	public List<Booking> getBookingsByStatus2(String status, int ID) throws SQLException {
+		List<Booking> bookings = new ArrayList<>();
+		String query = """
+				    SELECT b.bookingID, b.clientID, b.serviceProviderID, b.serviceID, b.bookingDate,
+				           b.preferredTime, b.status, b.paymentStatus,
+				           u.name AS sellerName, s.serviceName
+				    FROM booking b
+				    JOIN user u ON b.serviceProviderID = u.userID
+				    JOIN service s ON b.serviceID = s.serviceID
+				    WHERE b.status = ? AND b.serviceProviderID = ?;
+				""";
+
+		try (Connection connection = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+			// Set both parameters in the prepared statement
+			preparedStatement.setString(1, status); // Set status
+			preparedStatement.setInt(2, ID); // Set bookingID
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				bookings.add(new Booking(resultSet.getInt("bookingID"), resultSet.getInt("clientID"),
+						resultSet.getInt("serviceProviderID"), resultSet.getInt("serviceID"),
+						resultSet.getTimestamp("bookingDate"), resultSet.getTimestamp("preferredTime"),
+						resultSet.getString("status"), resultSet.getString("paymentStatus"),
+						resultSet.getString("sellerName"), // Seller's name from user table
+						resultSet.getString("serviceName") // Service name from service table
+				));
+			}
+		}
+		System.out.println(bookings.size());
+		return bookings;
+	}
 
 	public void ChangepaymentStatus(int bookingid) throws SQLException {
 		// SQL query to update payment status
@@ -320,6 +353,31 @@ public class BookingDAO implements InterfaceBookingDAO {
 				PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
 			// Set the parameters for the query
 			preparedStatement.setString(1, "Paid"); // New payment status ('Paid' or 'Unpaid')
+			preparedStatement.setInt(2, bookingid); // Booking ID to update
+
+			// Execute the update query
+			int rowsUpdated = preparedStatement.executeUpdate();
+
+			if (rowsUpdated > 0) {
+				System.out.println("Payment status updated successfully for booking ID: " + bookingid);
+			} else {
+				System.out.println("No booking found with booking ID: " + bookingid);
+			}
+
+		} catch (SQLException e) {
+			// Handle SQL exception
+			System.out.println("Error updating payment status: " + e.getMessage());
+		}
+	}
+	
+	public void ChangeStatus(String status, int bookingid) throws SQLException {
+		// SQL query to update payment status
+		String updateQuery = "UPDATE booking SET status = ? WHERE bookingID = ?";
+
+		try (Connection connection = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+			// Set the parameters for the query
+			preparedStatement.setString(1, status); // New payment status ('Paid' or 'Unpaid')
 			preparedStatement.setInt(2, bookingid); // Booking ID to update
 
 			// Execute the update query

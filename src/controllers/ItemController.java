@@ -61,6 +61,8 @@ public class ItemController {
 
 	private int clientid;
 
+	private int bookingid;
+
 	public void setData(Service services, User user) {
 
 		this.clientid = user.getUserID();
@@ -132,8 +134,17 @@ public class ItemController {
 
 			}
 		} else if ("Click to confirm".equals(MessageButton.getText())) {
-			System.out.println("it is confirmed");
+
+			try {
+				// Call the filterByLocation method and pass the location as an argument
+				BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
+				bdao.ChangeStatus("Confirmed", bookingid);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		} else if ("Review and Pay".equals(MessageButton.getText())) {
+
 			try {
 
 				// Close the current window (home.fxml)
@@ -163,16 +174,27 @@ public class ItemController {
 				e.printStackTrace(); // Handle error if FXML file loading fails
 			}
 			System.out.println("it is confirmed");
+			
+			
 		} else if ("Remove".equals(MessageButton.getText())) {
 			System.out.println("it is confirmed");
+		} else if ("Mark as completed".equals(MessageButton.getText())) {
+
+			try {
+				BookingDAO bdao = new BookingDAO();
+				bdao.ChangeStatus("Completed", bookingid);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		} else {
 			System.out.println("Button issue!");
 		}
 
 	}
 
-	public void setData(Booking booking) {
+	public void setData(Booking booking, User user) {
 		// Set text for various labels
+
 		this.bookingId = booking.getBookingID();
 		nameLabel.setText(booking.getServicename());
 		DescriptionLabel.setText(booking.getSellername());
@@ -197,18 +219,31 @@ public class ItemController {
 		// Handle different combinations of payment and booking status
 		if ("Pending".equals(status)) {
 			// Booking is pending
-			MessageButton.setText("Pending");
-			MessageButton.setDisable(true); // Disable the button to prevent interaction
+			if (user.getUserType() == "Seller") {
+				MessageButton.setText("Click to confirm");
+
+			} else {
+				MessageButton.setText("Pending");
+				MessageButton.setDisable(true); // Disable the button to prevent interaction
+			}
 		} else if ("Confirmed".equals(status)) {
 
-			MessageButton.setText("Seller Confirmed");
-			MessageButton.setDisable(true); // Enable the button for payment action
+			if (user.getUserType() == "Seller") {
+				MessageButton.setText("Mark as completed");
+				MessageButton.setDisable(false); // Enable the button for payment action
+			} else {
+				MessageButton.setText("Seller Confirmed");
+				MessageButton.setDisable(true); // Enable the button for payment action
+			}
 		} else if ("Completed".equals(status)) {
 			// Booking is confirmed
-			if ("Unpaid".equals(paymentStatus)) {
+			if ("Unpaid".equals(paymentStatus) && user.getUserType() == "Buyer") {
 				// If payment is still unpaid, let the user know to pay
 				MessageButton.setText("Review and Pay");
 				MessageButton.setDisable(false); // Enable the button for payment action
+			} else if ("Unpaid".equals(paymentStatus) && user.getUserType() == "Seller") {
+				MessageButton.setText("Payment to recieved");
+				MessageButton.setDisable(true); // Enable the button for payment action
 			} else {
 				// If payment is done, allow user to take action or confirm
 				MessageButton.setText("Paid");
@@ -242,10 +277,9 @@ public class ItemController {
 		}
 	}
 
-	public void setData(Notification notification) {
+	public void setData(Notification notification, User user) {
 
-		MessageButton.setText("Click to confirm");
-
+		MessageButton.setVisible(false);
 		// Setting text for various labels
 		nameLabel.setText(notification.getRecipientRole()); // Sets recipient role
 		DescriptionLabel.setText(notification.getNotificationMessage()); // Sets notification message

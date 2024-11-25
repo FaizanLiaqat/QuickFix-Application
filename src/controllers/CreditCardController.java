@@ -78,7 +78,7 @@ public class CreditCardController {
 			stage.setTitle("Home Window"); // Set the title of the new window
 
 			// Set the new scene with the loaded FXML and desired size
-			Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
 			stage.setScene(scene);
 
 			// Show the new window (stage)

@@ -8,15 +8,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="1000.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.paymenthistoryController">
+<ScrollPane prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.paymenthistoryController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="599.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="810.0" styleClass="backgroundColour" stylesheets="@style.css">
          <children>
             <Label layoutX="31.0" layoutY="41.0" text="Payment History">
                <font>
-                  <Font size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
+
             <HBox layoutX="31.0" layoutY="82.0" prefHeight="898.0" prefWidth="538.0">
                <children>
                   <ScrollPane fx:id="scroll1" prefHeight="458.0" prefWidth="538.0">
