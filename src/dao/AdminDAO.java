@@ -32,11 +32,7 @@ public class AdminDAO extends UserDAO {
 	public int update(User user) throws SQLException {
 		
 		 // Check if user exists before attempting to update
-	    if (exists(user)==-1) {
-	        AlertUtils.showError("User not found", "User with the specified ID does not exist.");
-	        return 0;
-	    }
-
+	    
 	    // Get a new database connection using the singleton class
 	    try (Connection con = DatabaseConnection.getInstance().getConnection()) {
 

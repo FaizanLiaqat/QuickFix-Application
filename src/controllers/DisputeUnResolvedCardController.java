@@ -87,6 +87,7 @@ public class DisputeUnResolvedCardController {
 		Dispute dispute = disputeDao.get(this.disputeID);
 		dispute.setDisputeStatus("Resolved");
 		disputeDao.update(dispute);
+		
 		utils.AlertUtils.showSuccess("Dispute Resolved Successfully!");
 
 	}
