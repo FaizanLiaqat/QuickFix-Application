@@ -139,7 +139,7 @@ public class LoginController {
 							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Seller Dashboard");
 
-							Scene scene = new Scene(root, 1080, 620);
+							Scene scene = new Scene(root, 810, 620);
 							stage.setScene(scene);
 							stage.show();
 						
