@@ -75,7 +75,7 @@ public class LoginController {
 
 				int id = userDAO.exists(this.user.getUserObject());
 				if (id != -1) {
-
+					AlertUtils.showSuccess("Login successful! Welcome back ");
 					if (user.getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
 						// Fetch the user from the database
 						User loggedInUser = userDAO.get(id);
@@ -128,7 +128,7 @@ public class LoginController {
 					} else if(user.getUserObject().getUserType().equalsIgnoreCase("Admin")) {
 						
 							
-
+							this.user.getUserObject().setUserID(id);
 							// Close the login window
 							Stage currentStage = (Stage) login_button.getScene().getWindow();
 							currentStage.close();
@@ -146,6 +146,8 @@ public class LoginController {
 					}
 					
 
+				}else {
+					AlertUtils.showError("Login Failed", "Invalid email or password or role.");
 				}
 			} catch (SQLException e) {
 				// Handle database connection errors
@@ -177,7 +179,7 @@ public class LoginController {
 				stage.setTitle("Home Window"); // Set the title of the new window
 
 				// Set the new scene with the loaded FXML and desired size
-				Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+				Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
 				stage.setScene(scene);
 
 				// Show the new window (stage)
@@ -197,7 +199,7 @@ public class LoginController {
 				stage.setTitle("Home Window"); // Set the title of the new window
 
 				// Set the new scene with the loaded FXML and desired size
-				Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+				Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
 				stage.setScene(scene);
 
 				// Show the new window (stage)

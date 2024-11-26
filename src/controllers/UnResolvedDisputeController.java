@@ -57,8 +57,6 @@ public class UnResolvedDisputeController implements Initializable {
 		int column1 = 0;
 		int row1 = 1;
 
-		int column2 = 0;
-		int row2 = 1;
 
 		try {
 			// Loop for Pending bookings and populate grid1
@@ -80,21 +78,10 @@ public class UnResolvedDisputeController implements Initializable {
 
 			// Set grid dimensions
 
-			setGridDimensions(grid2);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// Helper method to set grid dimensions
-	private void setGridDimensions(GridPane grid) {
-		grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-		grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-		grid.setMaxWidth(Region.USE_PREF_SIZE);
-
-		grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-		grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-		grid.setMaxHeight(Region.USE_PREF_SIZE);
-	}
 }

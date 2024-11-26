@@ -1,5 +1,7 @@
 package strategies;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import models.BankTransferPayment;
@@ -23,12 +25,25 @@ public class BankTransferPaymentStrategy implements PaymentStrategy {
 					+ "\n" + "Transfer Date: " + bankPayment.getTransferDate();
 			AlertUtils.showSuccess(message);
 
-			dao.PaymentDAO paymentdao = new dao.BankTransferPaymentDAO();
-			try {
-				paymentdao.update(payment);
+			BigDecimal totalAmount = payment.getAmount(); 
 
+            BigDecimal adminPercentage = new BigDecimal("10");  // Admin gets 5%
+            BigDecimal sellerPercentage = new BigDecimal("90"); // Seller gets 95%
+
+            // Calculate the amounts using BigDecimal operations
+            BigDecimal adminAmount = totalAmount.multiply(adminPercentage).divide(new BigDecimal("100"), RoundingMode.HALF_UP);
+            BigDecimal sellerAmount = totalAmount.multiply(sellerPercentage).divide(new BigDecimal("100"), RoundingMode.HALF_UP);
+            dao.SellerDAO  sellerDao = new dao.SellerDAO();
+            dao.AdminDAO adminDao = new dao.AdminDAO();
+            
+            try {
+				sellerDao.updateSellerBalance(payment.getReceiverID(), sellerAmount);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            try {
+				adminDao.updateAllAdminBalances(adminAmount);
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 

@@ -124,8 +124,7 @@ public class viewprofileController implements Initializable {
 		// Update the label based on user type using the controller
 		
 
-		// Update the contentArea (make sure contentArea is of type AnchorPane or
-		// similar)
+		// Update the contentArea 
 		contentArea.getChildren().clear();
 		contentArea.getChildren().add(fxml);
 	}

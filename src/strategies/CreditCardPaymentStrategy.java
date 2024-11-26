@@ -1,5 +1,7 @@
 package strategies;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 
 import models.CreditCardPayment;
@@ -23,14 +25,25 @@ public class CreditCardPaymentStrategy implements PaymentStrategy {
                     "Card Holder: " + ccPayment.getCardHolderName() + "\n" +
                     "Expiration Date: " + ccPayment.getExpirationDate();
             AlertUtils.showSuccess(message);
+            BigDecimal totalAmount = payment.getAmount(); 
+
+            BigDecimal adminPercentage = new BigDecimal("5");  // Admin gets 5%
+            BigDecimal sellerPercentage = new BigDecimal("95"); // Seller gets 95%
+
+            // Calculate the amounts using BigDecimal operations
+            BigDecimal adminAmount = totalAmount.multiply(adminPercentage).divide(new BigDecimal("100"), RoundingMode.HALF_UP);
+            BigDecimal sellerAmount = totalAmount.multiply(sellerPercentage).divide(new BigDecimal("100"), RoundingMode.HALF_UP);
+            dao.SellerDAO  sellerDao = new dao.SellerDAO();
+            dao.AdminDAO adminDao = new dao.AdminDAO();
             
-            //payment.setPaymentStatus("Completed");
-            dao.PaymentDAO paymentdao = new dao.CreditCardPaymentDAO();
             try {
-				paymentdao.update(payment);
-				
+				sellerDao.updateSellerBalance(payment.getReceiverID(), sellerAmount);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            try {
+				adminDao.updateAllAdminBalances(adminAmount);
+			} catch (SQLException e) {
 				e.printStackTrace();
 			}
             

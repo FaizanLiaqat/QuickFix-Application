@@ -26,80 +26,67 @@ public class ResolvedDisputeController implements Initializable {
 	private ScrollPane scroll1;
 
 	private List<Dispute> getData() throws SQLException {
-		List<Dispute> disputeResolved = new ArrayList<>();
-		List<Dispute> disputeRejected = new ArrayList<>();
-		List<Dispute> mergedDisputes = new ArrayList<>();
+	    List<Dispute> disputeResolved = new ArrayList<>();
+	    List<Dispute> disputeRejected = new ArrayList<>();
+	    List<Dispute> mergedDisputes = new ArrayList<>();
 
-		dao.DisputeDAO disdao = new dao.DisputeDAO(); // Initialize the DisputeDAO object
+	    dao.DisputeDAO disdao = new dao.DisputeDAO(); // Initialize the DisputeDAO object
 
-		try {
-			// Fetch disputes by status
-			disputeResolved = disdao.getDisputesByStatus("Resolved");
-			disputeRejected = disdao.getDisputesByStatus("Rejected");
+	    try {
+	        // Fetch disputes by status
+	        disputeResolved = disdao.getDisputesByStatus("Resolved");
+	        disputeRejected = disdao.getDisputesByStatus("Rejected");
 
-			// Merge the two lists
-			mergedDisputes.addAll(disputeResolved); // Add resolved disputes
-			mergedDisputes.addAll(disputeRejected); // Add rejected disputes
+	        // Merge the two lists
+	        mergedDisputes.addAll(disputeResolved); // Add resolved disputes
+	        mergedDisputes.addAll(disputeRejected); // Add rejected disputes
 
-		} catch (Exception e) {
-			System.err.println("Unexpected error: " + e.getMessage());
-			e.printStackTrace();
-		}
+	    } catch (Exception e) {
+	        System.err.println("Unexpected error: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 
-		// Check if the merged list is empty
-		if (mergedDisputes.isEmpty()) {
-			System.out.println("No disputes found for the given statuses.");
-		}
+	    // Check if the merged list is empty
+	    if (mergedDisputes.isEmpty()) {
+	        System.out.println("No disputes found for the given statuses.");
+	    }
 
-		return mergedDisputes; // Return the merged list
+	    return mergedDisputes; // Return the merged list
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		List<Dispute> disputeAll = null;
-		try {
-			disputeAll = getData();
-			System.out.println(disputeAll.size());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    List<Dispute> disputeAll = null;
+	    try {
+	        disputeAll = getData();
+	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-		int column1 = 0;
-		int row1 = 1;
+	    int column1 = 0;
+	    int row1 = 1;
 
-		try {
-			// Loop for Pending bookings and populate grid1
-			for (Dispute dispute : disputeAll) {
-				System.out.println(dispute.getDisputeStatus());
-				FXMLLoader fxmlLoader = new FXMLLoader();
-				fxmlLoader.setLocation(getClass().getResource("/views/DisputeResolvedCards.fxml"));
-				Pane pane = fxmlLoader.load();
+	    try {
+	        // Loop for Pending bookings and populate grid1
+	        for (Dispute dispute : disputeAll) {
+	            FXMLLoader fxmlLoader = new FXMLLoader();
+	            fxmlLoader.setLocation(getClass().getResource("/views/DisputeResolvedCards.fxml"));
+	            Pane pane = fxmlLoader.load();
 
-				DisputeResolvedCardsController disputeController = fxmlLoader.getController();
-				disputeController.setData(dispute); // Set data for Pending booking
+	            DisputeResolvedCardsController disputeController = fxmlLoader.getController();
+	            disputeController.setData(dispute); // Set data for Pending booking
 
-				if (column1 == 1) {
-					column1 = 0;
-					row1++;
-				}
-				grid1.add(pane, column1++, row1); // Add pane to grid1
-				GridPane.setMargin(pane, new Insets(10));
-				setGridDimensions(grid1);
-			}
+	            if (column1 == 1) {
+	                column1 = 0;
+	                row1++;
+	            }
+	            grid1.add(pane, column1++, row1); // Add pane to grid1
+	            GridPane.setMargin(pane, new Insets(10));
+	        }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Helper method to set grid dimensions
-	private void setGridDimensions(GridPane grid) {
-		grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-		grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-		grid.setMaxWidth(Region.USE_PREF_SIZE);
-
-		grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-		grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-		grid.setMaxHeight(Region.USE_PREF_SIZE);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 }
