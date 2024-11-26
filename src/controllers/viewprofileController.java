@@ -130,9 +130,11 @@ public class viewprofileController implements Initializable {
 	}
 
 	public void Notifications(javafx.event.ActionEvent actionEvent) throws IOException {
+		
 		Parent fxml = FXMLLoader.load(getClass().getResource("/views/BuyerNotification.fxml"));
 		contentArea.getChildren().removeAll();
 		contentArea.getChildren().setAll(fxml);
+		
 	}
 
 	public void Change_Password(javafx.event.ActionEvent actionEvent) throws IOException {
