@@ -36,6 +36,10 @@ public class NotificationController implements Initializable {
 	@FXML
 	private GridPane grid3;
 
+
+	@FXML
+	private GridPane grid4;
+
 	@FXML
 	private ScrollPane scroll1;
 
@@ -45,9 +49,12 @@ public class NotificationController implements Initializable {
 	@FXML
 	private ScrollPane scroll3;
 
+	@FXML
+	private ScrollPane scroll4;
+	
 	private User user; // Declare a user object to store the current user
 
-	private List<Notification> getData(String type , int id) {
+	private List<Notification> getData(String type, int id) {
 
 		List<Notification> notification = new ArrayList<>();
 
@@ -55,7 +62,7 @@ public class NotificationController implements Initializable {
 
 		try {
 			// Call the filterByLocation method and pass the location as an argument
-			notification =  ndao.getNotificationsByStatus(type, id);
+			notification = ndao.getNotificationsByStatus(type, id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,10 +75,11 @@ public class NotificationController implements Initializable {
 
 		this.user = UserSingleton.getInstance().getUserObject();
 
-		List<Notification> BookingConfirmation = getData("BookingConfirmation", user.getUserID()); // Load Pending bookings
+		List<Notification> BookingConfirmation = getData("BookingConfirmation", user.getUserID()); // Load Pending
 		List<Notification> PaymentStatus = getData("PaymentStatus", user.getUserID()); // Load Completed booking
 		List<Notification> FeedbackReceived = getData("FeedbackReceived", user.getUserID()); // Load Pending bookings
-		
+		List<Notification> Dispute = getData("Dispute", user.getUserID()); // Load Pending bookings
+
 		System.out.println(BookingConfirmation.size());
 		int column1 = 0;
 		int row1 = 1;
@@ -80,6 +88,7 @@ public class NotificationController implements Initializable {
 		int row2 = 1;
 
 		try {
+
 			// Loop for Pending bookings and populate grid1
 			for (Notification notification : BookingConfirmation) {
 				FXMLLoader fxmlLoader = new FXMLLoader();
@@ -87,7 +96,7 @@ public class NotificationController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(notification ,user); // Set data for Pending booking
+				itemController.setData(notification, user); // Set data for Pending booking
 
 				if (column1 == 1) {
 					column1 = 0;
@@ -104,7 +113,7 @@ public class NotificationController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(notification,user); // Set data for Completed booking
+				itemController.setData(notification, user); // Set data for Completed booking
 
 				if (column2 == 1) {
 					column2 = 0;
@@ -121,7 +130,7 @@ public class NotificationController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(notification,user); // Set data for Completed booking
+				itemController.setData(notification, user); // Set data for Completed booking
 
 				// Add click event for the pane
 				pane.setOnMouseClicked(event -> {
@@ -135,7 +144,7 @@ public class NotificationController implements Initializable {
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 
 						BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
-						 try{
+						try {
 							// Call the filterByLocation method and pass the location as an argument
 							bdao.ChangepaymentStatus(notification.getNotificationID());
 						} catch (SQLException e) {
@@ -154,10 +163,27 @@ public class NotificationController implements Initializable {
 				GridPane.setMargin(pane, new Insets(10));
 			}
 
+			for (Notification notification : Dispute) {
+				FXMLLoader fxmlLoader = new FXMLLoader();
+				fxmlLoader.setLocation(getClass().getResource("/views/item.fxml"));
+				Pane pane = fxmlLoader.load();
+
+				ItemController itemController = fxmlLoader.getController();
+				itemController.setData(notification, user); // Set data for Pending booking
+
+				if (column1 == 1) {
+					column1 = 0;
+					row1++;
+				}
+				grid1.add(pane, column1++, row1); // Add pane to grid1
+				GridPane.setMargin(pane, new Insets(10));
+			}
+
 			// Set grid dimensions
 			setGridDimensions(grid1);
 			setGridDimensions(grid2);
 			setGridDimensions(grid3);
+			setGridDimensions(grid4);
 
 		} catch (IOException e) {
 			e.printStackTrace();

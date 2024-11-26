@@ -130,7 +130,7 @@ public class viewprofileController implements Initializable {
 	}
 
 	public void Notifications(javafx.event.ActionEvent actionEvent) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("/views/Notifications.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/views/BuyerNotification.fxml"));
 		contentArea.getChildren().removeAll();
 		contentArea.getChildren().setAll(fxml);
 	}
@@ -153,7 +153,7 @@ public class viewprofileController implements Initializable {
 
 			// Create a new stage for the dashboard
 			Stage stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED);
+			stage.initStyle(StageStyle.DECORATED);
 			Scene scene = new Scene(root, 810, 620);
 			stage.setScene(scene);
 			stage.show();

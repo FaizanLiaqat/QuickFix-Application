@@ -122,7 +122,7 @@ public class BuyerDisputeController implements Initializable {
 
 			// Create a new stage for the dashboard
 			Stage stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED);
+			stage.initStyle(StageStyle.DECORATED);
 			Scene scene = new Scene(root, 810, 620);
 			stage.setScene(scene);
 			stage.show();

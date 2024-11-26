@@ -23,7 +23,7 @@ public class Main extends Application {
 				primaryStage.setX(event.getSceneX() - x);
 				primaryStage.setY(event.getSceneY() - y);
 			});
-			primaryStage.initStyle(StageStyle.UNDECORATED);
+			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.setTitle("QuickFix");
 			primaryStage.setScene(new Scene(root, 810, 620));
 			primaryStage.show();

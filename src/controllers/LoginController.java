@@ -90,7 +90,7 @@ public class LoginController {
 							// Load the Buyer dashboard FXML
 							Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
 							Stage stage = new Stage();
-							stage.initStyle(StageStyle.UNDECORATED);
+							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Buyer Dashboard");
 
 							Scene scene = new Scene(root, 810, 620);
@@ -116,7 +116,7 @@ public class LoginController {
 							// Load the Buyer dashboard FXML
 							Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
 							Stage stage = new Stage();
-							stage.initStyle(StageStyle.UNDECORATED);
+							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Seller Dashboard");
 
 							Scene scene = new Scene(root, 810, 620);
@@ -136,7 +136,7 @@ public class LoginController {
 							// Load the Buyer dashboard FXML
 							Parent root = FXMLLoader.load(getClass().getResource("/views/AdminDashBoard.fxml"));
 							Stage stage = new Stage();
-							stage.initStyle(StageStyle.UNDECORATED);
+							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Seller Dashboard");
 
 							Scene scene = new Scene(root, 1080, 620);

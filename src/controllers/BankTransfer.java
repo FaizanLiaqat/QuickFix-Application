@@ -80,6 +80,7 @@ public class BankTransfer {
 //		}
 //	}
 //	
+
 	public void actionOnPay(ActionEvent event) {
 		accountnumber = accountNumber.getText();
 		bankname = bankName.getText();

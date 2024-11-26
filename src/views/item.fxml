@@ -14,7 +14,7 @@
             <Image url="@../media/mechanic_logo.png" />
          </image>
       </ImageView>
-      <Label fx:id="nameLabel" layoutX="55.0" layoutY="2.0" prefHeight="50.0" prefWidth="135.0" text="Mechanic">
+      <Label fx:id="nameLabel" alignment="CENTER" layoutX="22.0" layoutY="2.0" prefHeight="50.0" prefWidth="217.0" text="Mechanic">
          <font>
             <Font name="Cambria Bold" size="24.0" />
          </font>
@@ -24,17 +24,17 @@
             <Font name="Cambria Bold" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="DescriptionLabel" layoutX="252.0" layoutY="44.0" prefHeight="17.0" prefWidth="272.0" text="Description">
+      <Label fx:id="DescriptionLabel" layoutX="252.0" layoutY="44.0" prefHeight="18.0" prefWidth="310.0" text="Description">
          <font>
             <Font name="Cambria" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="Ratinglabel" layoutX="436.0" layoutY="11.0" prefHeight="30.0" prefWidth="150.0" text="Service Rating : 5">
+      <Label fx:id="Ratinglabel" layoutX="406.0" layoutY="12.0" prefHeight="30.0" prefWidth="150.0" text="Service Rating : 5">
          <font>
             <Font name="Cambria Bold Italic" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="SellernameLabel" layoutX="252.0" layoutY="75.0" prefHeight="22.0" prefWidth="150.0" text="Seller Name">
+      <Label fx:id="SellernameLabel" layoutX="252.0" layoutY="75.0" prefHeight="22.0" prefWidth="304.0" text="Seller Name">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>

@@ -29,7 +29,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 import dao.BookingDAO;
-
+import dao.NotificationDAO;
 import javafx.scene.control.ButtonType;
 
 public class ItemController {
@@ -56,6 +56,8 @@ public class ItemController {
 	private Button MessageButton;
 
 	private Service currentService;
+
+	private int notification_id;
 
 	private int bookingId;
 
@@ -143,7 +145,23 @@ public class ItemController {
 				e.printStackTrace();
 			}
 
-		} else if ("Review and Pay".equals(MessageButton.getText())) {
+		} else if ("Unread".equals(MessageButton.getText())) {
+
+			try {
+				// Call the filterByLocation method and pass the location as an argument
+				NotificationDAO ndao = new NotificationDAO(); // Initialize the ServiceDAO object
+
+				Notification notification = ndao.get(notification_id);
+				notification.setStatus("Read");
+
+				ndao.update(notification);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		else if ("Review and Pay".equals(MessageButton.getText())) {
 
 			try {
 
@@ -160,7 +178,7 @@ public class ItemController {
 
 				// Create a new Stage (window) for Access.fxml
 				Stage stage = new Stage();
-				stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+				stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
 				stage.setTitle("Home Window"); // Set the title of the new window
 
 				// Set the new scene with the loaded FXML and desired size
@@ -174,8 +192,7 @@ public class ItemController {
 				e.printStackTrace(); // Handle error if FXML file loading fails
 			}
 			System.out.println("it is confirmed");
-			
-			
+
 		} else if ("Remove".equals(MessageButton.getText())) {
 			System.out.println("it is confirmed");
 		} else if ("Mark as completed".equals(MessageButton.getText())) {
@@ -196,6 +213,7 @@ public class ItemController {
 		// Set text for various labels
 
 		this.bookingId = booking.getBookingID();
+		this.bookingid = booking.getBookingID();
 		nameLabel.setText(booking.getServicename());
 		DescriptionLabel.setText(booking.getSellername());
 
@@ -279,7 +297,12 @@ public class ItemController {
 
 	public void setData(Notification notification, User user) {
 
-		MessageButton.setVisible(false);
+		this.notification_id = notification.getNotificationID();
+		MessageButton.setText("Unread");
+		MessageButton.setVisible(true);
+		if (notification.getStatus() == "read") {
+			MessageButton.setVisible(false);
+		}
 		// Setting text for various labels
 		nameLabel.setText(notification.getRecipientRole()); // Sets recipient role
 		DescriptionLabel.setText(notification.getNotificationMessage()); // Sets notification message
@@ -305,7 +328,7 @@ public class ItemController {
 		}
 
 		// Optionally set another label (e.g., payment status)
-		SellernameLabel.setText("Payment Pending"); // Replace with the actual status or logic
+		SellernameLabel.setText(notification.getType()); // Replace with the actual status or logic
 
 		img.setImage(null); // Hide image
 	}

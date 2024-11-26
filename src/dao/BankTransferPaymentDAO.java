@@ -61,6 +61,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
     @Override
     public int insert(Payment payment) throws SQLException {
     	if (!(payment instanceof BankTransferPayment)) {
+
 			throw new IllegalArgumentException("Invalid payment type.");
 		}
 
