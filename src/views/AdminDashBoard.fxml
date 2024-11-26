@@ -9,9 +9,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminController">
    <children>
-      <VBox layoutX="-5.0" prefHeight="624.0" prefWidth="281.0" spacing="50.0" style="-fx-background-color: #263F73;">
+      <VBox layoutX="-5.0" prefHeight="624.0" prefWidth="281.0" spacing="50.0" style="-fx-background-color: #ffffff;">
          <children>
-            <Label prefHeight="45.0" prefWidth="283.0" text="Admin DashBoard" textAlignment="CENTER" textFill="WHITE">
+            <Label prefHeight="45.0" prefWidth="283.0" text="Admin DashBoard" textAlignment="CENTER" styleClass="labelStyle" stylesheets="@style.css">
                <font>
                   <Font size="30.0" />
                </font>
@@ -19,22 +19,22 @@
                   <Insets left="15.0" />
                </padding>
             </Label>
-            <Button fx:id="unResolvedButton" mnemonicParsing="false" onAction="#openUnResolvedView" prefHeight="44.0" prefWidth="283.0" text="Open Disputes">
+            <Button fx:id="unResolvedButton" mnemonicParsing="false" onAction="#openUnResolvedView" prefHeight="44.0" prefWidth="283.0" text="Open Disputes" textFill="WHITE" styleClass="backgroundColour" stylesheets="@style.css">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="resolvedButton" layoutX="10.0" layoutY="105.0" mnemonicParsing="false" onAction="#openResolvedView" prefHeight="44.0" prefWidth="281.0" text="Resolved Disputes">
+            <Button fx:id="resolvedButton" layoutX="10.0" layoutY="105.0" mnemonicParsing="false" onAction="#openResolvedView" prefHeight="44.0" prefWidth="281.0" text="Resolved Disputes" textFill="WHITE" styleClass="backgroundColour" stylesheets="@style.css">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="adminChangePassword" layoutX="10.0" layoutY="199.0" mnemonicParsing="false" onAction="#changeAdminPassword" prefHeight="44.0" prefWidth="281.0" text="Change Password">
+            <Button fx:id="adminChangePassword" layoutX="10.0" layoutY="199.0" mnemonicParsing="false" onAction="#changeAdminPassword" prefHeight="44.0" prefWidth="281.0" text="Change Password" textFill="WHITE" styleClass="backgroundColour" stylesheets="@style.css">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button fx:id="adminQuit" layoutX="10.0" layoutY="293.0" mnemonicParsing="false" onAction="#adminQuitOnAction" prefHeight="44.0" prefWidth="281.0" text="Quit">
+            <Button fx:id="adminQuit" layoutX="10.0" layoutY="293.0" mnemonicParsing="false" onAction="#adminQuitOnAction" prefHeight="44.0" prefWidth="281.0" text="Quit" textFill="WHITE" styleClass="backgroundColour" stylesheets="@style.css">
                <font>
                   <Font size="20.0" />
                </font>

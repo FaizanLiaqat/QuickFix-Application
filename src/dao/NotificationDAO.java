@@ -33,15 +33,15 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 	}
 
 	public List<Notification> getNotificationsByStatus(String type, int recipientID) throws SQLException {
-		
+
 		System.out.println("Type: " + type + ", RecipientID: " + recipientID);
 		List<Notification> notifications = new ArrayList<>();
 
 		String query = """
-				SELECT n.notificationID, n.recipientID, n.message, n.status, n.timestamp,
-				       n.type, n.recipientRole
-				FROM notification n
-				WHERE n.type = ? AND n.recipientID = ?;
+				    SELECT n.notificationID, n.recipientID, n.message, n.status, n.timestamp,
+				           n.type, n.recipientRole
+				    FROM notification n
+				    WHERE n.type = ? AND n.recipientID = ? AND n.status = 'Unread';
 				""";
 
 		try (Connection connection = DatabaseConnection.getInstance().getConnection();

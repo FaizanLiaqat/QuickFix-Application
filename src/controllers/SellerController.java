@@ -63,7 +63,7 @@ public class SellerController {
 
 			// Create a new Stage (window) for Access.fxml
 			Stage stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+			stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
 
 			// Set the new scene with the loaded FXML and desired size
 			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
@@ -88,7 +88,7 @@ public class SellerController {
 
 			// Create a new Stage (window) for Access.fxml
 			Stage stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+			stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
 
 			// Set the new scene with the loaded FXML and desired size
 			Scene scene = new Scene(root, 810 , 620); // Set dimensions similar to your original configuration

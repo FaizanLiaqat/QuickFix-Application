@@ -6,19 +6,36 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddServiceController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" styleClass="backgroundColour" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddServiceController">
    <children>
-      <Label layoutX="189.0" layoutY="14.0" text="Create A Service" textAlignment="CENTER">
+      <Label layoutX="297.0" layoutY="14.0" text="Create A Service" textAlignment="CENTER" textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="45.0" layoutY="75.0" text="Service Name" />
-      <Label layoutX="45.0" layoutY="170.0" text="Service Price" />
-      <Label layoutX="45.0" layoutY="123.0" text="Service Description" />
-      <TextField fx:id="service_name" layoutX="163.0" layoutY="71.0" />
-      <TextField fx:id="description" layoutX="163.0" layoutY="119.0" />
-      <TextField fx:id="price" layoutX="163.0" layoutY="166.0" />
-      <Button fx:id="create_button" styleClass="backgroundColour" stylesheets="@style.css" layoutX="179.0" layoutY="320.0" mnemonicParsing="false" onAction="#create_buttonOnAction" prefHeight="25.0" prefWidth="116.0" text="Create" />
+      <Label layoutX="189.0" layoutY="205.0" text="Service Name" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="189.0" layoutY="300.0" text="Service Price" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label layoutX="189.0" layoutY="253.0" text="Service Description" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <TextField fx:id="service_name" layoutX="367.0" layoutY="206.0" prefHeight="25.0" prefWidth="276.0" />
+      <TextField fx:id="description" layoutX="367.0" layoutY="254.0" prefHeight="25.0" prefWidth="276.0" />
+      <TextField fx:id="price" layoutX="367.0" layoutY="301.0" prefHeight="25.0" prefWidth="276.0" />
+      <Button fx:id="create_button" layoutX="471.0" layoutY="471.0" mnemonicParsing="false" onAction="#create_buttonOnAction" prefHeight="35.0" prefWidth="172.0" styleClass="labelStyle" stylesheets="@style.css" text="Create" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+      <Button fx:id="back_button" layoutX="189.0" layoutY="471.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="35.0" prefWidth="172.0" styleClass="labelStyle" stylesheets="@style.css" text="Back" textFill="WHITE">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

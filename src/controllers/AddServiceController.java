@@ -22,6 +22,10 @@ public class AddServiceController {
 
     @FXML
     private Button create_button;
+    
+
+    @FXML
+    private Button back_button;
 
     @FXML
     private TextField description;
@@ -102,7 +106,7 @@ public class AddServiceController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/views/view_service.fxml"));
             Stage stage = new Stage();
-            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initStyle(StageStyle.DECORATED);
             Scene scene = new Scene(root, 810, 620);
             stage.setScene(scene);
             stage.show();
@@ -122,5 +126,32 @@ public class AddServiceController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    public void backButtonOnAction(javafx.event.ActionEvent event) {
+    	try {
+
+			// Close the current window (home.fxml)
+			Stage currentStage = (Stage) back_button.getScene().getWindow();
+			currentStage.close();
+
+			// Load the Access.fxml file
+			Parent root = FXMLLoader.load(getClass().getResource("/views/view_service.fxml"));
+
+			// Create a new Stage (window) for Access.fxml
+			Stage stage = new Stage();
+			stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
+			stage.setTitle("Home Window"); // Set the title of the new window
+
+			// Set the new scene with the loaded FXML and desired size
+			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
+			stage.setScene(scene);
+
+			// Show the new window (stage)
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace(); // Handle error if FXML file loading fails
+		}
+
+	}
 }
 

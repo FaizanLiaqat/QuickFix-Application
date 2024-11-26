@@ -1,15 +1,15 @@
 .search-box{
     -fx-background-color:#FFFFFF;
-    -fx-background-radius: 100;
+    -fx-background-radius: 100.0;
 }
 
 .transparent{
-    -fx-background-color: rgba(0,0,0,0);
+    -fx-background-color: rgba(0.0,0.0,0.0,0.0);
 }
 
 .search-button{
     -fx-background-color: #828282;
-    -fx-background-radius: 30;
+    -fx-background-radius: 30.0;
 }
 
 .right-bar{
@@ -17,41 +17,52 @@
 }
 
 .shadow{
-    -fx-effect: dropShadow(three-pass-box,rgba(0,0,0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
+    -fx-effect: dropShadow(three-pass-box,rgba(0.0,0.0,0.0,0.1), 10.0 , 0.0 , 0.0 ,10.0);
 }
 
 .chosen-fruit-card{
     -fx-background-color: #F16C31;
-    -fx-background-radius: 30;
+    -fx-background-radius: 30.0;
 }
 
 .comboBox{
-    -fx-background-color: rgba(255,255,255,0.3);
-    -fx-background-radius: 30;
+    -fx-background-color: rgba(255.0,255.0,255.0,0.3);
+    -fx-background-radius: 30.0;
 }
 
 .add-btn{
     -fx-background-color: #FFFFFF;
-    -fx-background-radius: 100;
+    -fx-background-radius: 100.0;
 }
 
 .free-delivery-card{
     -fx-background-color: #D3D3D3;
-    -fx-background-radius: 30;
+    -fx-background-radius: 30.0;
 }
 
 .shopping-online-card{
     -fx-background-color: #BAEAC3;
-    -fx-background-radius: 30;
+    -fx-background-radius: 30.0;
 }
 
 .fruit-item{
     -fx-background-color: #FFFFFF;
-        -fx-background-radius: 30;
+        -fx-background-radius: 30.0;
 }
 .backgroundColour {
-    -fx-background-color: linear-gradient(to right, rgba(7,172,54,1) 5%, rgba(9,121,73,1) 49%, rgba(31,78,168,1) 100%);
+    -fx-background-color:linear-gradient(to top,rgba(2.0, 0.0, 36.0, 1.0) 0.0%,rgba(9.0, 9.0, 121.0, 0.706) 43.0%,rgba(0.0, 212.0, 255.0, 1.0) 100.0%);
 }
 .labelStyle {
-    -fx-text-fill: linear-gradient(to right, rgba(7,172,54,1) 5%, rgba(9,121,73,1) 49%, rgba(31,78,168,1) 100%);
+    -fx-text-fill:         linear-gradient(to top,rgba(2.0, 0.0, 36.0, 1.0) 0.0%,rgba(9.0, 9.0, 121.0, 0.706) 43.0%,rgba(0.0, 212.0, 255.0, 1.0) 100.0%);
+
+}
+
+.labelStyleBorder{    
+	-fx-border-color:linear-gradient(to top, 
+            rgba(2, 0, 36, 1) 0%, 
+            rgba(9, 9, 121, 0.706) 43%, 
+            rgba(0, 212, 255, 1) 100%); /* Specify the border color */
+	 -fx-border-width: 2.0px; /* Set the width of the border */
+    -fx-border-radius: 5.0px; /* Optional: Add rounded corners */
+    -fx-border-style: solid; /* Optional: Set the border style (solid, dashed, etc.) */
 }

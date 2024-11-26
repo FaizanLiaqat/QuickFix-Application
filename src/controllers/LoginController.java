@@ -90,7 +90,7 @@ public class LoginController {
 							// Load the Buyer dashboard FXML
 							Parent root = FXMLLoader.load(getClass().getResource("/views/buyer_dashboard.fxml"));
 							Stage stage = new Stage();
-							stage.initStyle(StageStyle.UNDECORATED);
+							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Buyer Dashboard");
 
 							Scene scene = new Scene(root, 810, 620);
@@ -116,7 +116,7 @@ public class LoginController {
 							// Load the Buyer dashboard FXML
 							Parent root = FXMLLoader.load(getClass().getResource("/views/seller_dashboard.fxml"));
 							Stage stage = new Stage();
-							stage.initStyle(StageStyle.UNDECORATED);
+							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Seller Dashboard");
 
 							Scene scene = new Scene(root, 810, 620);
@@ -136,7 +136,7 @@ public class LoginController {
 							// Load the Buyer dashboard FXML
 							Parent root = FXMLLoader.load(getClass().getResource("/views/AdminDashBoard.fxml"));
 							Stage stage = new Stage();
-							stage.initStyle(StageStyle.UNDECORATED);
+							stage.initStyle(StageStyle.DECORATED);
 							stage.setTitle("Seller Dashboard");
 
 							Scene scene = new Scene(root, 1080, 620);
@@ -177,7 +177,7 @@ public class LoginController {
 				stage.setTitle("Home Window"); // Set the title of the new window
 
 				// Set the new scene with the loaded FXML and desired size
-				Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+				Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
 				stage.setScene(scene);
 
 				// Show the new window (stage)
@@ -197,7 +197,7 @@ public class LoginController {
 				stage.setTitle("Home Window"); // Set the title of the new window
 
 				// Set the new scene with the loaded FXML and desired size
-				Scene scene = new Scene(root, 520, 400); // Set dimensions similar to your original configuration
+				Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
 				stage.setScene(scene);
 
 				// Show the new window (stage)

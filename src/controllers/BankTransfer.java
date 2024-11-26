@@ -64,7 +64,7 @@ public class BankTransfer {
 
 			// Create a new Stage (window) for Access.fxml
 			Stage stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+			stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
 			stage.setTitle("Home Window"); // Set the title of the new window
 
 			// Set the new scene with the loaded FXML and desired size
@@ -141,7 +141,7 @@ public class BankTransfer {
 		//public BankTransferPayment(int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) 
 		Payment payment = new BankTransferPayment(this.bookingId,BigDecimal.valueOf(service.getServicePrice()),"Bank Transfer", currentTimestamp,booking.getClientID(),service.getServiceProviderID(),accountnumber,bankname,"123",currentTimestamp);
 		
-		dao.PaymentDAO paymentdao = new dao.CreditCardPaymentDAO();
+		dao.PaymentDAO paymentdao = new dao.BankTransferPaymentDAO();
 		
 		try {
 			paymentdao.insert(payment);

@@ -8,16 +8,17 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AssignTaskController">
    <children>
       <ScrollPane prefHeight="620.0" prefWidth="800.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="810.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="810.0" styleClass="backgroundColour" stylesheets="@style.css">
                <children>
-                  <HBox layoutX="50.0" layoutY="183.0" prefHeight="200.0" prefWidth="620.0">
+                  <HBox layoutX="50.0" layoutY="183.0" prefHeight="200.0" prefWidth="710.0">
                      <children>
-                        <ScrollPane fx:id="scrol1" prefHeight="200.0" prefWidth="620.0">
+                        <ScrollPane fx:id="scrol1" prefHeight="200.0" prefWidth="710.0">
                            <content>
                               <GridPane fx:id="grid1">
                                 <columnConstraints>
@@ -28,9 +29,9 @@
                         </ScrollPane>
                      </children>
                   </HBox>
-                  <HBox layoutX="49.0" layoutY="465.0" prefHeight="200.0" prefWidth="620.0">
+                  <HBox layoutX="49.0" layoutY="465.0" prefHeight="200.0" prefWidth="710.0">
                      <children>
-                        <ScrollPane fx:id="scroll2" prefHeight="200.0" prefWidth="620.0">
+                        <ScrollPane fx:id="scroll2" prefHeight="200.0" prefWidth="710.0">
                            <content>
                               <GridPane fx:id="grid2">
                                  <columnConstraints>
@@ -41,9 +42,9 @@
                         </ScrollPane>
                      </children>
                   </HBox>
-                  <HBox layoutX="41.0" layoutY="746.0" prefHeight="200.0" prefWidth="620.0">
+                  <HBox layoutX="41.0" layoutY="746.0" prefHeight="200.0" prefWidth="710.0">
                      <children>
-                        <ScrollPane fx:id="scroll3" prefHeight="200.0" prefWidth="620.0">
+                        <ScrollPane fx:id="scroll3" prefHeight="200.0" prefWidth="710.0">
                            <content>
                               <GridPane fx:id="grid3">
                                  <columnConstraints>
@@ -54,11 +55,26 @@
                         </ScrollPane>
                      </children>
                   </HBox>
-                  <Label layoutX="74.0" layoutY="150.0" prefHeight="17.0" prefWidth="148.0" text="Pending Confirmation" />
-                  <Label layoutX="60.0" layoutY="422.0" prefHeight="17.0" prefWidth="63.0" text="In Progress" />
-                  <Label layoutX="58.0" layoutY="709.0" prefHeight="17.0" prefWidth="63.0" text="Completed" />
-                  <Button fx:id="back_Button" styleClass="backgroundColour" stylesheets="@style.css" layoutX="700.0" layoutY="72.0" mnemonicParsing="false" onAction="#backButtonOnAction" text="back" />
-                  <Button fx:id="refresh" styleClass="backgroundColour" stylesheets="@style.css" layoutX="550.0" layoutY="72.0" mnemonicParsing="false" onAction="#loaddata" text="refresh" />
+                  <Label layoutX="45.0" layoutY="107.0" prefHeight="35.0" prefWidth="235.0" text="Pending Confirmation" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font></Label>
+                  <Label layoutX="60.0" layoutY="422.0" prefHeight="35.0" prefWidth="166.0" text="In Progress" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font></Label>
+                  <Label layoutX="58.0" layoutY="709.0" prefHeight="35.0" prefWidth="146.0" text="Completed" textFill="WHITE">
+                     <font>
+                        <Font size="24.0" />
+                     </font></Label>
+                  <Button fx:id="back_Button" layoutX="589.0" layoutY="22.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="42.0" prefWidth="90.0" styleClass="labelStyle" stylesheets="@style.css" text="back">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Button>
+                  <Button fx:id="refresh" layoutX="683.0" layoutY="23.0" mnemonicParsing="false" onAction="#loaddata" prefHeight="40.0" prefWidth="90.0" styleClass="labelStyle" stylesheets="@style.css" text="refresh">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Button>
                </children>
             </AnchorPane>
         </content>
