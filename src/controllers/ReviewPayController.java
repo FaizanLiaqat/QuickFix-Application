@@ -120,7 +120,12 @@ public class ReviewPayController implements Initializable {
 	}
 
 	public void DisputeButtonOnAction(javafx.event.ActionEvent actionEvent) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("/views/Dispute_Buyer.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dispute_Buyer.fxml"));
+		Parent fxml = loader.load();
+		
+		BuyerDisputeController controller = loader.getController();
+		controller.setBookingId(this.bookingId);
+		
 		contentArea.getChildren().removeAll();
 		contentArea.getChildren().setAll(fxml);
 	}

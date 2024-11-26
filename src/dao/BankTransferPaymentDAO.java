@@ -60,50 +60,53 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 
     @Override
     public int insert(Payment payment) throws SQLException {
-        if (!(payment instanceof BankTransferPayment)) {
-            throw new IllegalArgumentException("Invalid payment type.");
-        }
+    	if (!(payment instanceof BankTransferPayment)) {
+			throw new IllegalArgumentException("Invalid payment type.");
+		}
 
-        BankTransferPayment bankTransferPayment = (BankTransferPayment) payment;
+		BankTransferPayment bankTransferPayment = (BankTransferPayment) payment;
 
-        // Check if a payment already exists for the same bookingID
-        if (isPaymentExists(bankTransferPayment.getBookingID())) {
-            throw new IllegalArgumentException("A payment already exists for this booking ID.");
-        }
+		// Check if a payment already exists for the same bookingID
+		if (isPaymentExists(bankTransferPayment.getBookingID())) {
+			throw new IllegalArgumentException("A payment already exists for this booking ID.");
+		}
 
-        // SQL to insert into Payment table
-        String sql = "INSERT INTO Payment (bookingID, amount, paymentMethod) VALUES (?, ?, 'BankTransfer')";
-        // SQL to insert into BankTransferPayment table
-        String sqlBankTransfer = "INSERT INTO BankTransferPayment (paymentID, bankAccountNumber, bankName, referenceCode, transferDate) VALUES (?, ?, ?, ?, ?)";
+		// SQL to insert into Payment table
+		String sql = "INSERT INTO payment (bookingID, amount, paymentMethod, transactionDate, payerID, receiverID) VALUES (?, ?, 'BankTransfer', ?, ?, ?)";
 
-        try (PreparedStatement paymentStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement bankTransferStatement = connection.prepareStatement(sqlBankTransfer)) {
+		String sqlBankTransfer = "INSERT INTO BankTransferPayment (paymentID, bankAccountNumber, bankName, referenceCode, transferDate) VALUES (?, ?, ?, ?, ?)";
 
-            // Insert into Payment table
-            paymentStatement.setInt(1, bankTransferPayment.getBookingID());
-            paymentStatement.setBigDecimal(2, bankTransferPayment.getAmount());
-            //paymentStatement.setString(3, bankTransferPayment.getPaymentStatus());
-            paymentStatement.executeUpdate();
+		try (PreparedStatement paymentStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement bankTransferStatement = connection.prepareStatement(sqlBankTransfer)) {
 
-            // Retrieve the generated paymentID
-            try (ResultSet keys = paymentStatement.getGeneratedKeys()) {
-                if (keys.next()) {
-                    int paymentID = keys.getInt(1);
-                    bankTransferPayment.setPaymentID(paymentID);
+			paymentStatement.setInt(1, bankTransferPayment.getBookingID());
+			paymentStatement.setBigDecimal(2, bankTransferPayment.getAmount());
+			paymentStatement.setTimestamp(3, bankTransferPayment.getTransactionDate()); // Added payerID
 
-                    // Insert into BankTransferPayment table
-                    bankTransferStatement.setInt(1, paymentID);
-                    bankTransferStatement.setString(2, bankTransferPayment.getBankAccountNumber());
-                    bankTransferStatement.setString(3, bankTransferPayment.getBankName());
-                    bankTransferStatement.setString(4, bankTransferPayment.getReferenceCode());
-                    bankTransferStatement.setTimestamp(5, new Timestamp(bankTransferPayment.getTransferDate().getTime()));
-                    return bankTransferStatement.executeUpdate();
-                }
-            }
-        } catch (SQLException e) {
-            throw new SQLException("Error inserting BankTransferPayment", e);
-        }
-        return 0;
+			paymentStatement.setInt(4, bankTransferPayment.getPayerID()); // Added payerID
+
+			paymentStatement.setInt(5, bankTransferPayment.getReceiverID()); // Added receiverID
+			paymentStatement.executeUpdate();
+			// Retrieve the generated paymentID
+			try (ResultSet keys = paymentStatement.getGeneratedKeys()) {
+				if (keys.next()) {
+					int paymentID = keys.getInt(1);
+					bankTransferPayment.setPaymentID(paymentID);
+
+					// Insert into BankTransferPayment table
+					bankTransferStatement.setInt(1, paymentID);
+					bankTransferStatement.setString(2, bankTransferPayment.getBankAccountNumber());
+					bankTransferStatement.setString(3, bankTransferPayment.getBankName());
+					bankTransferStatement.setString(4, bankTransferPayment.getReferenceCode());
+					bankTransferStatement.setTimestamp(5,
+							new Timestamp(bankTransferPayment.getTransferDate().getTime()));
+					return bankTransferStatement.executeUpdate();
+				}
+			}
+		} catch (SQLException e) {
+			throw new SQLException("Error inserting BankTransferPayment", e);
+		}
+		return 0;
     }
 
     @Override

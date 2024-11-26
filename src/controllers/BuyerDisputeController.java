@@ -46,8 +46,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ResourceBundle;
 
+import dao.FeedbackDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,6 +63,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.Booking;
+import models.Dispute;
+import models.Notification;
+import models.Service;
+import utils.AlertUtils;
+import utils.UserSingleton;
 
 public class BuyerDisputeController implements Initializable {
 
@@ -77,6 +87,12 @@ public class BuyerDisputeController implements Initializable {
 	private String callerType; // Field to track the caller
 
 	// Method to set the caller type
+	
+	private int bookingId;
+	
+	public void setBookingId(int id) {
+		this.bookingId = id;
+	}
 	public void setCallerType(String callerType) {
 		this.callerType = callerType;
 	}
@@ -119,6 +135,82 @@ public class BuyerDisputeController implements Initializable {
 	public void submitOnAction(ActionEvent event) {
 		// what happens when change password button is clicked
 		String text = text_dispute.getText();
+		
+		AlertUtils au = null;
+		//input validation
+		if (text == null || text.trim().isEmpty()) {
+	        // Display error for empty review
+	        au.showError("Dispute Reason is empty", "Dispute Reason cannot be empty");
+	        return;
+	    }
+		
+		System.out.println(text);
+		
+		
+		
+		//Insert into database
+		dao.BookingDAO bookingdao = new dao.BookingDAO();
+		Booking booking = null;
+		try {
+			 booking = bookingdao.get(bookingId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+
+		//public CreditCardPayment(int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate)
+		int serviceId = booking.getServiceID();
+		
+		dao.ServiceDAO servicedao = new dao.ServiceDAO();
+		Service service = null;
+		try {
+			 service = servicedao.get(serviceId);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Timestamp currentTimestamp = new Timestamp(new Date().getTime());
+		Timestamp res_time = null;
+		
+		//public Dispute(int bookingID, int buyerID, int sellerID, String disputeReason, String disputeStatus,
+		//String resolutionDetails, java.sql.Timestamp createdAt, java.sql.Timestamp resolvedAt)
+		
+		Dispute dispute = new Dispute(this.bookingId,booking.getClientID(),service.getServiceProviderID(),text,"Open","",currentTimestamp,res_time);
+		
+		dao.DisputeDAO disputedao = new dao.DisputeDAO();
+		int res = disputedao.insert(dispute);
+		if(res==-1) {
+		    au.showError("Dispute Already submitted", "The dispute for this booking is already submitted");
+		    return;
+
+
+		}
+		
+		//send notification
+				dao.NotificationDAO notificationdao = new dao.NotificationDAO();
+				
+				
+				String buyer_name = UserSingleton.getInstance().getUserObject().getUserName();
+				String notification_msg = "Dispute initiated by " + buyer_name + " for service  "+ service.getServiceName() + " : " + text;
+			
+				Notification notification = new Notification(service.getServiceProviderID(),notification_msg,currentTimestamp , "Unread", "Dispute", "Seller");
+				
+				try {
+					int a = notificationdao.insert(notification);
+					System.out.println(a);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				
+			    
+				submit_button.setDisable(true);
+				
 	}
 
 }
