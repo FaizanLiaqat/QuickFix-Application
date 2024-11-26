@@ -195,7 +195,7 @@ public class FeedbackController implements Initializable {
 		}
 		
 		
-		
+		 au.showSuccess("Feedback Submitted");
 	   
 		feedback_submit.setDisable(true);
 		
