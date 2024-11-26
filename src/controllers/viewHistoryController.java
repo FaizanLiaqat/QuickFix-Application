@@ -72,14 +72,13 @@ public class viewHistoryController implements Initializable {
 	private List<Booking> bookings = new ArrayList<>();
 
 	private User user; // Declare a user object to store the current user
-	
+
 	private int id_pass;
 
 	// Method to set the caller type
 	public void setCallerType(String callerType) {
 		this.callerType = callerType;
 	}
-	
 
 	private List<Booking> getData(String status, int id) {
 
@@ -121,7 +120,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking,user); // Set data for Pending booking
+				itemController.setData(booking, user); // Set data for Pending booking
 
 				if (column1 == 1) {
 					column1 = 0;
@@ -138,7 +137,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking,user); // Set data for Completed booking
+				itemController.setData(booking, user); // Set data for Completed booking
 
 				if (column2 == 1) {
 					column2 = 0;
@@ -154,7 +153,7 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking,user); // Set data for Pending booking
+				itemController.setData(booking, user); // Set data for Pending booking
 
 				if (column1 == 1) {
 					column1 = 0;
@@ -171,9 +170,10 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
+
 				itemController.setData(booking,user); // Set data for Completed booking
 
-				
+
 				if (column2 == 1) {
 					column2 = 0;
 					row2++;

@@ -130,6 +130,7 @@ public class viewprofileController implements Initializable {
 	}
 
 	public void Notifications(javafx.event.ActionEvent actionEvent) throws IOException {
+
 		if (UserSingleton.getInstance().getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
 			Parent fxml = FXMLLoader.load(getClass().getResource("/views/BuyerNotification.fxml"));
 			contentArea.getChildren().removeAll();
@@ -139,6 +140,7 @@ public class viewprofileController implements Initializable {
 			contentArea.getChildren().removeAll();
 			contentArea.getChildren().setAll(fxml);
 		}
+
 	}
 
 	public void Change_Password(javafx.event.ActionEvent actionEvent) throws IOException {

@@ -36,7 +36,6 @@ public class NotificationController implements Initializable {
 	@FXML
 	private GridPane grid3;
 
-
 	@FXML
 	private GridPane grid4;
 
@@ -51,7 +50,7 @@ public class NotificationController implements Initializable {
 
 	@FXML
 	private ScrollPane scroll4;
-	
+
 	private User user; // Declare a user object to store the current user
 
 	private List<Notification> getData(String type, int id) {
@@ -132,29 +131,6 @@ public class NotificationController implements Initializable {
 				ItemController itemController = fxmlLoader.getController();
 				itemController.setData(notification, user); // Set data for Completed booking
 
-				// Add click event for the pane
-				pane.setOnMouseClicked(event -> {
-					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-					alert.setTitle("Payment Confirmation");
-					alert.setHeaderText("Payment Required");
-					alert.setContentText("Do you want to proceed with the payment?");
-
-					// Show the alert and wait for user response
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.isPresent() && result.get() == ButtonType.OK) {
-
-						BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
-						try {
-							// Call the filterByLocation method and pass the location as an argument
-							bdao.ChangepaymentStatus(notification.getNotificationID());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-						System.out.println("User chose to proceed with payment.");
-					} else {
-						System.out.println("User chose not to proceed with payment.");
-					}
-				});
 				if (column2 == 1) {
 					column2 = 0;
 					row2++;
