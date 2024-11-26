@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import dao.AdminDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import models.Admin;
+import models.CreditCardPayment;
+import models.User;
+import utils.UserSingleton;
 
 public class AdminController implements Initializable {
 
@@ -34,6 +39,9 @@ public class AdminController implements Initializable {
 	private Label bookedServicesLabel;
 
 	@FXML
+	private Label Amount;
+
+	@FXML
 	private Pane admin_content_area;
 
 	private String callerType; // Field to track the caller
@@ -45,7 +53,14 @@ public class AdminController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+		AdminDAO adminDao = new AdminDAO();
+		User admin = adminDao.get(UserSingleton.getInstance().getUserObject().getUserID());
+
+		if (admin instanceof Admin) {
+			Admin ccadmin = (Admin) admin;
+
+			Amount.setText(ccadmin.getAmount());
+		}
 
 	}
 
@@ -54,7 +69,6 @@ public class AdminController implements Initializable {
 		admin_content_area.getChildren().removeAll();
 		admin_content_area.getChildren().setAll(fxml);
 	}
-	
 
 	public void openResolvedView() throws IOException {
 		Parent fxml = FXMLLoader.load(getClass().getResource("/views/ViewResolvedDispute.fxml"));
@@ -73,5 +87,4 @@ public class AdminController implements Initializable {
 		stage.close();
 	}
 
-	
 }

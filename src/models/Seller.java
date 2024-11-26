@@ -1,5 +1,6 @@
 package models;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,8 +8,15 @@ public class Seller extends User {
 	private Map<Integer,Service> sellerServices = new HashMap<>();
 	private Map<Integer,Booking> sellerBookings = new HashMap<>();
 	private boolean available ;
+	private BigDecimal amount;
 	
-	
+	 public String getAmount() {
+	        return amount != null ? amount.toPlainString() : "0.00";
+	    }
+
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
     // Add services to the seller's service map (if needed in the future)
     void addServices(Service service) {
         this.sellerServices.put(service.getServiceID(), service);

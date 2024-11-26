@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="601.0" style="-fx-background-color: #D3D3D3;" styleClass="fruit-item" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisputeResolvedCardsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="580.0" style="-fx-background-color: #D3D3D3;" styleClass="fruit-item" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DisputeResolvedCardsController">
    <children>
       <Label fx:id="serviceName" alignment="CENTER" layoutX="226.0" layoutY="9.0" prefHeight="37.0" prefWidth="150.0" text="Service Name" textAlignment="CENTER">
          <font>
@@ -22,7 +22,7 @@
             <Font name="Cambria" size="18.0" />
          </font>
       </Label>
-      <Label fx:id="SellernameLabel" alignment="CENTER_RIGHT" layoutX="437.0" layoutY="16.0" prefHeight="22.0" prefWidth="150.0" text="Seller Name">
+      <Label fx:id="SellernameLabel" alignment="CENTER_RIGHT" layoutX="416.0" layoutY="16.0" prefHeight="22.0" prefWidth="150.0" text="Seller Name">
          <font>
             <Font name="Cambria" size="18.0" />
          </font>

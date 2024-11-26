@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Map;
 
+import models.Admin;
 import models.User;
 import utils.AlertUtils;
 
@@ -15,8 +16,34 @@ public class AdminDAO extends UserDAO {
 
 	@Override
 	public User get(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	    String query = """
+	            SELECT u.*, a.balance
+	            FROM User u
+	            JOIN Admin a ON u.userID = a.adminID
+	            WHERE u.userID = ? AND u.role = 'Admin'
+	            """;
+
+	    Admin admin = null;
+
+	    try (Connection con = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement stmt = con.prepareStatement(query)) {
+
+	        stmt.setInt(1, id);
+
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                // Create an Admin object from the result set
+	                admin = new Admin();
+	                admin.setUserID(rs.getInt("userID"));
+	                admin.setAmount(rs.getBigDecimal("balance")); // Admin-specific field from Admin table
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Failed to retrieve admin with ID " + id + ": " + e.getMessage());
+	        e.printStackTrace(); // Optional: useful for debugging during development
+	    }
+
+	    return admin; // Return the admin object, or null if not found
 	}
 
 	@Override

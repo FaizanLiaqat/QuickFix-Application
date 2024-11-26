@@ -96,10 +96,12 @@ public class SellerDAO extends UserDAO {
 
 	@Override
 	public User get(int id) {
-		String query = "SELECT u.*, sp.availability FROM User u "
-				+ "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID "
-				+ "WHERE u.userID = ? AND u.role = 'Seller'";
-
+		String query = """
+	            SELECT u.*, sp.availability, sp.balance 
+	            FROM User u 
+	            LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID 
+	            WHERE u.userID = ? AND u.role = 'Seller'
+	            """;
 		try (Connection con = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -115,6 +117,7 @@ public class SellerDAO extends UserDAO {
 					seller.setUserPhoneNumber(rs.getString("phone"));
 					seller.setUserLocation(rs.getString("location"));
 					seller.setAvailable(rs.getBoolean("availability"));
+					seller.setAmount(rs.getBigDecimal("balance"));
 					// Optionally, populate seller's services and bookings if needed
 
 					return seller;
