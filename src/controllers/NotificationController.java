@@ -78,7 +78,7 @@ public class NotificationController implements Initializable {
 		List<Notification> PaymentStatus = getData("PaymentStatus", user.getUserID()); // Load Completed booking
 		List<Notification> FeedbackReceived = getData("FeedbackReceived", user.getUserID()); // Load Pending bookings
 		List<Notification> Dispute = getData("Dispute", user.getUserID()); // Load Pending bookings
-
+		System.out.println(Dispute.size());
 		System.out.println(BookingConfirmation.size());
 		int column1 = 0;
 		int row1 = 1;
@@ -151,7 +151,7 @@ public class NotificationController implements Initializable {
 					column1 = 0;
 					row1++;
 				}
-				grid1.add(pane, column1++, row1); // Add pane to grid1
+				grid4.add(pane, column1++, row1); // Add pane to grid1
 				GridPane.setMargin(pane, new Insets(10));
 			}
 

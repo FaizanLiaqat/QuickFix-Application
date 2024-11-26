@@ -12,6 +12,7 @@ import java.util.Map;
 
 import models.Booking;
 import models.Notification;
+import utils.AlertUtils;
 
 import java.sql.*;
 
@@ -22,7 +23,7 @@ public class BookingDAO implements InterfaceBookingDAO {
 
     // Get a specific booking by its ID
     @Override
-    public Booking get(int id) throws SQLException {
+    public Booking get(int id) {
         String query = "SELECT * FROM Booking WHERE bookingID = ?";
         try (Connection con = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -35,14 +36,14 @@ public class BookingDAO implements InterfaceBookingDAO {
             }
         } catch (SQLException e) {
             System.err.println("Error fetching booking: " + e.getMessage());
-            throw new SQLException("Error fetching booking with ID: " + id);
+           
         }
         return null;
     }
 
     // Get all bookings
     @Override
-    public Map<Integer, Booking> getAll() throws SQLException {
+    public Map<Integer, Booking> getAll() {
         String query = "SELECT * FROM Booking";
         Map<Integer, Booking> bookings = new HashMap<>();
         try (Connection con = DatabaseConnection.getInstance().getConnection();
@@ -55,19 +56,24 @@ public class BookingDAO implements InterfaceBookingDAO {
             }
         } catch (SQLException e) {
             System.err.println("Error fetching all bookings: " + e.getMessage());
-            throw new SQLException("Error fetching all bookings.");
+            
         }
         return bookings;
     }
 
     // Insert a new booking
     @Override
-    public int insert(Booking booking) throws SQLException {
+    public int insert(Booking booking) {
         // Check for duplicate bookings
-        if (isDuplicateBooking(booking)) {
-            System.out.println("Booking already exists for this buyer, seller, and service.");
-            return 0; // Return 0 to indicate no insertion
-        }
+        try {
+			if (isDuplicateBooking(booking)) {
+			    AlertUtils.showError("Duplicate", "Booking already exists for this buyer, seller, and service.");
+			    return 0; // Return 0 to indicate no insertion
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         String insertBookingQuery = "INSERT INTO Booking (clientID, serviceProviderID, serviceID, bookingDate, preferredTime, status, paymentStatus) VALUES (?, ?, ?, ?, ?, 'Pending', 'Unpaid')";
         try (Connection con = DatabaseConnection.getInstance().getConnection();
@@ -108,14 +114,14 @@ public class BookingDAO implements InterfaceBookingDAO {
             }
         } catch (SQLException e) {
             System.err.println("Error inserting booking: " + e.getMessage());
-            throw new SQLException("Error inserting booking.");
+            
         }
         return 0; // Return 0 if insertion failed
     }
 
     // Update an existing booking
     @Override
-    public int update(Booking booking) throws SQLException {
+    public int update(Booking booking) {
         String query = "UPDATE Booking SET status = ?, paymentStatus = ?, preferredTime = ? WHERE bookingID = ?";
         try (Connection con = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -128,13 +134,13 @@ public class BookingDAO implements InterfaceBookingDAO {
             return stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error updating booking: " + e.getMessage());
-            throw new SQLException("Error updating booking.");
+           return -1;
         }
     }
 
     // Delete a booking
     @Override
-    public int delete(Booking booking) throws SQLException {
+    public int delete(Booking booking) {
         String query = "DELETE FROM Booking WHERE bookingID = ?";
         try (Connection con = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -143,7 +149,7 @@ public class BookingDAO implements InterfaceBookingDAO {
             return stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error deleting booking: " + e.getMessage());
-            throw new SQLException("Error deleting booking.");
+            return -1;
         }
     }
 
@@ -163,7 +169,10 @@ public class BookingDAO implements InterfaceBookingDAO {
 
     // Helper method to check for duplicate bookings
     private boolean isDuplicateBooking(Booking booking) throws SQLException {
-        String query = "SELECT COUNT(*) FROM Booking WHERE clientID = ? AND serviceProviderID = ? AND serviceID = ?";
+        String query = "SELECT COUNT(*) FROM Booking " +
+                       "WHERE clientID = ? AND serviceProviderID = ? AND serviceID = ? " +
+                       "AND status NOT IN ('Completed', 'Canceled')";
+
         try (Connection con = DatabaseConnection.getInstance().getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
@@ -179,6 +188,7 @@ public class BookingDAO implements InterfaceBookingDAO {
         }
         return false;
     }
+
 
 
 	@Override

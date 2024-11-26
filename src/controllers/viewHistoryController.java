@@ -170,7 +170,9 @@ public class viewHistoryController implements Initializable {
 				Pane pane = fxmlLoader.load();
 
 				ItemController itemController = fxmlLoader.getController();
-				itemController.setData(booking, user); // Set data for Completed booking
+
+				itemController.setData(booking,user); // Set data for Completed booking
+
 
 				if (column2 == 1) {
 					column2 = 0;

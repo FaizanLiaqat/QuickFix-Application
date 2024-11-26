@@ -1,0 +1,4 @@
+paymentID:0,bookingID:5,amount:4000.0,paymentMethod:Bank Transfer,transactionDate:2024-11-26 21:51:43.439,payerID:10,receiverID:2
+paymentID:3,bookingID:3,amount:5000.00,paymentMethod:CreditCard,transactionDate:2024-11-26 20:49:52.0,payerID:10,receiverID:2
+paymentID:4,bookingID:4,amount:4000.00,paymentMethod:CreditCard,transactionDate:2024-11-26 21:46:28.0,payerID:10,receiverID:2
+paymentID:0,bookingID:6,amount:4000.0,paymentMethod:Bank Transfer,transactionDate:2024-11-26 21:56:28.652,payerID:10,receiverID:2

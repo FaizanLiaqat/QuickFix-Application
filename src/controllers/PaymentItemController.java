@@ -47,19 +47,13 @@ public class PaymentItemController {
 		Service service =null;
 		
 		System.out.println("Displaying ---- Payment ID: " + payments.getPaymentID());
-		try {
-			 seller = sellerdao.get(payments.getReceiverID());
-			 booking = bookingdao.get(payments.getBookingID());
-			 service = servicedao.get(booking.getServiceID());
-			 if(seller!=null)
-				 System.out.println(seller.getUserID()+" " + seller.getUserName());
-			 if(service!=null)
-				 System.out.println(service.getServiceID()+" "+service.getServiceName());
-			 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		seller = sellerdao.get(payments.getReceiverID());
+		 booking = bookingdao.get(payments.getBookingID());
+		 service = servicedao.get(booking.getServiceID());
+		 if(seller!=null)
+			 System.out.println(seller.getUserID()+" " + seller.getUserName());
+		 if(service!=null)
+			 System.out.println(service.getServiceID()+" "+service.getServiceName());
 		
 		
 		

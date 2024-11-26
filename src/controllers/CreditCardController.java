@@ -160,45 +160,29 @@ public class CreditCardController {
 
 		dao.BookingDAO bookingdao = new dao.BookingDAO();
 		Booking booking = null;
-		try {
-			 booking = bookingdao.get(bookingId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		booking = bookingdao.get(bookingId);
 		booking.setPaymentStatus("Paid");
 		
-		try {
-			bookingdao.update(booking);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		bookingdao.update(booking);
 
 		//public CreditCardPayment(int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate)
 		int serviceId = booking.getServiceID();
 		
 		dao.ServiceDAO servicedao = new dao.ServiceDAO();
 		Service service = null;
-		try {
-			 service = servicedao.get(serviceId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		service = servicedao.get(serviceId);
 		Timestamp currentTimestamp = new Timestamp(new Date().getTime());
 		
 		Payment payment = new CreditCardPayment(this.bookingId,BigDecimal.valueOf(service.getServicePrice()),"Credit Card", currentTimestamp,booking.getClientID(),service.getServiceProviderID(),cardnumber,cardtype,nameoncard,timestamp_exp);
 		
 		dao.PaymentDAO paymentdao = new dao.CreditCardPaymentDAO();
 		
-		try {
-			paymentdao.insert(payment);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int id = paymentdao.insert(payment);
+		if(id==-1) {
+			return;
 		}
 		
+		payment.getPaymentStrategy().processPayment(payment);
 		// here i will call payment.paymentStrategy.process(payment)
 			// it will deduct a specified amount of payment from payment 
 			// send the deduction to admin
@@ -214,13 +198,8 @@ public class CreditCardController {
 	
 		Notification notification = new Notification(service.getServiceProviderID(),notification_msg,currentTimestamp , "Unread", "PaymentStatus", "Seller");
 		
-		try {
-			int a = notificationdao.insert(notification);
-			System.out.println(a);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		int a = notificationdao.insert(notification);
+		System.out.println(a);
 		
 //		System.out.println("Booking ID: " + this.bookingId);
 //		System.out.println("Service ID: " + serviceId);

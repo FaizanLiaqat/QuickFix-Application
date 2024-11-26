@@ -16,32 +16,35 @@ public abstract class PaymentDAO implements DAO<Payment> {
     }
 
     @Override
-    public Payment get(int id) throws SQLException {
+    public Payment get(int id) {
         throw new UnsupportedOperationException("This method must be implemented by subclasses.");
     }
 
     @Override
-    public Map<Integer, Payment> getAll() throws SQLException {
+    public Map<Integer, Payment> getAll() {
         throw new UnsupportedOperationException("This method must be implemented by subclasses.");
     }
 
     @Override
-    public int insert(Payment payment) throws SQLException {
+    public int insert(Payment payment) {
         throw new UnsupportedOperationException("This method must be implemented by subclasses.");
     }
 
     @Override
-    public int update(Payment payment) throws SQLException {
+    public int update(Payment payment) {
         throw new UnsupportedOperationException("This method must be implemented by subclasses.");
     }
 
     @Override
-    public int delete(Payment payment) throws SQLException {
+    public int delete(Payment payment) {
         String sql = "DELETE FROM Payment WHERE paymentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, payment.getPaymentID());
             return statement.executeUpdate();
-        }
+        } catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
     }
     
     

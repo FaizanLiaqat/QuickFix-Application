@@ -23,7 +23,7 @@ public class CreditCardPaymentDAO extends PaymentDAO {
     }
 
     @Override
-    public CreditCardPayment get(int id) throws SQLException {
+    public CreditCardPayment get(int id) {
         // SQL query to fetch data from both Payment and CreditCardPayment tables
         String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID WHERE p.paymentID = ?";
         
@@ -35,13 +35,13 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new SQLException("Error fetching CreditCardPayment with ID " + id, e);
+           return null;
         }
         return null; // Return null if no payment found
     }
 
     @Override
-    public Map<Integer, Payment> getAll() throws SQLException {
+    public Map<Integer, Payment> getAll() {
         // SQL query to fetch all CreditCardPayments
         String sql = "SELECT * FROM Payment p INNER JOIN CreditCardPayment c ON p.paymentID = c.paymentID";
         Map<Integer, Payment> payments = new HashMap<>();
@@ -54,13 +54,13 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                 payments.put(payment.getPaymentID(), payment);
             }
         } catch (SQLException e) {
-            throw new SQLException("Error fetching all CreditCardPayments", e);
+           return null;
         }
         return payments;
     }
     
     @Override
-    public int insert(Payment payment) throws SQLException {
+    public int insert(Payment payment) {
         if (!(payment instanceof CreditCardPayment)) {
             throw new IllegalArgumentException("Invalid payment type.");
         }
@@ -68,9 +68,15 @@ public class CreditCardPaymentDAO extends PaymentDAO {
         CreditCardPayment creditCardPayment = (CreditCardPayment) payment;
 
         // Check if a payment already exists for the same bookingID
-        if (isPaymentExists(creditCardPayment.getBookingID())) {
-            throw new IllegalArgumentException("A payment already exists for this booking ID.");
-        }
+        try {
+			if (isPaymentExists(creditCardPayment.getBookingID())) {
+			   utils.AlertUtils.showError("Duplicate", "A payment already exists for this booking ID.");
+			   throw new SQLException("Error inserting CreditCardPayment");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
 
         // SQL to insert data into the Payment table
         String sql = "INSERT INTO payment (bookingID, amount, paymentMethod, transactionDate, payerID, receiverID) VALUES (?, ?, 'CreditCard', ?, ?, ?)";
@@ -105,14 +111,15 @@ public class CreditCardPaymentDAO extends PaymentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new SQLException("Error inserting CreditCardPayment", e);
+        	 utils.AlertUtils.showError("Error", "Error inserting CreditCardPayment");
+            return -1;
         }
 
-        return 0; // Return 0 if insertion fails
+        return -1; // Return 0 if insertion fails
     }
 
     @Override
-    public int update(Payment payment) throws SQLException {
+    public int update(Payment payment) {
         if (!(payment instanceof CreditCardPayment)) {
             throw new IllegalArgumentException("Invalid payment type.");
         }
@@ -142,7 +149,7 @@ public class CreditCardPaymentDAO extends PaymentDAO {
             creditCardStatement.setInt(5, creditCardPayment.getPaymentID());
             return creditCardStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException("Error updating CreditCardPayment", e);
+            return -1;
         }
     }
 

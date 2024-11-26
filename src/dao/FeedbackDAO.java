@@ -16,7 +16,7 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
 
 	// Get feedback by ID
     @Override
-    public FeedBack get(int id) throws SQLException {
+    public FeedBack get(int id) {
         String query = "SELECT * FROM Feedback WHERE feedbackID = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -35,13 +35,16 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                         resultSet.getTimestamp("feedbackDate")
                     );
             }
-        }
+        } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return null;
     }
 
     // Get all feedbacks
     @Override
-    public Map<Integer, FeedBack> getAll() throws SQLException {
+    public Map<Integer, FeedBack> getAll() {
         String query = "SELECT * FROM Feedback";
         Map<Integer, FeedBack> feedbacks = new HashMap<>();
 
@@ -62,12 +65,15 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                     );
                 feedbacks.put(feedback.getFeedbackID(), feedback);
             }
-        }
+        } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return feedbacks;
     }
 
     @Override
-    public int insert(FeedBack feedback) throws SQLException {
+    public int insert(FeedBack feedback) {
         // Query to check for duplicate feedback
         String checkDuplicateQuery = "SELECT feedbackID FROM Feedback WHERE clientID = ? AND serviceProviderID = ? AND bookingID = ?";
         String insertQuery = "INSERT INTO Feedback (clientID, serviceProviderID, bookingID, rating, comments) VALUES (?, ?, ?, ?, ?)";
@@ -104,13 +110,16 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
                     return keys.getInt(1); // Return generated feedback ID
                 }
             }
-        }
+        } catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return 0; // Return 0 if insertion failed
     }
 
     // Update feedback
     @Override
-    public int update(FeedBack feedback) throws SQLException {
+    public int update(FeedBack feedback) {
         String query = "UPDATE Feedback SET rating = ?, comments = ? WHERE feedbackID = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -120,19 +129,25 @@ public class FeedbackDAO implements InterfaceFeedbackDAO {
             preparedStatement.setInt(3, feedback.getFeedbackID());
 
             return preparedStatement.executeUpdate();
-        }
+        } catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
     }
 
     // Delete feedback
     @Override
-    public int delete(FeedBack feedback) throws SQLException {
+    public int delete(FeedBack feedback) {
         String query = "DELETE FROM Feedback WHERE feedbackID = ?";
         try (Connection connection = DatabaseConnection.getInstance().getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, feedback.getFeedbackID());
             return preparedStatement.executeUpdate();
-        }
+        } catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
     }
     
     public FeedBack getByBuyerID(int buyerID) throws SQLException {

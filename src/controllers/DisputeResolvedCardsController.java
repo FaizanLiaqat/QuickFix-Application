@@ -36,28 +36,11 @@ public class DisputeResolvedCardsController {
 		Booking booking = null;
 		Service service = null;
 
-		try {
-			buyer = buyerDao.get(dispute.getBuyerID());
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		try {
-			booking = bookingDao.get(dispute.getBookingID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			seller = sellerDao.get(dispute.getSellerID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (booking != null) {
-				service = serviceDao.get(booking.getServiceID());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		buyer = buyerDao.get(dispute.getBuyerID());
+		booking = bookingDao.get(dispute.getBookingID());
+		seller = sellerDao.get(dispute.getSellerID());
+		if (booking != null) {
+			service = serviceDao.get(booking.getServiceID());
 		}
 
 		if (buyer != null) {

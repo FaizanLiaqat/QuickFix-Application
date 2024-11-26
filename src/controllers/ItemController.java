@@ -127,12 +127,8 @@ public class ItemController {
 				booking.setServiceProviderID(currentService.getServiceProviderID());
 				booking.setBookingDate(Timestamp.from(Instant.now())); // Current date and time
 				booking.setPreferredTime(Timestamp.from(Instant.now())); // Current date and time
-				try {
-					// Call the filterByLocation method and pass the location as an argument
-					bdao.insert(booking);
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				// Call the filterByLocation method and pass the location as an argument
+				bdao.insert(booking);
 
 			}
 		} else if ("Click to confirm".equals(MessageButton.getText())) {
@@ -147,17 +143,13 @@ public class ItemController {
 
 		} else if ("Unread".equals(MessageButton.getText())) {
 
-			try {
-				// Call the filterByLocation method and pass the location as an argument
-				NotificationDAO ndao = new NotificationDAO(); // Initialize the ServiceDAO object
+			// Call the filterByLocation method and pass the location as an argument
+			NotificationDAO ndao = new NotificationDAO(); // Initialize the ServiceDAO object
 
-				Notification notification = ndao.get(notification_id);
-				notification.setStatus("Read");
+			Notification notification = ndao.get(notification_id);
+			notification.setStatus("Read");
 
-				ndao.update(notification);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			ndao.update(notification);
 
 		}
 
