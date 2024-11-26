@@ -151,12 +151,7 @@ public class BuyerDisputeController implements Initializable {
 		//Insert into database
 		dao.BookingDAO bookingdao = new dao.BookingDAO();
 		Booking booking = null;
-		try {
-			 booking = bookingdao.get(bookingId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		booking = bookingdao.get(bookingId);
 		
 		
 		
@@ -166,12 +161,7 @@ public class BuyerDisputeController implements Initializable {
 		
 		dao.ServiceDAO servicedao = new dao.ServiceDAO();
 		Service service = null;
-		try {
-			 service = servicedao.get(serviceId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		service = servicedao.get(serviceId);
 		Timestamp currentTimestamp = new Timestamp(new Date().getTime());
 		Timestamp res_time = null;
 		
@@ -198,13 +188,8 @@ public class BuyerDisputeController implements Initializable {
 			
 				Notification notification = new Notification(service.getServiceProviderID(),notification_msg,currentTimestamp , "Unread", "Dispute", "Seller");
 				
-				try {
-					int a = notificationdao.insert(notification);
-					System.out.println(a);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				int a = notificationdao.insert(notification);
+				System.out.println(a);
 				
 				
 				

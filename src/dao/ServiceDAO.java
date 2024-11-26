@@ -16,7 +16,7 @@ import utils.AlertUtils;
 public class ServiceDAO implements InterfaceServiceDAO {
 
 	@Override
-	public Service get(int id) throws SQLException {
+	public Service get(int id) {
 	    String query = "SELECT * FROM Service WHERE serviceID = ?";
 	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
 	         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -36,11 +36,14 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	        } else {
 	            return null; // No service found
 	        }
-	    }
+	    } catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
-	public Map<Integer, Service> getAll() throws SQLException {
+	public Map<Integer, Service> getAll() {
 	    Map<Integer, Service> services = new HashMap<>();
 	    String query = "SELECT * FROM Service";
 	    
@@ -60,12 +63,15 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	            );
 	            services.put(service.getServiceID(), service);
 	        }
-	    }
+	    } catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 	    return services;
 	}
 
 	@Override
-	public int insert(Service service) throws SQLException {
+	public int insert(Service service) {
 	    // Check if ServiceProvider has reached the limit of services
 	    String checkQuery = "SELECT COUNT(*) FROM Service WHERE serviceProviderID = ?";
 	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
@@ -80,7 +86,11 @@ public class ServiceDAO implements InterfaceServiceDAO {
 //	        	AlertUtils.showError("Service Limit Reached", "This service provider cannot have more than 5 services.");
 //	            return -1;
 //	        }
-	    }
+	    } catch (SQLException e) {
+			
+			e.printStackTrace();
+			return -1;
+		}
 
 	    // If service count is below the limit, proceed with insertion
 	    String insertQuery = "INSERT INTO Service (serviceName, serviceDescription, servicePrice,serviceProviderID ,serviceRating) VALUES ( ?, ?, ?, ?, ?)";
@@ -103,11 +113,14 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	            }
 	        }
 	        return 0; // Failed to insert
-	    }
+	    } catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@Override
-	public int update(Service service) throws SQLException {
+	public int update(Service service) {
 	    String updateQuery = "UPDATE Service SET serviceName = ?, serviceDescription = ?, servicePrice = ?, serviceIncrement = ?, serviceRating = ? WHERE serviceID = ?";
 	    
 	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
@@ -121,11 +134,14 @@ public class ServiceDAO implements InterfaceServiceDAO {
 	        preparedStatement.setInt(6, service.getServiceID());
 
 	        return preparedStatement.executeUpdate(); // Returns number of rows affected
-	    }
+	    } catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@Override
-	public int delete(Service service) throws SQLException {
+	public int delete(Service service) {
 	    String deleteQuery = "DELETE FROM Service WHERE serviceID = ?";
 	    
 	    try (Connection connection = DatabaseConnection.getInstance().getConnection();
@@ -133,7 +149,10 @@ public class ServiceDAO implements InterfaceServiceDAO {
 
 	        preparedStatement.setInt(1, service.getServiceID());
 	        return preparedStatement.executeUpdate(); // Returns number of rows affected
-	    }
+	    } catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@Override

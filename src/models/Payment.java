@@ -30,6 +30,8 @@ public abstract class Payment {
         this.payerID = payerID;
         this.receiverID = receiverID;
         this.paymentStrategy = paymentStrategy;
+        dao.FIleDAO fileDao = new dao.FIleDAO();
+        fileDao.insert(this);
     }
     
  // Constructor
@@ -41,12 +43,13 @@ public abstract class Payment {
         this.payerID = payerID;
         this.receiverID = receiverID;
         this.paymentStrategy = paymentStrategy;
+        dao.FIleDAO fileDao = new dao.FIleDAO();
+        fileDao.insert(this);
     }
 
 
     public Payment(int bookingID, BigDecimal amount, String paymentMethod,java.sql.Timestamp transactionDate, int payerID, int receiverID,PaymentStrategy paymentStrategy) {
 
-      
         this.bookingID = bookingID;
         this.amount = amount;
         this.paymentMethod = paymentMethod;
@@ -54,6 +57,9 @@ public abstract class Payment {
         this.payerID = payerID;
         this.receiverID = receiverID;
         this.paymentStrategy = paymentStrategy;
+        
+        dao.FIleDAO fileDao = new dao.FIleDAO();
+        fileDao.insert(this);
     }
     // Getters and Setters
     public int getPaymentID() { return paymentID; }
@@ -77,7 +83,16 @@ public abstract class Payment {
 
     public int getReceiverID() { return receiverID; }
     public void setReceiverID(int receiverID) { this.receiverID = receiverID; }
+    
 
-    // Abstract method to be implemented by child classes
+    public PaymentStrategy getPaymentStrategy() {
+		return paymentStrategy;
+	}
+
+	public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+		this.paymentStrategy = paymentStrategy;
+	}
+
+	// Abstract method to be implemented by child classes
     public abstract void processPayment();
 }

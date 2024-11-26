@@ -95,7 +95,7 @@ public class SellerDAO extends UserDAO {
 	}
 
 	@Override
-	public User get(int id) throws SQLException {
+	public User get(int id) {
 		String query = "SELECT u.*, sp.availability FROM User u "
 				+ "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID "
 				+ "WHERE u.userID = ? AND u.role = 'Seller'";
@@ -130,7 +130,7 @@ public class SellerDAO extends UserDAO {
 	}
 
 	@Override
-	public Map<Integer, User> getAll() throws SQLException {
+	public Map<Integer, User> getAll() {
 		// Join User and ServiceProvider tables to get all sellers
 		String query = "SELECT u.*, sp.availability FROM User u "
 				+ "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID " + "WHERE u.role = 'Seller'";
@@ -164,7 +164,7 @@ public class SellerDAO extends UserDAO {
 	}
 
 	@Override
-	public int insert(User user) throws SQLException {
+	public int insert(User user) {
 		// Assuming the role 'Seller' is predefined
 		String insertUserQuery = "INSERT INTO User (name, email, password, phone, location, role) VALUES (?, ?, ?, ?, ?, 'Seller')";
 		String insertServiceProviderQuery = "INSERT INTO ServiceProvider (serviceProviderID, availability) VALUES (?, TRUE)";
@@ -201,17 +201,25 @@ public class SellerDAO extends UserDAO {
 		} catch (SQLIntegrityConstraintViolationException e) {
 			AlertUtils.showError("Duplicate entry: ", e.getMessage());
 			e.printStackTrace(); // Optional: for debugging
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			return -1;
 		}
 
 		return 0; // Return 0 if insertion failed
 	}
 
 	@Override
-	public int update(User user) throws SQLException {
+	public int update(User user) {
 		// Check if the seller exists before proceeding with the update
-		if (exists(user) == -1) {
-			AlertUtils.showError("Update Failed", "Seller does not exist.");
-			return 0;
+		try {
+			if (exists(user) == -1) {
+				AlertUtils.showError("Update Failed", "Seller does not exist.");
+				return 0;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
 		}
 
 		String updateUserQuery = "UPDATE User SET name = ?, email = ?, phone = ?, location = ?, role = 'Seller' WHERE userID = ? AND role = 'Seller'";
@@ -290,8 +298,8 @@ public class SellerDAO extends UserDAO {
 	}
 
 	@Override
-	public int delete(User user) throws SQLException {
-		// TODO Auto-generated method stub
+	public int delete(User user) {
+		
 		return 0;
 	}
 

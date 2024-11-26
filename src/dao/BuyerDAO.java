@@ -15,7 +15,7 @@ import utils.AlertUtils;
 public class BuyerDAO extends UserDAO {
 
 	@Override
-	public User get(int id) throws SQLException {
+	public User get(int id) {
 	    String query = "SELECT userID, name, email, phone, location FROM User WHERE userID = ?";
 
 	    try (Connection con = DatabaseConnection.getInstance().getConnection();
@@ -52,13 +52,13 @@ public class BuyerDAO extends UserDAO {
 
 
 	@Override
-	public Map<Integer, User> getAll() throws SQLException {
+	public Map<Integer, User> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int insert(User user) throws SQLException {
+	public int insert(User user) {
 	    String query = "INSERT INTO User (name, email, password, phone, location, role) VALUES (?, ?, ?, ?, ?, ?)";
 
 	    try (Connection con = DatabaseConnection.getInstance().getConnection();
@@ -98,7 +98,7 @@ public class BuyerDAO extends UserDAO {
 
 
 	@Override
-	public int update(User user) throws SQLException {
+	public int update(User user) {
 
 	    // Check if user exists before attempting to update
 //	    if (exists(user)==-1) {
@@ -141,7 +141,7 @@ public class BuyerDAO extends UserDAO {
 	}
 
 	@Override
-	public int delete(User user) throws SQLException {
+	public int delete(User user) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

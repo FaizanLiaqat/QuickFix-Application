@@ -14,25 +14,25 @@ import utils.AlertUtils;
 public class AdminDAO extends UserDAO {
 
 	@Override
-	public User get(int id) throws SQLException {
+	public User get(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Map<Integer, User> getAll() throws SQLException {
+	public Map<Integer, User> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public int insert(User user) throws SQLException {
+	public int insert(User user) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int update(User user) throws SQLException {
+	public int update(User user) {
 		
 		 // Check if user exists before attempting to update
 	    
@@ -123,7 +123,7 @@ public class AdminDAO extends UserDAO {
 	    return false; // Return false if update failed
 	}
 	@Override
-	public int delete(User user) throws SQLException {
+	public int delete(User user) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

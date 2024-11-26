@@ -45,28 +45,11 @@ public class DisputeUnResolvedCardController {
 		Booking booking = null;
 		Service service = null;
 
-		try {
-			buyer = buyerDao.get(dispute.getBuyerID());
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		try {
-			booking = bookingDao.get(dispute.getBookingID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			seller = sellerDao.get(dispute.getSellerID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (booking != null) {
-				service = serviceDao.get(booking.getServiceID());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		buyer = buyerDao.get(dispute.getBuyerID());
+		booking = bookingDao.get(dispute.getBookingID());
+		seller = sellerDao.get(dispute.getSellerID());
+		if (booking != null) {
+			service = serviceDao.get(booking.getServiceID());
 		}
 		if (buyer != null) {
 			// Setting text for various labels
@@ -99,28 +82,11 @@ public class DisputeUnResolvedCardController {
 		Booking booking = null;
 		Service service = null;
 
-		try {
-			buyer = buyerDao.get(dispute.getBuyerID());
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		try {
-			booking = bookingDao.get(dispute.getBookingID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			seller = sellerDao.get(dispute.getSellerID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (booking != null) {
-				service = serviceDao.get(booking.getServiceID());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		buyer = buyerDao.get(dispute.getBuyerID());
+		booking = bookingDao.get(dispute.getBookingID());
+		seller = sellerDao.get(dispute.getSellerID());
+		if (booking != null) {
+			service = serviceDao.get(booking.getServiceID());
 		}
 		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
 		// int recipientID, String notificationMessage, java.sql.Timestamp timestamp,
@@ -130,22 +96,14 @@ public class DisputeUnResolvedCardController {
 					buyer.getUserName() + " Your Dispute has been Accepted in your favor against Seller: "
 							+ seller.getUserName() + " on Service: " + service.getServiceName(),
 					new Timestamp(new Date().getTime()), "Unread", "Dispute", "Buyer");
-			try {
-				int a = notificationdao.insert(notifyBuyer);
-				System.out.println(a);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			int a = notificationdao.insert(notifyBuyer);
+			System.out.println(a);
 			Notification notifySeller = new Notification(dispute.getSellerID(),
 					seller.getUserName() + " The dispute against you by Client: "
 							+ buyer.getUserName() + " on Service: " + service.getServiceName()+" Has been Accepted.",
 					new Timestamp(new Date().getTime()), "Unread", "Dispute", "Seller");
-			try {
-				int a = notificationdao.insert(notifySeller);
-				System.out.println(a);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			int id = notificationdao.insert(notifySeller);
+			System.out.println(id);
 
 		}
 		utils.AlertUtils.showSuccess("Dispute Resolved Successfully!");
@@ -168,28 +126,11 @@ public class DisputeUnResolvedCardController {
 		Booking booking = null;
 		Service service = null;
 
-		try {
-			buyer = buyerDao.get(dispute.getBuyerID());
-		} catch (SQLException e) {
-
-			e.printStackTrace();
-		}
-		try {
-			booking = bookingDao.get(dispute.getBookingID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			seller = sellerDao.get(dispute.getSellerID());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		try {
-			if (booking != null) {
-				service = serviceDao.get(booking.getServiceID());
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		buyer = buyerDao.get(dispute.getBuyerID());
+		booking = bookingDao.get(dispute.getBookingID());
+		seller = sellerDao.get(dispute.getSellerID());
+		if (booking != null) {
+			service = serviceDao.get(booking.getServiceID());
 		}
 		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
 		// int recipientID, String notificationMessage, java.sql.Timestamp timestamp,
@@ -199,22 +140,14 @@ public class DisputeUnResolvedCardController {
 					buyer.getUserName() + " Your Dispute has been Rejected against Seller: "
 							+ seller.getUserName() + " on Service: " + service.getServiceName(),
 					new Timestamp(new Date().getTime()), "Unread", "Dispute", "Buyer");
-			try {
-				int a = notificationdao.insert(notifyBuyer);
-				System.out.println(a);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			int a = notificationdao.insert(notifyBuyer);
+			System.out.println(a);
 			Notification notifySeller = new Notification(dispute.getSellerID(),
 					seller.getUserName() + " The dispute against you by Client: "
 							+ buyer.getUserName() + " on Service: " + service.getServiceName()+" Has been Rejected.",
 					new Timestamp(new Date().getTime()), "Unread", "Dispute", "Seller");
-			try {
-				int a = notificationdao.insert(notifySeller);
-				System.out.println(a);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			int id = notificationdao.insert(notifySeller);
+			System.out.println(id);
 
 		}
 		utils.AlertUtils.showSuccess("Dispute Rejected Successfully!");

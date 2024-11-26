@@ -112,12 +112,8 @@ public class ViewServiceController implements Initializable {
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 						ServiceDAO sdao = new ServiceDAO(); // Initialize the ServiceDAO object
 
-						try {
-							// Call the filterByLocation method and pass the location as an argument
-							System.out.println(sdao.delete(service));
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
+						// Call the filterByLocation method and pass the location as an argument
+						System.out.println(sdao.delete(service));
 
 						refreshServices(); // Refresh the grid
 						System.out.println("Service removed: " + service.getServiceName());
@@ -211,12 +207,8 @@ public class ViewServiceController implements Initializable {
 					if (result.isPresent() && result.get() == ButtonType.OK) {
 						ServiceDAO sdao = new ServiceDAO(); // Initialize the ServiceDAO object
 
-						try {
-							// Call the filterByLocation method and pass the location as an argument
-							System.out.println(sdao.delete(service));
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
+						// Call the filterByLocation method and pass the location as an argument
+						System.out.println(sdao.delete(service));
 
 						refreshServices(); // Refresh the grid						System.out.println("Service removed: " + service.getServiceName());
 					} else {

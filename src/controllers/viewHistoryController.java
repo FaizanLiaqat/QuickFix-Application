@@ -173,29 +173,7 @@ public class viewHistoryController implements Initializable {
 				ItemController itemController = fxmlLoader.getController();
 				itemController.setData(booking,user); // Set data for Completed booking
 
-				// Add click event for the pane
-				pane.setOnMouseClicked(event -> {
-					Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-					alert.setTitle("Payment Confirmation");
-					alert.setHeaderText("Payment Required");
-					alert.setContentText("Do you want to proceed with the payment?");
-
-					// Show the alert and wait for user response
-					Optional<ButtonType> result = alert.showAndWait();
-					if (result.isPresent() && result.get() == ButtonType.OK) {
-
-						BookingDAO bdao = new BookingDAO(); // Initialize the ServiceDAO object
-						try {
-							// Call the filterByLocation method and pass the location as an argument
-							bdao.ChangepaymentStatus(booking.getBookingID());
-						} catch (SQLException e) {
-							e.printStackTrace();
-						}
-						System.out.println("User chose to proceed with payment.");
-					} else {
-						System.out.println("User chose not to proceed with payment.");
-					}
-				});
+				
 				if (column2 == 1) {
 					column2 = 0;
 					row2++;

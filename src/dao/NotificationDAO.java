@@ -17,7 +17,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 
 	// Get a specific notification by its ID
 	@Override
-	public Notification get(int id) throws SQLException {
+	public Notification get(int id) {
 		String query = "SELECT * FROM Notification WHERE notificationID = ?";
 		try (Connection conn = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -28,6 +28,8 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 					return this.mapResultSetToNotification(rs);
 				}
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -69,7 +71,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 
 	// Get all notifications from the database
 	@Override
-	public Map<Integer, Notification> getAll() throws SQLException {
+	public Map<Integer, Notification> getAll() {
 		String query = "SELECT * FROM Notification";
 		Map<Integer, Notification> notifications = new HashMap<>();
 		try (Connection con = DatabaseConnection.getInstance().getConnection();
@@ -81,14 +83,14 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("Error fetching all notifications: " + e.getMessage());
-			throw new SQLException("Error fetching all notifications.");
+			
 		}
 		return notifications;
 	}
 
 	// Insert a new notification into the Notification table
 	@Override
-	public int insert(Notification notification) throws SQLException {
+	public int insert(Notification notification) {
 		String query = "INSERT INTO notification (recipientID, message, status, timestamp, type, recipientRole) VALUES (?, ?, ?, ?, ?, ?)";
 		try (Connection con = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -113,14 +115,14 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("Error inserting notification: " + e.getMessage());
-			throw new SQLException("Error inserting notification.");
+			
 		}
 		return 0;
 	}
 
 	// Update an existing notification in the Notification table
 	@Override
-	public int update(Notification notification) throws SQLException {
+	public int update(Notification notification) {
 		String query = "UPDATE notification SET message = ?, status = ?, timestamp = ?, type = ?, recipientRole = ? WHERE notificationID = ?";
 		try (Connection con = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement stmt = con.prepareStatement(query)) {
@@ -142,13 +144,13 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 
 		} catch (SQLException e) {
 			System.err.println("Error updating notification: " + e.getMessage());
-			throw new SQLException("Error updating notification.");
+			return -1;
 		}
 	}
 
 	// Delete a notification from the database
 	@Override
-	public int delete(Notification notification) throws SQLException {
+	public int delete(Notification notification) {
 		String query = "DELETE FROM Notification WHERE notificationID = ?";
 		try (Connection con = DatabaseConnection.getInstance().getConnection();
 				PreparedStatement stmt = con.prepareStatement(query)) {
@@ -157,7 +159,7 @@ public class NotificationDAO implements InterfaceNotificationDAO {
 			return stmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("Error deleting notification: " + e.getMessage());
-			throw new SQLException("Error deleting notification.");
+			return -1;
 		}
 	}
 

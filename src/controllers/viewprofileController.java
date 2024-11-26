@@ -59,6 +59,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import utils.UserSingleton;
 
 public class viewprofileController implements Initializable {
 
@@ -116,23 +117,28 @@ public class viewprofileController implements Initializable {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/profile.fxml"));
 		Parent fxml = loader.load();
 		ProfileController controller = loader.getController();
-		
+
 		controller.setData();
 
 		// Get the controller instance from the loader
 
 		// Update the label based on user type using the controller
-		
 
-		// Update the contentArea 
+		// Update the contentArea
 		contentArea.getChildren().clear();
 		contentArea.getChildren().add(fxml);
 	}
 
 	public void Notifications(javafx.event.ActionEvent actionEvent) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("/views/BuyerNotification.fxml"));
-		contentArea.getChildren().removeAll();
-		contentArea.getChildren().setAll(fxml);
+		if (UserSingleton.getInstance().getUserObject().getUserType().equalsIgnoreCase("Buyer")) {
+			Parent fxml = FXMLLoader.load(getClass().getResource("/views/BuyerNotification.fxml"));
+			contentArea.getChildren().removeAll();
+			contentArea.getChildren().setAll(fxml);
+		} else {
+			Parent fxml = FXMLLoader.load(getClass().getResource("/views/Notifications.fxml"));
+			contentArea.getChildren().removeAll();
+			contentArea.getChildren().setAll(fxml);
+		}
 	}
 
 	public void Change_Password(javafx.event.ActionEvent actionEvent) throws IOException {
