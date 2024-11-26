@@ -7,26 +7,26 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.viewprofileController">
+<Pane prefHeight="620.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.viewprofileController">
    <children>
-      <VBox prefHeight="620.0" prefWidth="156.0" spacing="50.0" style="-fx-background-color: #263F73;">
+      <VBox prefHeight="620.0" prefWidth="156.0" spacing="50.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#viewProfile" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #263F73;" text="Profile" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#viewProfile" prefHeight="26.0" prefWidth="169.0" styleClass="backgroundColour" stylesheets="@style.css" text="Profile" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#Notifications" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #263F73;" text="Notifications" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#Notifications" prefHeight="26.0" prefWidth="169.0" styleClass="backgroundColour" stylesheets="@style.css" text="Notifications" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#Change_Password" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #263F73;" text="Change Password" textFill="WHITE">
+            <Button mnemonicParsing="false" onAction="#Change_Password" prefHeight="26.0" prefWidth="169.0" styleClass="backgroundColour" stylesheets="@style.css" text="Change Password" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="back_button" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="26.0" prefWidth="169.0" style="-fx-background-color: #263F73;" text="Back" textFill="WHITE">
+            <Button fx:id="back_button" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="26.0" prefWidth="169.0" styleClass="backgroundColour" stylesheets="@style.css" text="Back" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>
@@ -36,11 +36,11 @@
             <Insets top="100.0" />
          </padding>
       </VBox>
-      <Label prefHeight="35.0" prefWidth="156.0" style="-fx-background-color: #263F73;" text="   Profile Info" textFill="WHITE">
+      <Label prefHeight="35.0" prefWidth="156.0" styleClass="labelStyle" stylesheets="@style.css" text="   Profile Info" textFill="WHITE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Pane fx:id="contentArea" layoutX="154.0" layoutY="-4.0" prefHeight="600.0" prefWidth="620.0" />
+      <Pane fx:id="contentArea" layoutX="158.0" layoutY="-4.0" prefHeight="627.0" prefWidth="653.0" styleClass="backgroundColour" stylesheets="@style.css" />
    </children>
 </Pane>

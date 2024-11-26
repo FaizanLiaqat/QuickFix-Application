@@ -10,5 +10,5 @@ public interface InterfaceBookingDAO extends DAO<Booking> {
     List<Booking> getAllBySellerID(int sellerID) throws SQLException;
     List<Booking> getBookingsByStatus(String status,int id) throws SQLException;
 	public void ChangepaymentStatus(int bookingid) throws SQLException; 
-
+	public void ChangeStatus(String status, int bookingid) throws SQLException;
 }

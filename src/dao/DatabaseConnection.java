@@ -10,7 +10,7 @@ public class DatabaseConnection {
 
 
 
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "1234";
 
 
 
