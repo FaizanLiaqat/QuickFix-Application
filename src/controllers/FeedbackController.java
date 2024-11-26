@@ -80,26 +80,22 @@ public class FeedbackController implements Initializable {
 
 	@FXML
 	private Button feedback_submit;
-	
+
 	@FXML
 	private TextArea feedback_review;
-	
+
 	@FXML
 	private Slider feedback_slider;
-	
-	
+
 	private int bookingId;
-	
-	
-	
-	
+
 	public void setBookingId(int id) {
 		this.bookingId = id;
 	}
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 //		try {
 //			Parent fxml  = FXMLLoader.load(getClass().getResource("/views/profile.fxml"));
 //		    contentArea.getChildren().removeAll();
@@ -109,109 +105,69 @@ public class FeedbackController implements Initializable {
 //			e.printStackTrace();
 //		}
 	}
-	
-	
-	
-	public void submitOnAction(javafx.event.ActionEvent actionEvent) throws IOException{
-		
-	    
+
+	public void submitOnAction(javafx.event.ActionEvent actionEvent) throws IOException {
+
 		int rating = (int) feedback_slider.getValue();
 		String review = feedback_review.getText();
-		
+
 		AlertUtils au = null;
-		//input validation
+		// input validation
 		if (review == null || review.trim().isEmpty()) {
-	        // Display error for empty review
-	        au.showError("Review is empty", "Review field cannot be empty");
-	        return;
-	    }
-		
+			// Display error for empty review
+			AlertUtils.showError("Review is empty", "Review field cannot be empty");
+			return;
+		}
+
 		System.out.println(rating);
 		System.out.println(review);
-		
-		
-		//Insert into database
+
+		// Insert into database
 		dao.BookingDAO bookingdao = new dao.BookingDAO();
 		Booking booking = null;
-		try {
-			 booking = bookingdao.get(bookingId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		try {
-			bookingdao.update(booking);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		booking = bookingdao.get(bookingId);
 
-		//public CreditCardPayment(int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate)
+		bookingdao.update(booking);
+
+		// public CreditCardPayment(int bookingID, BigDecimal amount, String
+		// paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int
+		// payerID, int receiverID, String cardNumber, String cardType, String
+		// cardHolderName, java.sql.Timestamp expirationDate)
 		int serviceId = booking.getServiceID();
-		
+
 		dao.ServiceDAO servicedao = new dao.ServiceDAO();
 		Service service = null;
-		try {
-			 service = servicedao.get(serviceId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		service = servicedao.get(serviceId);
 		Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-		//public FeedBack(int clientID, int serviceProviderID, int bookingID,int serviceID, int rating, String comments, java.sql.Timestamp feedbackDate)
-		FeedBack feedback = new FeedBack(booking.getClientID(),service.getServiceProviderID(),this.bookingId,serviceId,rating,review,currentTimestamp);
-		
+		// public FeedBack(int clientID, int serviceProviderID, int bookingID,int
+		// serviceID, int rating, String comments, java.sql.Timestamp feedbackDate)
+		FeedBack feedback = new FeedBack(booking.getClientID(), service.getServiceProviderID(), this.bookingId,
+				serviceId, rating, review, currentTimestamp);
+
 		FeedbackDAO feedbackdao = new FeedbackDAO();
-		try {
-			int res = feedbackdao.insert(feedback);
-			if(res==-1) {
-		        au.showError("Feedback Already Given", "Feedback already given for selected booking");
-		        return;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int res = feedbackdao.insert(feedback);
+		if (res == -1) {
+			AlertUtils.showError("Feedback Already Given", "Feedback already given for selected booking");
+			return;
 		}
-		
-		
-		
-		//send notification
+
+		// send notification
 		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
-		
-		
+
 		String buyer_name = UserSingleton.getInstance().getUserObject().getUserName();
-		String notification_msg = "Feedback has been given by " + buyer_name + " for service  "+ service.getServiceName() + " : " + review;
-	
-		Notification notification = new Notification(service.getServiceProviderID(),notification_msg,currentTimestamp , "Unread", "FeedbackReceived", "Seller");
-		
-		try {
-			int a = notificationdao.insert(notification);
-			System.out.println(a);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		 au.showSuccess("Feedback Submitted");
-	   
+		String notification_msg = "Feedback has been given by " + buyer_name + " for service  "
+				+ service.getServiceName() + " : " + review;
+
+		Notification notification = new Notification(service.getServiceProviderID(), notification_msg, currentTimestamp,
+				"Unread", "FeedbackReceived", "Seller");
+
+		int a = notificationdao.insert(notification);
+		System.out.println(a);
+
+		AlertUtils.showSuccess("Feedback Submitted");
+
 		feedback_submit.setDisable(true);
-		
-	    	}
-	
-	
-	
 
-	
+	}
 
-	
-
-	
-	
-	
-		  
-		  
 }
-

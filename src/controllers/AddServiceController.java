@@ -57,15 +57,9 @@ public class AddServiceController {
         service.setServiceRating(1); // Default rating for a new service
         service.setServiceProviderID(user.getUserID());
 
-        try {
-            // Insert the service into the database
-            sdao.insert(service);
-            System.out.println("Service successfully added!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to add the service. Please try again.");
-            return;
-        }
+        // Insert the service into the database
+		sdao.insert(service);
+		System.out.println("Service successfully added!");
 
         // Close the current window and open the "view_service.fxml" window
         closeCurrentWindow();

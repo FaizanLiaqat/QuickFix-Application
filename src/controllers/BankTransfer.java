@@ -116,45 +116,26 @@ public class BankTransfer {
 
 		dao.BookingDAO bookingdao = new dao.BookingDAO();
 		Booking booking = null;
-		try {
-			 booking = bookingdao.get(bookingId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		booking = bookingdao.get(bookingId);
 		booking.setPaymentStatus("Paid");
 		
-		try {
-			bookingdao.update(booking);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		bookingdao.update(booking);
 
 		//public CreditCardPayment(int bookingID, BigDecimal amount, String paymentMethod, String paymentStatus, java.sql.Timestamp transactionDate, int payerID, int receiverID, String cardNumber, String cardType, String cardHolderName, java.sql.Timestamp expirationDate)
 		int serviceId = booking.getServiceID();
 		
 		dao.ServiceDAO servicedao = new dao.ServiceDAO();
 		Service service = null;
-		try {
-			 service = servicedao.get(serviceId);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		service = servicedao.get(serviceId);
 		Timestamp currentTimestamp = new Timestamp(new Date().getTime());
 		//public BankTransferPayment(int bookingID, BigDecimal amount, String paymentMethod, java.sql.Timestamp transactionDate, int payerID, int receiverID, String bankAccountNumber, String bankName, String referenceCode, java.sql.Timestamp transferDate) 
 		Payment payment = new BankTransferPayment(this.bookingId,BigDecimal.valueOf(service.getServicePrice()),"Bank Transfer", currentTimestamp,booking.getClientID(),service.getServiceProviderID(),accountnumber,bankname,"123",currentTimestamp);
 		
 		dao.PaymentDAO paymentdao = new dao.BankTransferPaymentDAO();
 		
-		try {
-			paymentdao.insert(payment);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		paymentdao.insert(payment);
 		
+		payment.getPaymentStrategy().processPayment(payment);
 		//send notification
 		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
 		//create and insert a notification
@@ -166,12 +147,7 @@ public class BankTransfer {
 	
 		Notification notification = new Notification(service.getServiceProviderID(),notification_msg,currentTimestamp , "Unread", "PaymentStatus", "Seller");
 		
-		try {
-			notificationdao.insert(notification);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		notificationdao.insert(notification);
 		
 		AlertUtils.showSuccess("Payment Processed!");
 

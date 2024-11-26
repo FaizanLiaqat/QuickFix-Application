@@ -16,6 +16,7 @@ import java.util.Map;
 import models.BankTransferPayment;
 import models.CreditCardPayment;
 import models.Payment;
+import utils.AlertUtils;
 
 public class BankTransferPaymentDAO extends PaymentDAO {
 
@@ -24,7 +25,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
     }
 
     @Override
-    public BankTransferPayment get(int id) throws SQLException {
+    public BankTransferPayment get(int id) {
         // SQL to fetch data from both Payment and BankTransferPayment tables
         String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID WHERE p.paymentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -35,13 +36,13 @@ public class BankTransferPaymentDAO extends PaymentDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new SQLException("Error fetching BankTransferPayment with ID " + id, e);
+          return null;
         }
         return null; // Return null if no payment found
     }
 
     @Override
-    public Map<Integer, Payment> getAll() throws SQLException {
+    public Map<Integer, Payment> getAll() {
         // SQL to fetch all BankTransferPayments
         String sql = "SELECT * FROM Payment p INNER JOIN BankTransferPayment b ON p.paymentID = b.paymentID";
         Map<Integer, Payment> payments = new HashMap<>();
@@ -53,13 +54,13 @@ public class BankTransferPaymentDAO extends PaymentDAO {
                 payments.put(payment.getPaymentID(), payment);
             }
         } catch (SQLException e) {
-            throw new SQLException("Error fetching all BankTransferPayments", e);
+            return null;
         }
         return payments;
     }
 
     @Override
-    public int insert(Payment payment) throws SQLException {
+    public int insert(Payment payment) {
     	if (!(payment instanceof BankTransferPayment)) {
 
 			throw new IllegalArgumentException("Invalid payment type.");
@@ -68,8 +69,14 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 		BankTransferPayment bankTransferPayment = (BankTransferPayment) payment;
 
 		// Check if a payment already exists for the same bookingID
-		if (isPaymentExists(bankTransferPayment.getBookingID())) {
-			throw new IllegalArgumentException("A payment already exists for this booking ID.");
+		try {
+			if (isPaymentExists(bankTransferPayment.getBookingID())) {
+				AlertUtils.showError("Duplicate", "A payment already exists for this booking ID.");
+				throw new IllegalArgumentException("A payment already exists for this booking ID.");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
 		}
 
 		// SQL to insert into Payment table
@@ -105,13 +112,13 @@ public class BankTransferPaymentDAO extends PaymentDAO {
 				}
 			}
 		} catch (SQLException e) {
-			throw new SQLException("Error inserting BankTransferPayment", e);
+			return -1;
 		}
-		return 0;
+		return -1;
     }
 
     @Override
-    public int update(Payment payment) throws SQLException {
+    public int update(Payment payment) {
         if (!(payment instanceof BankTransferPayment)) {
             throw new IllegalArgumentException("Invalid payment type.");
         }
@@ -138,7 +145,7 @@ public class BankTransferPaymentDAO extends PaymentDAO {
             bankTransferStatement.setInt(5, bankTransferPayment.getPaymentID());
             return bankTransferStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SQLException("Error updating BankTransferPayment", e);
+            return -1;
         }
     }
 

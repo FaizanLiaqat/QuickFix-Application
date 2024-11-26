@@ -70,42 +70,36 @@ public class RegisterController implements Initializable{
 					if(this.userDAO.emailExists(user)) {
 						registerMessage.setText("Please Enter Unique Email");
 					}else {
+						// Inserting user data into User table
+						this.userDAO.insert(user);
+						
+						// Show success message
+						registerMessage.setText("Registration successful! You can now log in.");  
+						AlertUtils.showSuccess("Registeration successful!");
 						try {
-					        // Inserting user data into User table
-					        this.userDAO.insert(user);
-					        
-					        // Show success message
-					        registerMessage.setText("Registration successful! You can now log in.");  
-			                AlertUtils.showSuccess("Registeration successful!");
-			        		try {
 
-			        			// Close the current window (home.fxml)
-			        			Stage currentStage = (Stage) back_button.getScene().getWindow();
-			        			currentStage.close();
+							// Close the current window (home.fxml)
+							Stage currentStage = (Stage) back_button.getScene().getWindow();
+							currentStage.close();
 
-			        			// Load the Access.fxml file
-			        			Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+							// Load the Access.fxml file
+							Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
 
-			        			// Create a new Stage (window) for Access.fxml
-			        			Stage stage = new Stage();
-			        			stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
-			        			stage.setTitle("Login"); // Set the title of the new window
+							// Create a new Stage (window) for Access.fxml
+							Stage stage = new Stage();
+							stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
+							stage.setTitle("Login"); // Set the title of the new window
 
-			        			// Set the new scene with the loaded FXML and desired size
-			        			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
-			        			stage.setScene(scene);
+							// Set the new scene with the loaded FXML and desired size
+							Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
+							stage.setScene(scene);
 
-			        			// Show the new window (stage)
-			        			stage.show();
+							// Show the new window (stage)
+							stage.show();
 
-			        		} catch (IOException e) {
-			        			e.printStackTrace(); // Handle error if FXML file loading fails
-			        		}
-			    			
-					    } catch (SQLException e) {
-					        e.printStackTrace();
-					        registerMessage.setText("Error during registration. Please try again.");
-					    };
+						} catch (IOException e) {
+							e.printStackTrace(); // Handle error if FXML file loading fails
+						};
 					}
 				} catch (SQLException e) {
 					

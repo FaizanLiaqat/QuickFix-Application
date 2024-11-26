@@ -25,7 +25,7 @@ import models.Notification;
 import models.User;
 import utils.UserSingleton;
 
-public class BuyerNotificationController {
+public class BuyerNotificationController implements Initializable {
 
 	@FXML
 	private GridPane grid5;
@@ -50,7 +50,7 @@ public class BuyerNotificationController {
 
 		return notification;
 	}
-
+	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		this.user = UserSingleton.getInstance().getUserObject();

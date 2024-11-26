@@ -7,14 +7,14 @@ import java.util.Map;
 import models.Service;
 
 public interface DAO<T> {
-	T get(int id) throws SQLException;
+	T get(int id) ;
 	
-	Map<Integer,T> getAll() throws SQLException;
+	Map<Integer,T> getAll() ;
 	
-	int insert(T t) throws SQLException;
+	int insert(T t) ;
 	
-	int update(T t) throws SQLException;
+	int update(T t) ;
 	
-	int delete(T t) throws SQLException;
+	int delete(T t);
 	
 }
