@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import models.CreditCardPayment;
 import models.Notification;
 import models.Payment;
 import models.Service;
+import utils.AlertUtils;
 
 public class CreditCardController {
 	@FXML
@@ -95,6 +98,35 @@ public class CreditCardController {
 		nameoncard = nameOnCard.getText();
 		expdate = expDate.getText();
 		
+		if (cardNumber.getText().isEmpty() || cardType.getText().isEmpty() || 
+		        nameOnCard.getText().isEmpty() || expDate.getText().isEmpty()) {
+		        AlertUtils.showError("Empty Field", "All fields are required");
+		        return;
+		    }
+		
+		 if (!(cardtype.equals("MasterCard") || 
+				 cardtype.equals("Visa") || 
+				 cardtype.equals("American Express"))) {
+			 	AlertUtils.showError("Incorrect Card Type","Card type must be either MasterCard, Visa, or American Express.");
+		        return;
+		    }
+
+
+		    // Validate card number (should be only digits)
+		    if (!cardNumber.getText().matches("\\d+")) {
+		    	 AlertUtils.showError("Invalid Card Number","Card number should only contain numbers.");
+		        return ;
+		    }
+
+		    // Validate expiration date format
+		    DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		    try {
+		        LocalDate.parse(expDate.getText(), formatter1);
+		    } catch (DateTimeParseException e) {
+		    	AlertUtils.showError("Invalid Expiry Date or Invalid Format","Expiration date must be in the format yyyy-MM-dd.");
+		        return ;
+		    }
+		    
 		expdate += " 11:59:00";
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -167,6 +199,10 @@ public class CreditCardController {
 			e.printStackTrace();
 		}
 		
+		// here i will call payment.paymentStrategy.process(payment)
+			// it will deduct a specified amount of payment from payment 
+			// send the deduction to admin
+			// send the remaining to seller
 		//send notification
 		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
 		//create and insert a notification
@@ -186,11 +222,14 @@ public class CreditCardController {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Booking ID: " + this.bookingId);
-		System.out.println("Service ID: " + serviceId);
-		System.out.println("Service Provider Id: " + service.getServiceProviderID());
-		
-		
+//		System.out.println("Booking ID: " + this.bookingId);
+//		System.out.println("Service ID: " + serviceId);
+//		System.out.println("Service Provider Id: " + service.getServiceProviderID());
+//		
+		AlertUtils.showSuccess("Payment Processed!");
+
+		pay_button.setDisable(true);
+
 	}
 	
 }

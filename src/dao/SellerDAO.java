@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,240 +18,277 @@ import models.User;
 import utils.AlertUtils;
 
 public class SellerDAO extends UserDAO {
-	
+
 	// Method to get the services of a seller
-    public Map<Integer, Service> getSellerServices(int sellerID) throws SQLException {
-        // Use ServiceDAO to get all services for the seller
-        ServiceDAO serviceDAO = new ServiceDAO();
-        List<Service> servicesList = serviceDAO.getAllBySellerID(sellerID);
-        
-        // Create a Map to hold the services, with serviceID as the key
-        Map<Integer, Service> services = new HashMap<>();
-        
-        // Populate the Map with services
-        for (Service service : servicesList) {
-            services.put(service.getServiceID(), service);
-        }
+	public Map<Integer, Service> getSellerServices(int sellerID) throws SQLException {
+		// Use ServiceDAO to get all services for the seller
+		ServiceDAO serviceDAO = new ServiceDAO();
+		List<Service> servicesList = serviceDAO.getAllBySellerID(sellerID);
 
-        return services;
-    }
- // Method to get the bookings of a seller
-    public Map<Integer, Booking> getSellerBookings(int sellerID) throws SQLException {
-        // Use BookingDAO to get all bookings for the seller
-        BookingDAO bookingDAO = new BookingDAO();
-        List<Booking> bookingsList = bookingDAO.getAllBySellerID(sellerID);
-        
-        // Create a Map to hold the bookings, with bookingID as the key
-        Map<Integer, Booking> bookings = new HashMap<>();
-        
-        // Populate the Map with bookings
-        for (Booking booking : bookingsList) {
-            bookings.put(booking.getBookingID(), booking);
-        }
+		// Create a Map to hold the services, with serviceID as the key
+		Map<Integer, Service> services = new HashMap<>();
 
-        return bookings;
-    }
-    
-    
-    public User get(int id, boolean fetchAssociatedData) throws SQLException {
-        // Join User and ServiceProvider tables to get seller details
-        String query = "SELECT u.*, sp.availability FROM User u " +
-                       "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID " +
-                       "WHERE u.userID = ? AND u.role = 'Seller'";
+		// Populate the Map with services
+		for (Service service : servicesList) {
+			services.put(service.getServiceID(), service);
+		}
 
-        Seller seller = null;
+		return services;
+	}
 
-        try (Connection con = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-             
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    // Create a Seller object from the result set
-                    seller = new Seller();
-                    seller.setUserID(rs.getInt("userID"));
-                    seller.setUserName(rs.getString("name"));
-                    seller.setUserPassword(rs.getString("password"));
-                    seller.setUserEmail(rs.getString("email"));
-                    seller.setUserPhoneNumber(rs.getString("phone"));
-                    seller.setUserLocation(rs.getString("location"));
-                    seller.setAvailable(rs.getBoolean("availability")); // Availability fetched from ServiceProvider table
+	// Method to get the bookings of a seller
+	public Map<Integer, Booking> getSellerBookings(int sellerID) throws SQLException {
+		// Use BookingDAO to get all bookings for the seller
+		BookingDAO bookingDAO = new BookingDAO();
+		List<Booking> bookingsList = bookingDAO.getAllBySellerID(sellerID);
 
-                    // Fetch the associated data (e.g., services) if requested
-                    if (fetchAssociatedData) {
-                        // Load the services of the seller
-                        seller.setSellerServices(getSellerServices(id)); // Populating services
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            AlertUtils.showError("Failed to retrieve seller: ", "An error occurred while retrieving the user with ID " + id);
-            e.printStackTrace();  // Optional: for debugging
-        }
+		// Create a Map to hold the bookings, with bookingID as the key
+		Map<Integer, Booking> bookings = new HashMap<>();
 
-        return seller; // Return the seller object with associated data
-    }
+		// Populate the Map with bookings
+		for (Booking booking : bookingsList) {
+			bookings.put(booking.getBookingID(), booking);
+		}
 
-	
+		return bookings;
+	}
+
+	public User get(int id, boolean fetchAssociatedData) throws SQLException {
+		// Join User and ServiceProvider tables to get seller details
+		String query = "SELECT u.*, sp.availability FROM User u "
+				+ "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID "
+				+ "WHERE u.userID = ? AND u.role = 'Seller'";
+
+		Seller seller = null;
+
+		try (Connection con = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement stmt = con.prepareStatement(query)) {
+
+			stmt.setInt(1, id);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					// Create a Seller object from the result set
+					seller = new Seller();
+					seller.setUserID(rs.getInt("userID"));
+					seller.setUserName(rs.getString("name"));
+					seller.setUserPassword(rs.getString("password"));
+					seller.setUserEmail(rs.getString("email"));
+					seller.setUserPhoneNumber(rs.getString("phone"));
+					seller.setUserLocation(rs.getString("location"));
+					seller.setAvailable(rs.getBoolean("availability")); // Availability fetched from ServiceProvider
+																		// table
+
+					// Fetch the associated data (e.g., services) if requested
+					if (fetchAssociatedData) {
+						// Load the services of the seller
+						seller.setSellerServices(getSellerServices(id)); // Populating services
+					}
+				}
+			}
+		} catch (SQLException e) {
+			AlertUtils.showError("Failed to retrieve seller: ",
+					"An error occurred while retrieving the user with ID " + id);
+			e.printStackTrace(); // Optional: for debugging
+		}
+
+		return seller; // Return the seller object with associated data
+	}
+
 	@Override
-    public User get(int id) throws SQLException {
-		String query = "SELECT u.*, sp.availability FROM User u " +
-                "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID " +
-                "WHERE u.userID = ? AND u.role = 'Seller'";
-        
-        try (Connection con = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-             
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    // Create a Seller object from the result set
-                    Seller seller = new Seller();
-                    seller.setUserID(rs.getInt("userID"));
-                    seller.setUserName(rs.getString("name"));
-                    seller.setUserPassword(rs.getString("password"));
-                    seller.setUserEmail(rs.getString("email"));
-                    seller.setUserPhoneNumber(rs.getString("phone"));
-                    seller.setUserLocation(rs.getString("location"));
-                    seller.setAvailable(rs.getBoolean("availability"));
-                    // Optionally, populate seller's services and bookings if needed
-                    
-                    return seller;
-                }
-            }
-        } catch (SQLException e) {
-            AlertUtils.showError("Failed to retrieve seller: " , "An error occurred while retrieving the user with ID " + id);
-            e.printStackTrace();  // Optional: for debugging
-        }
+	public User get(int id) throws SQLException {
+		String query = "SELECT u.*, sp.availability FROM User u "
+				+ "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID "
+				+ "WHERE u.userID = ? AND u.role = 'Seller'";
 
-        return null; // Return null if seller not found
-    }
+		try (Connection con = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement stmt = con.prepareStatement(query)) {
 
-    @Override
-    public Map<Integer, User> getAll() throws SQLException {
-        // Join User and ServiceProvider tables to get all sellers
-        String query = "SELECT u.*, sp.availability FROM User u " +
-                       "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID " +
-                       "WHERE u.role = 'Seller'";
+			stmt.setInt(1, id);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					// Create a Seller object from the result set
+					Seller seller = new Seller();
+					seller.setUserID(rs.getInt("userID"));
+					seller.setUserName(rs.getString("name"));
+					seller.setUserPassword(rs.getString("password"));
+					seller.setUserEmail(rs.getString("email"));
+					seller.setUserPhoneNumber(rs.getString("phone"));
+					seller.setUserLocation(rs.getString("location"));
+					seller.setAvailable(rs.getBoolean("availability"));
+					// Optionally, populate seller's services and bookings if needed
 
-        Map<Integer, User> sellers = new HashMap<>();
+					return seller;
+				}
+			}
+		} catch (SQLException e) {
+			AlertUtils.showError("Failed to retrieve seller: ",
+					"An error occurred while retrieving the user with ID " + id);
+			e.printStackTrace(); // Optional: for debugging
+		}
 
-        try (Connection con = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement stmt = con.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
+		return null; // Return null if seller not found
+	}
 
-            while (rs.next()) {
-                Seller seller = new Seller();
-                seller.setUserID(rs.getInt("userID"));
-                seller.setUserName(rs.getString("name"));
-                seller.setUserPassword(rs.getString("password"));
-                seller.setUserEmail(rs.getString("email"));
-                seller.setUserPhoneNumber(rs.getString("phone"));
-                seller.setUserLocation(rs.getString("location"));
-                seller.setAvailable(rs.getBoolean("availability")); // Availability from ServiceProvider table
-                
-                // Optionally, populate seller's services and bookings if needed
-                sellers.put(seller.getUserID(), seller);
-            }
+	@Override
+	public Map<Integer, User> getAll() throws SQLException {
+		// Join User and ServiceProvider tables to get all sellers
+		String query = "SELECT u.*, sp.availability FROM User u "
+				+ "LEFT JOIN ServiceProvider sp ON u.userID = sp.serviceProviderID " + "WHERE u.role = 'Seller'";
 
-        } catch (SQLException e) {
-            AlertUtils.showError("Failed to retrieve all sellers: ", e.getMessage());
-            e.printStackTrace();  // Optional: for debugging
-        }
+		Map<Integer, User> sellers = new HashMap<>();
 
-        return sellers;
-    }
+		try (Connection con = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement stmt = con.prepareStatement(query);
+				ResultSet rs = stmt.executeQuery()) {
 
-    @Override
-    public int insert(User user) throws SQLException {
-        // Assuming the role 'Seller' is predefined
-        String insertUserQuery = "INSERT INTO User (name, email, password, phone, location, role) VALUES (?, ?, ?, ?, ?, 'Seller')";
-        String insertServiceProviderQuery = "INSERT INTO ServiceProvider (serviceProviderID, availability) VALUES (?, TRUE)";
+			while (rs.next()) {
+				Seller seller = new Seller();
+				seller.setUserID(rs.getInt("userID"));
+				seller.setUserName(rs.getString("name"));
+				seller.setUserPassword(rs.getString("password"));
+				seller.setUserEmail(rs.getString("email"));
+				seller.setUserPhoneNumber(rs.getString("phone"));
+				seller.setUserLocation(rs.getString("location"));
+				seller.setAvailable(rs.getBoolean("availability")); // Availability from ServiceProvider table
 
-        try (Connection con = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement userStmt = con.prepareStatement(insertUserQuery, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement serviceProviderStmt = con.prepareStatement(insertServiceProviderQuery)) {
+				// Optionally, populate seller's services and bookings if needed
+				sellers.put(seller.getUserID(), seller);
+			}
 
-            // Insert into the User table
-            userStmt.setString(1, user.getUserName());
-            userStmt.setString(2, user.getUserEmail());
-            userStmt.setString(3, user.getUserPassword());
-            userStmt.setString(4, user.getUserPhoneNumber());
-            userStmt.setString(5, user.getUserLocation());
+		} catch (SQLException e) {
+			AlertUtils.showError("Failed to retrieve all sellers: ", e.getMessage());
+			e.printStackTrace(); // Optional: for debugging
+		}
 
-            int rowsAffected = userStmt.executeUpdate();
-            
-            if (rowsAffected > 0) {
-                try (ResultSet rs = userStmt.getGeneratedKeys()) {
-                    if (rs.next()) {
-                        int userID = rs.getInt(1);  // Get the generated userID
-                        
-                        // Now insert into ServiceProvider table
-                        serviceProviderStmt.setInt(1, userID);  // serviceProviderID will be the same as userID
-                        serviceProviderStmt.executeUpdate();
+		return sellers;
+	}
 
-                        return userID; // Return generated userID (also serviceProviderID)
-                    }
-                }
-            } else {
-                AlertUtils.showError("Unexpected Error", "Failed to insert seller.");
-            }
+	@Override
+	public int insert(User user) throws SQLException {
+		// Assuming the role 'Seller' is predefined
+		String insertUserQuery = "INSERT INTO User (name, email, password, phone, location, role) VALUES (?, ?, ?, ?, ?, 'Seller')";
+		String insertServiceProviderQuery = "INSERT INTO ServiceProvider (serviceProviderID, availability) VALUES (?, TRUE)";
 
-        } catch (SQLIntegrityConstraintViolationException e) {
-            AlertUtils.showError("Duplicate entry: ", e.getMessage());
-            e.printStackTrace(); // Optional: for debugging
-        }
+		try (Connection con = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement userStmt = con.prepareStatement(insertUserQuery, Statement.RETURN_GENERATED_KEYS);
+				PreparedStatement serviceProviderStmt = con.prepareStatement(insertServiceProviderQuery)) {
 
-        return 0; // Return 0 if insertion failed
-    }
+			// Insert into the User table
+			userStmt.setString(1, user.getUserName());
+			userStmt.setString(2, user.getUserEmail());
+			userStmt.setString(3, user.getUserPassword());
+			userStmt.setString(4, user.getUserPhoneNumber());
+			userStmt.setString(5, user.getUserLocation());
 
+			int rowsAffected = userStmt.executeUpdate();
 
-    @Override
-    public int update(User user) throws SQLException {
-        // Check if the seller exists before proceeding with the update
-        if (exists(user)==-1) {
-            AlertUtils.showError("Update Failed", "Seller does not exist.");
-            return 0;
-        }
+			if (rowsAffected > 0) {
+				try (ResultSet rs = userStmt.getGeneratedKeys()) {
+					if (rs.next()) {
+						int userID = rs.getInt(1); // Get the generated userID
 
-        String updateUserQuery = "UPDATE User SET name = ?, email = ?, phone = ?, location = ?, role = 'Seller' WHERE userID = ? AND role = 'Seller'";
-        String updateServiceProviderQuery = "UPDATE ServiceProvider SET availability = ? WHERE serviceProviderID = ?";
+						// Now insert into ServiceProvider table
+						serviceProviderStmt.setInt(1, userID); // serviceProviderID will be the same as userID
+						serviceProviderStmt.executeUpdate();
 
-        try (Connection con = DatabaseConnection.getInstance().getConnection();
-             PreparedStatement userStmt = con.prepareStatement(updateUserQuery);
-             PreparedStatement serviceProviderStmt = con.prepareStatement(updateServiceProviderQuery)) {
+						return userID; // Return generated userID (also serviceProviderID)
+					}
+				}
+			} else {
+				AlertUtils.showError("Unexpected Error", "Failed to insert seller.");
+			}
 
-            // Update User table
-            userStmt.setString(1, user.getUserName());
-            userStmt.setString(2, user.getUserEmail());
-            userStmt.setString(3, user.getUserPhoneNumber());
-            userStmt.setString(4, user.getUserLocation());
-            userStmt.setInt(5, user.getUserID());
+		} catch (SQLIntegrityConstraintViolationException e) {
+			AlertUtils.showError("Duplicate entry: ", e.getMessage());
+			e.printStackTrace(); // Optional: for debugging
+		}
 
-            int rowsAffected = userStmt.executeUpdate();
+		return 0; // Return 0 if insertion failed
+	}
 
-            // Update ServiceProvider table
-            serviceProviderStmt.setBoolean(1, ((Seller) user).isAvailable()); // Cast to Seller to access availability
-            serviceProviderStmt.setInt(2, user.getUserID());
+	@Override
+	public int update(User user) throws SQLException {
+		// Check if the seller exists before proceeding with the update
+		if (exists(user) == -1) {
+			AlertUtils.showError("Update Failed", "Seller does not exist.");
+			return 0;
+		}
 
-            serviceProviderStmt.executeUpdate();
+		String updateUserQuery = "UPDATE User SET name = ?, email = ?, phone = ?, location = ?, role = 'Seller' WHERE userID = ? AND role = 'Seller'";
+		String updateServiceProviderQuery = "UPDATE ServiceProvider SET availability = ? WHERE serviceProviderID = ?";
 
-            // Check the result and show appropriate alerts
-            if (rowsAffected > 0) {
-                AlertUtils.showSuccess("Seller updated successfully.");
-            } else {
-                AlertUtils.showError("Update Failed", "Unable to update seller. Please try again.");
-            }
+		try (Connection con = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement userStmt = con.prepareStatement(updateUserQuery);
+				PreparedStatement serviceProviderStmt = con.prepareStatement(updateServiceProviderQuery)) {
 
-            return rowsAffected;
-        } catch (SQLException e) {
-            // Handle any SQL exceptions and show error alert
-            AlertUtils.showError("Update Failed", "Failed to update seller: " + e.getMessage());
-            e.printStackTrace(); // Optional: for debugging
-            return 0; // Return 0 if the update failed
-        }
-    }
-    
+			// Update User table
+			userStmt.setString(1, user.getUserName());
+			userStmt.setString(2, user.getUserEmail());
+			userStmt.setString(3, user.getUserPhoneNumber());
+			userStmt.setString(4, user.getUserLocation());
+			userStmt.setInt(5, user.getUserID());
+
+			int rowsAffected = userStmt.executeUpdate();
+
+			// Update ServiceProvider table
+			serviceProviderStmt.setBoolean(1, ((Seller) user).isAvailable()); // Cast to Seller to access availability
+			serviceProviderStmt.setInt(2, user.getUserID());
+
+			serviceProviderStmt.executeUpdate();
+
+			// Check the result and show appropriate alerts
+			if (rowsAffected > 0) {
+				AlertUtils.showSuccess("Seller updated successfully.");
+			} else {
+				AlertUtils.showError("Update Failed", "Unable to update seller. Please try again.");
+			}
+
+			return rowsAffected;
+		} catch (SQLException e) {
+			// Handle any SQL exceptions and show error alert
+			AlertUtils.showError("Update Failed", "Failed to update seller: " + e.getMessage());
+			e.printStackTrace(); // Optional: for debugging
+			return 0; // Return 0 if the update failed
+		}
+	}
+
+	public boolean updateSellerBalance(int sellerID, BigDecimal amount) throws SQLException {
+		String selectQuery = "SELECT balance FROM serviceprovider WHERE serviceProviderID = ?";
+		String updateQuery = "UPDATE serviceprovider SET balance = ? WHERE serviceProviderID = ?";
+
+		try (Connection con = DatabaseConnection.getInstance().getConnection();
+				PreparedStatement selectStmt = con.prepareStatement(selectQuery);
+				PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
+
+			// Retrieve the current balance
+			selectStmt.setInt(1, sellerID);
+			try (ResultSet rs = selectStmt.executeQuery()) {
+				if (rs.next()) {
+					BigDecimal currentBalance = rs.getBigDecimal("balance");
+					BigDecimal newBalance = currentBalance.add(amount); // Calculate the new balance using BigDecimal
+
+					// Update the new balance
+					updateStmt.setBigDecimal(1, newBalance);
+					updateStmt.setInt(2, sellerID);
+
+					int rowsAffected = updateStmt.executeUpdate();
+					if (rowsAffected > 0) {
+						return true; // Successfully updated
+					} else {
+						AlertUtils.showError("Update Failed", "No seller found with the given ID.");
+					}
+				} else {
+					AlertUtils.showError("Not Found", "Seller with ID " + sellerID + " does not exist.");
+				}
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			AlertUtils.showError("Integrity Error", e.getMessage());
+			e.printStackTrace(); // Optional: for debugging
+		}
+
+		return false; // Return false if update failed
+	}
+
 	@Override
 	public int delete(User user) throws SQLException {
 		// TODO Auto-generated method stub

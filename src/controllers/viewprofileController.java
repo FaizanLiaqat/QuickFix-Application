@@ -115,15 +115,16 @@ public class viewprofileController implements Initializable {
 	public void viewProfile(javafx.event.ActionEvent actionEvent) throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/profile.fxml"));
 		Parent fxml = loader.load();
+		ProfileController controller = loader.getController();
+		
+		controller.setData();
 
 		// Get the controller instance from the loader
-		viewprofileController controller = loader.getController();
 
 		// Update the label based on user type using the controller
-		controller.updateLabelBasedOnUserType(this.callerType);
+		
 
-		// Update the contentArea (make sure contentArea is of type AnchorPane or
-		// similar)
+		// Update the contentArea 
 		contentArea.getChildren().clear();
 		contentArea.getChildren().add(fxml);
 	}

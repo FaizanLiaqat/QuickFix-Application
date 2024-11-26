@@ -42,12 +42,8 @@
             <TextField fx:id="cardType" layoutX="263.0" layoutY="67.0" prefHeight="26.0" prefWidth="221.0" />
             <TextField fx:id="nameOnCard" layoutX="263.0" layoutY="105.0" prefHeight="26.0" prefWidth="221.0" />
             <TextField fx:id="expDate" layoutX="263.0" layoutY="142.0" prefHeight="26.0" prefWidth="221.0" />
-            <Button fx:id="pay_button" layoutX="353.0" layoutY="309.0" mnemonicParsing="false" onAction="#actionOnPay" prefHeight="37.0" prefWidth="128.0" styleClass="backgroundColour" stylesheets="@style.css" text="Pay" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="back_button" layoutX="130.0" layoutY="309.0" mnemonicParsing="false" onAction="#goBackOnAction" prefHeight="37.0" prefWidth="128.0" styleClass="backgroundColour" stylesheets="@style.css" text="Back" textFill="WHITE">
+
+            <Button fx:id="pay_button" layoutX="236.0" layoutY="307.0" mnemonicParsing="false" onAction="#actionOnPay" prefHeight="37.0" prefWidth="128.0" styleClass="backgroundColour" stylesheets="@style.css" text="Pay" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="16.0" />
                </font>

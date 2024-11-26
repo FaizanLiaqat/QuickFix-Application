@@ -34,12 +34,9 @@
             </HBox>
             <HBox layoutX="31.0" layoutY="308.0" prefHeight="156.0" prefWidth="600.0" />
             
-            <HBox layoutX="31.0" layoutY="553.0" prefHeight="156.0" prefWidth="600.0" />
-            <Button fx:id="back_button" styleClass="labelStyle" stylesheets="@style.css" layoutX="605.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="57.0" prefWidth="126.0" text="Back">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Button>
+
+            <HBox layoutX="31.0" layoutY="553.0" prefHeight="156.0" prefWidth="537.0" />
+            <Button fx:id="back_button" layoutX="665.0" layoutY="14.0" mnemonicParsing="false" onAction="#backButtonOnAction" prefHeight="49.0" prefWidth="120.0" text="Back" />
            
          </children>
       </AnchorPane>

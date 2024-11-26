@@ -63,7 +63,7 @@ public class AdminController implements Initializable {
 	}
 
 	public void changeAdminPassword(javafx.event.ActionEvent actionEvent) throws IOException {
-		Parent fxml = FXMLLoader.load(getClass().getResource("/views/AdminChangePassword.fxml"));
+		Parent fxml = FXMLLoader.load(getClass().getResource("/views/ChangeAdminPassword.fxml"));
 		admin_content_area.getChildren().removeAll();
 		admin_content_area.getChildren().setAll(fxml);
 	}
@@ -73,8 +73,5 @@ public class AdminController implements Initializable {
 		stage.close();
 	}
 
-	public void changePasswordOnAction(ActionEvent event) {
-		// what happens when change password button is clicked
-	}
-
+	
 }

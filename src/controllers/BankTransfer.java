@@ -23,6 +23,7 @@ import models.CreditCardPayment;
 import models.Notification;
 import models.Payment;
 import models.Service;
+import utils.AlertUtils;
 
 public class BankTransfer {
 	@FXML
@@ -51,40 +52,44 @@ public class BankTransfer {
 
 	
 	
-	public void goBackOnAction(ActionEvent event) {
-		try {
+//	public void goBackOnAction(ActionEvent event) {
+//		try {
+//
+//			// Close the current window (home.fxml)
+//			Stage currentStage = (Stage) back_button.getScene().getWindow();
+//			currentStage.close();
+//
+//			// Load the Access.fxml file
+//            String fxmlFile = "/views/buyer_dashboard.fxml";
+//            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
+//
+//			// Create a new Stage (window) for Access.fxml
+//			Stage stage = new Stage();
+//			stage.initStyle(StageStyle.UNDECORATED); // Make the window undecorated (no borders or title bar)
+//			stage.setTitle("Home Window"); // Set the title of the new window
+//
+//			// Set the new scene with the loaded FXML and desired size
+//			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
+//			stage.setScene(scene);
+//
+//			// Show the new window (stage)
+//			stage.show();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace(); // Handle error if FXML file loading fails
+//		}
+//	}
+//	
 
-			// Close the current window (home.fxml)
-			Stage currentStage = (Stage) back_button.getScene().getWindow();
-			currentStage.close();
-
-			// Load the Access.fxml file
-            String fxmlFile = "/views/buyer_dashboard.fxml";
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlFile));
-
-			// Create a new Stage (window) for Access.fxml
-			Stage stage = new Stage();
-			stage.initStyle(StageStyle.DECORATED); // Make the window undecorated (no borders or title bar)
-			stage.setTitle("Home Window"); // Set the title of the new window
-
-			// Set the new scene with the loaded FXML and desired size
-			Scene scene = new Scene(root, 810, 620); // Set dimensions similar to your original configuration
-			stage.setScene(scene);
-
-			// Show the new window (stage)
-			stage.show();
-
-		} catch (IOException e) {
-			e.printStackTrace(); // Handle error if FXML file loading fails
-		}
-	}
-	
 	public void actionOnPay(ActionEvent event) {
 		accountnumber = accountNumber.getText();
 		bankname = bankName.getText();
 		
 		
-	
+		 if (accountNumber.getText().isEmpty() || bankName.getText().isEmpty()) {
+			 AlertUtils.showError("Empty TextField","Account number and bank name are required.");
+		        return;
+		    }
 
 		
 		// Create an instance of CreditCardPaymentDAO
@@ -167,6 +172,10 @@ public class BankTransfer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		AlertUtils.showSuccess("Payment Processed!");
+
+		pay_button.setDisable(true);
 		
 		
 	}
