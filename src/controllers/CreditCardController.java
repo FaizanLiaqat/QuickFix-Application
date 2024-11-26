@@ -167,6 +167,10 @@ public class CreditCardController {
 			e.printStackTrace();
 		}
 		
+		// here i will call payment.paymentStrategy.process(payment)
+			// it will deduct a specified amount of payment from payment 
+			// send the deduction to admin
+			// send the remaining to seller
 		//send notification
 		dao.NotificationDAO notificationdao = new dao.NotificationDAO();
 		//create and insert a notification

@@ -1,8 +1,11 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Map;
 
 import models.User;
@@ -64,7 +67,61 @@ public class AdminDAO extends UserDAO {
 	        return 0;
 	    }
 	}
+	
+	public boolean updateAllAdminBalances(BigDecimal amount) throws SQLException {
+	    String selectAdminsQuery = "SELECT userID FROM user WHERE role = 'Admin'";
+	    String selectBalanceQuery = "SELECT balance FROM admin WHERE adminID = ?";
+	    String updateBalanceQuery = "UPDATE admin SET balance = ? WHERE adminID = ?";
 
+	    try (Connection con = DatabaseConnection.getInstance().getConnection();
+	         PreparedStatement selectAdminsStmt = con.prepareStatement(selectAdminsQuery);
+	         PreparedStatement selectBalanceStmt = con.prepareStatement(selectBalanceQuery);
+	         PreparedStatement updateBalanceStmt = con.prepareStatement(updateBalanceQuery)) {
+
+	        // Retrieve all admin userIDs
+	        try (ResultSet adminUsers = selectAdminsStmt.executeQuery()) {
+	            boolean updated = false;
+
+	            while (adminUsers.next()) {
+	                int adminID = adminUsers.getInt("userID");
+
+	                // Retrieve the current balance for this admin
+	                selectBalanceStmt.setInt(1, adminID);
+	                try (ResultSet balanceResult = selectBalanceStmt.executeQuery()) {
+	                    if (balanceResult.next()) {
+	                        BigDecimal currentBalance = balanceResult.getBigDecimal("balance");
+	                        BigDecimal newBalance = currentBalance.add(amount); // Calculate new balance using BigDecimal
+
+	                        // Update the balance in the admin table
+	                        updateBalanceStmt.setBigDecimal(1, newBalance);
+	                        updateBalanceStmt.setInt(2, adminID);
+
+	                        int rowsAffected = updateBalanceStmt.executeUpdate();
+	                        if (rowsAffected > 0) {
+	                            updated = true; // At least one admin balance was updated
+	                        }
+	                    } else {
+	                        // Handle case where adminID is missing in the admin table
+	                        AlertUtils.showError("Admin Entry Missing", 
+	                            "No corresponding entry in 'admin' table for userID: " + adminID);
+	                    }
+	                }
+	            }
+
+	            if (!updated) {
+	                AlertUtils.showWarning("No admin balances were updated.");
+	            }
+
+	            return updated;
+	        }
+
+	    } catch (SQLIntegrityConstraintViolationException e) {
+	        AlertUtils.showError("Integrity Error", e.getMessage());
+	        e.printStackTrace(); // Optional: for debugging
+	    }
+
+	    return false; // Return false if update failed
+	}
 	@Override
 	public int delete(User user) throws SQLException {
 		// TODO Auto-generated method stub
